@@ -1,0 +1,13 @@
+{
+    "name": "postdirekt/autocomplete-m1",
+    "license": "OSL-3.0",
+    "type": "magento-module",
+    "description": "Deutsche Post Direkt Module Adressautocomplete",
+    "suggest": {
+      "magento-hackathon/magento-composer-installer": "^3.0.6"
+    },
+    "require": {
+      "php": "^5.5 || ^7.0"
+    },
+    "authors": []
+}
