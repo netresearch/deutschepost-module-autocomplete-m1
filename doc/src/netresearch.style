@@ -1,1 +1,125 @@
 
+{
+	"pageSetup": {
+		"size":"A4",
+		"margin-top": "1cm",
+		"margin-bottom": "2cm",
+		"margin-left":"2cm",
+		"margin-right":"2cm"
+	},
+	"styles": [
+        ["bodytext", {
+            "leading": 18
+        }],
+        ["lineblock", {
+            "spaceBefore": 0
+        }],
+        ["line", {
+            "spaceBefore": 5
+        }],
+		["heading", {
+			"textColor": "#636363",
+			"alignment": "left",
+			"spaceBefore": 20,
+            "spaceAfter": 10
+		}],
+		["title", {
+            "spaceBefore": 40,
+            "spaceAfter": 20
+        }],
+		["heading3", {
+            "fontName": "stdBold"
+        }],
+        ["heading4", {
+            "fontName": "stdBold"
+        }],
+        ["heading5", {
+            "fontName": "stdBold"
+        }],
+        ["heading6", {
+            "fontName": "stdBold"
+        }],
+		["table", {
+			"spaceBefore": 20,
+			"spaceAfter": 20,
+			"commands": [
+				[ "INNERGRID", [ 0, 0 ], [ -1, -1 ], 0.1, "#E0E0E0" ],
+				[ "ROWBACKGROUNDS", [0, 0], [-1, -1], ["#F1F1F1","white"] ],
+				[ "BOX", [ 0, 0 ], [ -1, -1 ], 0.1, "#E0E0E0" ]
+			]
+		}],
+		["table-heading", {
+			"backColor": "#636363",
+			"alignment": "TA_LEFT",
+			"textColor": "white"
+		}],
+		["code", {
+		    "backColor": "#F1F1F1",
+            "textColor": "black",
+            "fontSize": "80%",
+            "leading": 12
+        }],
+        ["sidebar", {
+            "backColor": "#F1F1F1",
+            "textColor": "black"
+        }],
+        ["admonition", {
+            "backColor": "#F1F1F1",
+            "textColor": "black"
+        }],
+        ["item-list", {
+            "spaceBefore": 0,
+            "spaceAfter": 0
+        }],
+        ["bullet-list", {
+            "spaceBefore": 0,
+            "spaceAfter": 0
+        }],
+        ["item-list-item", {
+          "spaceBefore": 0,
+          "spaceAfter": 0,
+            "leading": 12
+        }],
+        ["bullet-list-item", {
+          "spaceBefore": 0,
+          "spaceAfter": 0,
+            "leading": 12
+        }],
+        ["definition", {
+            "commands": [
+                ["LEFTPADDING", [ 0, 0 ], [ -1, -1 ], 20 ]
+            ]
+        }],
+        ["image", {
+            "alignment": "TA_LEFT"
+        }],
+        ["figure", {
+            "commands": [
+                ["ALIGN", [ 0, 0 ], [ -1, -1 ], "LEFT" ]
+            ]
+        }],
+        ["figure-caption", {
+            "fontSize": 80%,
+            "textColor": "#999999",
+            "alignment": "TA_LEFT"
+        }],
+		["footertable", {
+			"commands": [
+				[ "VALIGN", [ 0, 0 ], [ -1, -1 ], "TOP" ],
+                [ "LINEABOVE", [ 0, 0 ], [ -1, -1 ], 0.1, "#E0E0E0" ],
+                [ "TEXTCOLOR", [ 0, 0 ], [ -1, -1 ], "#E0E0E0" ],
+                [ "FONTSIZE", [ 0, 0 ], [ -1, -1 ], 10 ],
+                [ "TOPPADDING", [ 0, 0 ], [ -1, -1 ], 10 ]
+			]
+		}],
+		["rightalign" , {
+			"parent": "bodytext",
+			"alignment": "TA_RIGHT"
+		}],
+		["centeralign" , {
+			"parent": "bodytext",
+			"alignment": "TA_CENTER"
+		}]
+	],
+	"linkColor": "#21638E"
+}
