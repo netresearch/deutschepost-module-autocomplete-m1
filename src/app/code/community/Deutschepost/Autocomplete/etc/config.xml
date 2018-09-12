@@ -41,13 +41,9 @@
     </global>
     <default>
         <deutschepost_autocomplete>
-            <authentication>
-                <username></username>
-                <password></password>
-            </authentication>
-            <logging>
-                <log_request></log_request>
-            </logging>
+            <username>foo</username>
+            <password>baar</password>
+            <logging_enabled>1</logging_enabled>
         </deutschepost_autocomplete>
     </default>
 </config>
