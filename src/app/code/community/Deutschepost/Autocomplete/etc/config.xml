@@ -38,6 +38,12 @@
                 <class>Deutschepost_Autocomplete_Helper</class>
             </deutschepost_autocomplete>
         </helpers>
+        <models>
+            <deutschepost_autocomplete>
+                <class>Deutschepost_Autocomplete_Model</class>
+                <resourceModel>Deutschepost_Autocomplete_resource</resourceModel>
+            </deutschepost_autocomplete>
+        </models>
     </global>
     <default>
         <deutschepost_autocomplete>
