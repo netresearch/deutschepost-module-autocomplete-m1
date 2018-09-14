@@ -43,11 +43,12 @@ class Postdirekt_Address_Model_Config
      *
      * @param string $field
      * @param mixed $store
-     * @return bool
+     * @return mixed
      */
     protected function getStoreConfigFlag($field, $store = null)
     {
         $path = sprintf('%s/%s/%s', self::CONFIG_SECTION, self::CONFIG_GROUP, $field);
+
         return Mage::getStoreConfigFlag($path, $store);
     }
 
@@ -77,7 +78,7 @@ class Postdirekt_Address_Model_Config
      * Get configured username.
      *
      * @param mixed $store
-     * @return mixed
+     * @return string
      */
     public function getUsername($store = null)
     {
@@ -89,7 +90,7 @@ class Postdirekt_Address_Model_Config
      * Get configured password.
      *
      * @param mixed $store
-     * @return mixed
+     * @return string
      */
     public function getPassword($store = null)
     {
