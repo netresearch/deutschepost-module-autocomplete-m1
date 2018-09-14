@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * See LICENSE.md for license details.
+ */
+-->
+<config>
+    <modules>
+        <Postdirekt_Address>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends/>
+        </Postdirekt_Address>
+    </modules>
+</config>

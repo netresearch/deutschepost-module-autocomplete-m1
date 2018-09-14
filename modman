@@ -1,4 +1,4 @@
-src/app/code/community/Deutschepost/Autocomplete/                                 app/code/community/Deutschepost/Autocomplete/
-src/app/etc/modules/Deutschepost_Autocomplete.xml                                 app/etc/modules/Deutschepost_Autocomplete.xml
+src/app/code/community/Postdirekt/Address/                                 app/code/community/Postdirekt/Address/
+src/app/etc/modules/Postdirekt_Address.xml                                 app/etc/modules/Postdirekt_Address.xml
 
 
