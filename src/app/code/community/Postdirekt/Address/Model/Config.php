@@ -94,6 +94,8 @@ class Postdirekt_Address_Model_Config
      */
     public function getPassword($store = null)
     {
-        return $this->getStoreConfig(self::CONFIG_XML_FIELD_PASSWORD, $store);
+        return Mage::helper('core')->decrypt(
+            $this->getStoreConfig(self::CONFIG_XML_FIELD_PASSWORD, $store)
+        );
     }
 }
