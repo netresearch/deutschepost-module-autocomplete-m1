@@ -1,13 +1,13 @@
 {
-    "name": "postdirekt/module-address-m1",
+    "name": "postdirekt/module-autocomplete-m1",
     "license": "OSL-3.0",
     "type": "magento-module",
-    "description": "Deutsche Post Direkt Module Address",
+    "description": "Deutsche Post Direkt Address Autocomplete module for Magento® 1",
     "suggest": {
       "magento-hackathon/magento-composer-installer": "^3.0.6"
     },
     "require": {
-      "php": "^5.5 || ^7.0"
+      "php": "^5.4 || ^7.0"
     },
     "authors": []
 }
