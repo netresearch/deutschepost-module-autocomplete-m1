@@ -6,10 +6,10 @@
 -->
 <config>
     <modules>
-        <Postdirekt_Address>
+        <Postdirekt_Autocomplete>
             <active>true</active>
             <codePool>community</codePool>
             <depends/>
-        </Postdirekt_Address>
+        </Postdirekt_Autocomplete>
     </modules>
 </config>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * See LICENSE.md for license details.
+ */
+-->
+<config>
+    <modules>
+        <Postdirekt_Autocomplete>
+            <version>0.1.0</version>
+        </Postdirekt_Autocomplete>
+    </modules>
+    <global>
+        <helpers>
+            <postdirekt_autocomplete>
+                <class>Postdirekt_Autocomplete_Helper</class>
+            </postdirekt_autocomplete>
+        </helpers>
+        <models>
+            <postdirekt_autocomplete>
+                <class>Postdirekt_Autocomplete_Model</class>
+            </postdirekt_autocomplete>
+        </models>
+    </global>
+    <default>
+        <customer>
+            <postdirekt_autocomplete>
+                <password backend_model="adminhtml/system_config_backend_encrypted"/>
+            </postdirekt_autocomplete>
+        </customer>
+    </default>
+</config>

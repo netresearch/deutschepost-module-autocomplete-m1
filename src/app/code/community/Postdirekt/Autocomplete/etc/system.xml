@@ -6,16 +6,16 @@
 -->
 <config>
     <sections>
-        <customer translate="label" module="postdirekt_address">
+        <customer>
             <groups>
-                <postdirekt_address translate="label" module="postdirekt_address">
+                <postdirekt_autocomplete translate="label" module="postdirekt_autocomplete">
                     <label>Deutsche Post Direkt Address Autocomplete</label>
                     <sort_order>100</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>0</show_in_website>
                     <show_in_store>0</show_in_store>
                     <fields>
-                        <active translate="label" module="postdirekt_address">
+                        <active translate="label" module="postdirekt_autocomplete">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -24,7 +24,7 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </active>
-                        <username translate="label" module="postdirekt_address">
+                        <username translate="label" module="postdirekt_autocomplete">
                             <label>Username</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>20</sort_order>
@@ -32,7 +32,7 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </username>
-                        <password translate="label" module="postdirekt_address">
+                        <password translate="label" module="postdirekt_autocomplete">
                             <label>Password</label>
                             <frontend_type>password</frontend_type>
                             <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
@@ -41,7 +41,7 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </password>
-                        <logging_enabled translate="label" module="postdirekt_address">
+                        <logging_enabled translate="label" module="postdirekt_autocomplete">
                             <label>Logging Enabled</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -51,7 +51,7 @@
                             <show_in_store>0</show_in_store>
                         </logging_enabled>
                     </fields>
-                </postdirekt_address>
+                </postdirekt_autocomplete>
             </groups>
         </customer>
     </sections>
