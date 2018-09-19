@@ -1,0 +1,25 @@
+scope:
+  store: # Initializes store views
+# Store 1
+    - store_id: 1
+      website_id: 1
+      group_id: 1
+      code: store_one
+      name: Store One
+      is_active: 1
+# Store 2
+    - store_id: 2
+      website_id: 1
+      group_id: 1
+      code: store_two
+      name: Store Two
+      is_active: 1
+
+config:
+  default/customer/postdirekt_autocomplete/active: "0"
+  default/customer/postdirekt_autocomplete/logging_enabled: "0"
+
+  stores/store_two/customer/postdirekt_autocomplete/active: "1"
+  stores/store_two/customer/postdirekt_autocomplete/username: "UzR"
+  stores/store_two/customer/postdirekt_autocomplete/password: "53cr3TP455"
+  stores/store_two/customer/postdirekt_autocomplete/logging_enabled: "1"

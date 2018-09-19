@@ -43,4 +43,11 @@
             </postdirekt_autocomplete>
         </customer>
     </default>
+    <phpunit>
+        <suite>
+            <modules>
+                <Postdirekt_Autocomplete/>
+            </modules>
+        </suite>
+    </phpunit>
 </config>
