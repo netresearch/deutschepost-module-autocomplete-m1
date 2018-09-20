@@ -9,7 +9,7 @@ use Postdirekt_Autocomplete_Model_Webservice_Data_SearchResponse_Address as Addr
  * Class Postdirekt_Autocomplete_Model_Webservice_SearchResponseFactory
  *
  * @package   Postdirekt\Autocomplete\Model
- * @author    Rico Sonntag <rico.sonntag@netresearch.de>
+ * @author    Christoph Aßmann <christoph.assmann@netresearch.de>
  * @copyright 2018 Netresearch GmbH & Co. KG
  * @license   https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link      https://www.netresearch.de/
