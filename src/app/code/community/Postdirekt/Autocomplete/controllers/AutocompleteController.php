@@ -17,17 +17,22 @@ class Postdirekt_Autocomplete_AutocompleteController extends Mage_Core_Controlle
     /**
      * @var Postdirekt_Autocomplete_Model_Webservice_ServiceClientFactory
      */
-    protected $clientFactory;
+    protected $_clientFactory;
 
     /**
      * @var Postdirekt_Autocomplete_Model_Webservice_SearchRequestFactory
      */
-    protected $searchRequestFactory;
+    protected $_searchRequestFactory;
 
     /**
      * @var Postdirekt_Autocomplete_Model_Webservice_SelectRequestFactory
      */
-    protected $selectRequestFactory;
+    protected $_selectRequestFactory;
+
+    /**
+     * @var Mage_Core_Helper_Data
+     */
+    protected $_mageHelper;
 
     /**
      * Postdirekt_Autocomplete_AutocompleteController constructor.
@@ -39,10 +44,13 @@ class Postdirekt_Autocomplete_AutocompleteController extends Mage_Core_Controlle
         Zend_Controller_Request_Abstract $request,
         Zend_Controller_Response_Abstract $response,
         array $invokeArgs = array()
-    ) {
-        $this->clientFactory = Mage::getModel('postdirekt_autocomplete/webservice_serviceClientFactory');
-        $this->searchRequestFactory = Mage::getModel('postdirekt_autocomplete/webservice_searchRequestFactory');
-        $this->selectRequestFactory = Mage::getModel('postdirekt_autocomplete/webservice_selectRequestFactory');
+    )
+    {
+        $this->_clientFactory = Mage::getModel('postdirekt_autocomplete/webservice_serviceClientFactory');
+        $this->_searchRequestFactory = Mage::getModel('postdirekt_autocomplete/webservice_searchRequestFactory');
+        $this->_selectRequestFactory = Mage::getModel('postdirekt_autocomplete/webservice_selectRequestFactory');
+        $this->_mageHelper = Mage::helper('core/data');
+
         parent::__construct($request, $response, $invokeArgs);
     }
 
@@ -55,14 +63,14 @@ class Postdirekt_Autocomplete_AutocompleteController extends Mage_Core_Controlle
     {
         parent::preDispatch();
 
-        if (!$this->getRequest()->isXmlHttpRequest()) {
-            $this->getResponse()
-                 ->setHeader('HTTP/1.1', '404 Not Found')
-                 ->setHeader('Status', '404 File not found');
-
-            $this->_forward('defaultNoRoute');
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-        }
+//        if (!$this->getRequest()->isXmlHttpRequest()) {
+//            $this->getResponse()
+//                 ->setHeader('HTTP/1.1', '404 Not Found')
+//                 ->setHeader('Status', '404 File not found');
+//
+//            $this->_forward('defaultNoRoute');
+//            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+//        }
 
         return $this;
     }
@@ -78,12 +86,12 @@ class Postdirekt_Autocomplete_AutocompleteController extends Mage_Core_Controlle
             $storeCode = Mage::app()->getStore()->getCode();
             $args = array('scope' => $storeCode);
             /** @var Postdirekt_Autocomplete_Model_Webservice_ServiceClient $client */
-            $client = $this->clientFactory->create($args);
+            $client = $this->_clientFactory->create($args);
 
-            $searchRequest = $this->searchRequestFactory->create($requestData);
+            $searchRequest = $this->_searchRequestFactory->create($requestData);
             $response = $client->search($searchRequest);
             $addresses = $response->getAddresses();
-            $jsonResponse = Mage::helper('core/data')->jsonEncode($addresses);
+            $jsonResponse = $this->_mageHelper->jsonEncode($addresses);
             $this->getResponse()->setHeader('Content-Type', 'application/json');
             $this->getResponse()->setBody($jsonResponse);
         } catch(Exception $exception) {
@@ -100,10 +108,10 @@ class Postdirekt_Autocomplete_AutocompleteController extends Mage_Core_Controlle
     {
         $requestData = $this->getRequest()->getParams();
         try {
-
+            $storeCode = Mage::app()->getStore()->getCode();
             /** @var Postdirekt_Autocomplete_Model_Webservice_ServiceClient $client */
-            $client = $this->clientFactory->create($this->getStoreCode());
-            $selectRequest = $this->selectRequestFactory->create($requestData);
+            $client = $this->_clientFactory->create(array('scope' => $storeCode));
+            $selectRequest = $this->_selectRequestFactory->create($requestData);
             $client->select($selectRequest);
 
             $this->getResponse()->setHttpResponseCode(200);

@@ -46,11 +46,20 @@ class Postdirekt_Autocomplete_Model_Webservice_ServiceClient
     protected $_responseFactory;
 
     /**
-     * Postdirekt_Autocomplete_Model_Webservice_ServiceClient constructor.
+     * @var Mage_Core_Helper_Data
      */
-    public function __construct($args)
+    protected $_mageHelper;
+
+    /**
+     * Postdirekt_Autocomplete_Model_Webservice_ServiceClient constructor.
+     *
+     * @param array $args
+     */
+    public function __construct(array $args)
     {
-        if (isset($args[self::PROPERTY_HTTP_CLIENT]) && ($args[self::PROPERTY_HTTP_CLIENT] instanceof \Zend_Http_Client)) {
+        if (isset($args[self::PROPERTY_HTTP_CLIENT])
+            && ($args[self::PROPERTY_HTTP_CLIENT] instanceof \Zend_Http_Client)
+        ) {
             $this->_httpClient = $args[self::PROPERTY_HTTP_CLIENT];
         }
 
@@ -59,6 +68,7 @@ class Postdirekt_Autocomplete_Model_Webservice_ServiceClient
         }
 
         $this->_responseFactory = Mage::getSingleton('postdirekt_autocomplete/webservice_searchResponseFactory');
+        $this->_mageHelper = Mage::helper('core/data');
     }
 
     /**
@@ -66,6 +76,7 @@ class Postdirekt_Autocomplete_Model_Webservice_ServiceClient
      * @param string[] $requestParams
      * @return void
      * @throws \InvalidArgumentException
+     * @throws Zend_Http_Client_Exception
      */
     protected function prepareRequest($operation, array $requestParams)
     {
@@ -90,6 +101,7 @@ class Postdirekt_Autocomplete_Model_Webservice_ServiceClient
      * @return SearchResponse
      * @throws ClientException
      * @throws \InvalidArgumentException
+     * @throws Zend_Http_Client_Exception
      */
     public function search(SearchRequest $searchRequest)
     {
@@ -104,10 +116,9 @@ class Postdirekt_Autocomplete_Model_Webservice_ServiceClient
         }
 
         $jsonBody = $httpResponse->getBody();
-        $result = json_decode($jsonBody, true);
+        $result = $this->_mageHelper->jsonDecode($jsonBody);
 
-        $response = $this->_responseFactory->create($result);
-        return $response;
+        return $this->_responseFactory->create($result);
     }
 
     /**
@@ -115,6 +126,7 @@ class Postdirekt_Autocomplete_Model_Webservice_ServiceClient
      * @return void
      * @throws ClientException
      * @throws \InvalidArgumentException
+     * @throws Zend_Http_Client_Exception
      */
     public function select(SelectRequest $selectRequest)
     {

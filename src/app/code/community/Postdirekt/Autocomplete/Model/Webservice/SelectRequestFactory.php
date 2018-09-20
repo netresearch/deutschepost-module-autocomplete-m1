@@ -16,7 +16,7 @@ class Postdirekt_Autocomplete_Model_Webservice_SelectRequestFactory
 {
     /**
      * @param string[] $data
-     * @return false|Postdirekt_Autocomplete_Model_Webservice_Data_SearchRequest
+     * @return Postdirekt_Autocomplete_Model_Webservice_Data_SelectRequest
      * @throws Postdirekt_Autocomplete_Exception_Webservice_ClientException
      */
     public function create(array $data)
@@ -41,9 +41,10 @@ class Postdirekt_Autocomplete_Model_Webservice_SelectRequestFactory
         /** @var Postdirekt_Autocomplete_Model_Webservice_SelectRequestValidator $validator */
         $validator = Mage::getSingleton('postdirekt_autocomplete/webservice_selectRequestValidator');
 
-        $searchRequest = Mage::getModel('postdirekt_autocomplete/webservice_data_selectRequest', $requestData);
-        $searchRequest->validate($validator);
+        /** @var Postdirekt_Autocomplete_Model_Webservice_Data_SelectRequest $selectRequest */
+        $selectRequest = Mage::getModel('postdirekt_autocomplete/webservice_data_selectRequest', $requestData);
+        $selectRequest->validate($validator);
 
-        return $searchRequest;
+        return $selectRequest;
     }
 }

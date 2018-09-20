@@ -142,6 +142,9 @@ class Postdirekt_Autocomplete_Model_Webservice_Data_SearchResponse_Address
         return $this->getData(self::UUID);
     }
 
+    /**
+     * @return array
+     */
     public function jsonSerialize()
     {
         return $this->toArray(

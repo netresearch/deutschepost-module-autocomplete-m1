@@ -23,7 +23,7 @@ class Postdirekt_Autocomplete_Exception_Webservice_ClientException extends \Exce
         $messageTemplate = 'Please provide at least one of the following search parameters: %s';
         $message = sprintf($messageTemplate, implode(', ', $availableFields));
 
-        return new static($message);
+        return new static($message, 400);
     }
 
     /**
@@ -35,7 +35,7 @@ class Postdirekt_Autocomplete_Exception_Webservice_ClientException extends \Exce
         $messageTemplate = "'%s' is a required field.";
         $message = sprintf($messageTemplate, $fieldName);
 
-        return new static($message);
+        return new static($message, 400);
     }
 
     /**

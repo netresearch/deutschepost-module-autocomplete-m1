@@ -35,8 +35,7 @@ class Postdirekt_Autocomplete_Model_Webservice_Data_SearchRequest extends Varien
      */
     public function validate(Validator $validator)
     {
-        $result = $validator->validate($this->_fields, $this->getData());
-        return $result;
+        return $validator->validate($this->_fields, $this->getData());
     }
 
     /**

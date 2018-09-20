@@ -30,7 +30,9 @@ class Postdirekt_Autocomplete_Model_Webservice_Logger
 
     /**
      * Postdirekt_Autocomplete_Model_Webservice_Logger constructor.
+     *
      * @param mixed[] $args
+     * @throws Mage_Core_Model_Store_Exception
      */
     public function __construct(array $args)
     {

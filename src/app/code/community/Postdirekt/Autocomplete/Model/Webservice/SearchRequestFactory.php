@@ -37,6 +37,7 @@ class Postdirekt_Autocomplete_Model_Webservice_SearchRequestFactory
         /** @var Postdirekt_Autocomplete_Model_Webservice_SearchRequestValidator $validator */
         $validator = Mage::getSingleton('postdirekt_autocomplete/webservice_searchRequestValidator');
 
+        /** @var Postdirekt_Autocomplete_Model_Webservice_Data_SearchRequest $searchRequest */
         $searchRequest = Mage::getModel('postdirekt_autocomplete/webservice_data_searchRequest', $requestData);
         $searchRequest->validate($validator);
 

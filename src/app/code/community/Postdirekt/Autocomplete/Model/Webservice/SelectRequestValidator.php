@@ -20,7 +20,7 @@ class Postdirekt_Autocomplete_Model_Webservice_SelectRequestValidator
      * @param array $fieldNames
      * @param array $data
      * @return bool
-     * @throws Postdirekt_Autocomplete_Exception_Webservice_ClientException
+     * @throws ClientException
      */
     public function validate(array $fieldNames, array $data)
     {

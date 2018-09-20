@@ -17,7 +17,7 @@ use Postdirekt_Autocomplete_Model_Webservice_Data_SearchResponse_Address as Addr
 class Postdirekt_Autocomplete_Model_Webservice_SearchResponseFactory
 {
     /**
-     * @param string[] $result De-serialized web service JSON response
+     * @param string[][][] $result De-serialized web service JSON response
      * @return Postdirekt_Autocomplete_Model_Webservice_Data_SearchResponse
      */
     public function create(array $result)
