@@ -46,6 +46,26 @@ class Postdirekt_Autocomplete_AutocompleteController extends Mage_Core_Controlle
         parent::__construct($request, $response, $invokeArgs);
     }
 
+    /**
+     * Only accept ajax requests to this controller
+     *
+     * @return $this
+     */
+    public function preDispatch()
+    {
+        parent::preDispatch();
+
+        if (!$this->getRequest()->isXmlHttpRequest()) {
+            $this->getResponse()
+                 ->setHeader('HTTP/1.1', '404 Not Found')
+                 ->setHeader('Status', '404 File not found');
+
+            $this->_forward('defaultNoRoute');
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+        }
+
+        return $this;
+    }
 
     /**
      * perform search request
