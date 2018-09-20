@@ -94,14 +94,15 @@ AddressAutocomplete.prototype = {
 
             obj.field
                 .observe('input', function (event) {
-                    var item = addressFields[event.target.id];
+                    var $field = this;
+                    var item   = addressFields[event.target.id];
 
                     self.addressObject[item.name] = event.target.value;
 
 console.log('Current value: ', event.target.value, 'addressObject: ', self.addressObject);
 
                     self.triggerDelayedCallback(function () {
-                        self.searchAction();
+                        self.searchAction($field);
                     });
                 });
         }
@@ -115,6 +116,7 @@ console.log('Current value: ', event.target.value, 'addressObject: ', self.addre
      */
     triggerDelayedCallback: function (callback, delay) {
         var self = this;
+
         delay = delay || self.typingDelay;
 
         // Clear timeout to prevent previous task from execution
@@ -133,11 +135,12 @@ console.log('Current value: ', event.target.value, 'addressObject: ', self.addre
      *
      * @return {Object} Search results
      */
-    searchAction: function () {
-        var searchRequest = new SearchRequest(apiUrl);
+    searchAction: function ($field) {
+        var self          = this,
+            searchRequest = new SearchRequest(apiUrl);
 
         searchRequest.doSearchRequest(this.addressObject, function (json) {
-console.log(json);
+            self.fillDataList($field, json);
         });
     },
 
@@ -146,8 +149,9 @@ console.log(json);
      *
      * @return {Object} Select results
      */
-    selectAction: function () {
-        var selectRequest = new SelectRequest(apiUrl);
+    selectAction: function ($field) {
+        var self          = this,
+            selectRequest = new SelectRequest(apiUrl);
 
         if (!this.addressObject.uuid) {
             throw 'Missing required field <uuid>';
@@ -155,6 +159,30 @@ console.log(json);
 
         selectRequest.doSelectRequest(this.addressObject, function (json) {
 console.log(json);
+        });
+    },
+
+    fillDataList: function ($field, suggestions) {
+        var fieldId          = $field.id,
+            $currentDataList = $('datalist-' + fieldId),
+            dataList         = '';
+
+        for (var i = 0; i < suggestions.length; ++i){
+            dataList += '<option value="'
+                + suggestions[i].street + ' '
+                + suggestions[i].postcode + ' '
+                + suggestions[i].city
+                + '" />';
+        }
+        dataList = '<datalist id="datalist-' + fieldId + '">' + dataList + '</datalist>';
+
+        if ($currentDataList) {
+            $currentDataList.remove();
+        }
+
+        $field.writeAttribute('list', 'datalist-' + fieldId);
+        $field.insert({
+            after: dataList
         });
     }
 };
