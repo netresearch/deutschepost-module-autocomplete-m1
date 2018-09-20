@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * See LICENSE.md for license details.
+ */
+-->
+<layout version="0.1.0">
+    <postdirekt_autocomplete_handle>
+        <reference name="head">
+            <action method="addJs" ifconfig="customer/postdirekt_address/active"><script>postdirekt_autocomplete/autocomplete-handler.js</script></action>
+        </reference>
+    </postdirekt_autocomplete_handle>
+
+    <checkout_onepage_index module="page">
+        <update handle="postdirekt_autocomplete_handle" />
+
+        <reference name="before_body_end">
+            <block type="postdirekt_autocomplete/addressHandler" name="postdirekt.autocomplete_checkout"
+                   template="postdirekt_autocomplete/handler_checkout.phtml" />
+        </reference>
+    </checkout_onepage_index>
+
+    <customer_address_form module="page">
+        <update handle="postdirekt_autocomplete_handle" />
+
+        <reference name="before_body_end">
+            <block type="postdirekt_autocomplete/addressHandler" name="postdirekt.autocomplete_customer"
+                   template="postdirekt_autocomplete/handler_customer.phtml" />
+        </reference>
+    </customer_address_form>
+</layout>

@@ -1,2 +1,5 @@
 src/app/code/community/Postdirekt/Autocomplete/ app/code/community/Postdirekt/Autocomplete/
 src/app/etc/modules/Postdirekt_Autocomplete.xml app/etc/modules/Postdirekt_Autocomplete.xml
+src/app/design/frontend/base/default/layout/postdirekt_autocomplete.xml app/design/frontend/base/default/layout/postdirekt_autocomplete.xml
+src/app/design/frontend/base/default/template/postdirekt_autocomplete/ app/design/frontend/base/default/template/postdirekt_autocomplete/
+src/js/postdirekt_autocomplete/ js/postdirekt_autocomplete/

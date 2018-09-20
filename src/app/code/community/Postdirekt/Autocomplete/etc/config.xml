@@ -11,6 +11,11 @@
         </Postdirekt_Autocomplete>
     </modules>
     <global>
+        <blocks>
+            <postdirekt_autocomplete>
+                <class>Postdirekt_Autocomplete_Block</class>
+            </postdirekt_autocomplete>
+        </blocks>
         <helpers>
             <postdirekt_autocomplete>
                 <class>Postdirekt_Autocomplete_Helper</class>
@@ -22,6 +27,15 @@
             </postdirekt_autocomplete>
         </models>
     </global>
+    <frontend>
+        <layout>
+            <updates>
+                <postdirekt_autocomplete module="Postdirekt_Autocomplete">
+                    <file>postdirekt_autocomplete.xml</file>
+                </postdirekt_autocomplete>
+            </updates>
+        </layout>
+    </frontend>
     <default>
         <customer>
             <postdirekt_autocomplete>
