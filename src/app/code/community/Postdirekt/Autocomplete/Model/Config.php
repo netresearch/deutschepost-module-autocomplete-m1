@@ -61,6 +61,6 @@ class Postdirekt_Autocomplete_Model_Config
      */
     public function getPassword($store = null)
     {
-        Mage::getStoreConfig(self::CONFIG_XML_FIELD_PASSWORD, $store);
+        return Mage::getStoreConfig(self::CONFIG_XML_FIELD_PASSWORD, $store);
     }
 }

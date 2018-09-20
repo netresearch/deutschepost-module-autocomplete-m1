@@ -27,7 +27,7 @@ class Postdirekt_Autocomplete_Model_Webservice_ServiceClient
     const TYPE_REGULAR_ADDRESSES = 'A';
 
     const SERVICE_URI = 'https://autocomplete.postdirekt.de';
-    const SERVICE_OPERATION_SEARCH = 'autocomplete/de/search';
+    const SERVICE_OPERATION_SEARCH = 'autocomplete/de/search/PlzOrtStr';
     const SERVICE_OPERATION_SELECT = 'autocomplete/de/select';
 
     /**
