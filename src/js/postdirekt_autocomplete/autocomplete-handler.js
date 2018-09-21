@@ -30,7 +30,6 @@ AddressAutocomplete.prototype = {
      */
     initialize: function(apiUrl, formId, formPrefix, watchedFields) {
         var self = this,
-            apiUrl = apiUrl,
             addressFieldNames = watchedFields,
             $addressForm = $(formId),
             addressFields = self.getSearchFields(formPrefix, addressFieldNames, $addressForm);
@@ -46,10 +45,8 @@ AddressAutocomplete.prototype = {
      * @returns {object}
      */
     getSearchFields: function(prefix, fieldNames, $addressForm) {
-
         var $fields = {};
         fieldNames.forEach(function(item) {
-
             var $field = $addressForm.select('#' + prefix + '\\:' + item)[0];
 
             if ($fields) {
@@ -93,10 +90,11 @@ AddressAutocomplete.prototype = {
      * Triggers an delayed callback.
      *
      * @param {Function} callback Callback to execute after timeout
+     * @param {int} delay Delay in milliseconds
      */
     triggerDelayedCallback: function (callback, delay) {
-        var self  = this;
-        var delay = delay || self.typingDelay;
+        var self = this;
+        delay = delay || self.typingDelay;
 
         // Clear timeout to prevent previous task from execution
         if (typeof this.timeoutId === 'number') {
