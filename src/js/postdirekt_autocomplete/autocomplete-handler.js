@@ -8,6 +8,8 @@ var AddressAutocomplete = Class.create();
  * @type {{}}
  */
 AddressAutocomplete.prototype = {
+    typingDelay: 300,
+    timeoutId: null,
 
     /**
      * @property addressObject
@@ -78,8 +80,32 @@ AddressAutocomplete.prototype = {
                     .observe('input', function() {
                         self.addressObject[obj.name] = this.value;
                         console.log('Current value: ', this.value, 'addressObject: ', self.addressObject);
+
+                        self.triggerDelayedCallback(function () {
+                            // TODO
+                        });
                     });
             }
         });
+    },
+
+    /**
+     * Triggers an delayed callback.
+     *
+     * @param {Function} callback Callback to execute after timeout
+     */
+    triggerDelayedCallback: function (callback, delay) {
+        var self  = this;
+        var delay = delay || self.typingDelay;
+
+        // Clear timeout to prevent previous task from execution
+        if (typeof this.timeoutId === 'number') {
+            clearTimeout(this.timeoutId);
+        }
+
+        this.timeoutId = window.setTimeout(
+            callback,
+            delay
+        );
     }
 };
