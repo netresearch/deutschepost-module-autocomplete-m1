@@ -93,9 +93,16 @@ AddressAutocomplete.prototype = {
             var obj = addressFields[key];
 
             obj.field
+                .observe('autocomplete:datalist-select', function (event) {
+                    console.log(event);
+                });
+
+            obj.field
                 .observe('input', function (event) {
                     var $field = this;
                     var item   = addressFields[event.target.id];
+
+                    self.triggerDataListChangeEvent(event);
 
                     self.addressObject[item.name] = event.target.value;
 
@@ -105,6 +112,29 @@ console.log('Current value: ', event.target.value, 'addressObject: ', self.addre
                         self.searchAction($field);
                     });
                 });
+        }
+    },
+
+    /**
+     * Trigger an custom event "autocomplete:datalist-select" on datalist selection.
+     *
+     * @param event
+     */
+    triggerDataListChangeEvent: function (event) {
+        var input       = event.target,
+            listId      = input.getAttribute('list'),
+            dataList    = $(listId),
+            dataOptions = null;
+
+        if (dataList) {
+            dataOptions = dataList.childNodes;
+
+            for (var i = 0; i < dataOptions.length; ++i) {
+                if (dataOptions[i].value === input.value) {
+                    Event.fire($(input), 'autocomplete:datalist-select');
+                    break;
+                }
+            }
         }
     },
 
