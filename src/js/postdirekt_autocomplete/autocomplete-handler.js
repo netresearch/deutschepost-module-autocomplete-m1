@@ -79,7 +79,7 @@ AddressAutocomplete.prototype = {
                         console.log('Current value: ', this.value, 'addressObject: ', self.addressObject);
 
                         self.triggerDelayedCallback(function () {
-                            // TODO
+                            self.searchAction();
                         });
                     });
             }
@@ -105,5 +105,35 @@ AddressAutocomplete.prototype = {
             callback,
             delay
         );
+    },
+
+    /**
+     * Executes a search request.
+     *
+     * @return {Object} Search results
+     */
+    searchAction: function() {
+        var searchRequest = new SearchRequest(apiUrl);
+
+        searchRequest.doSearchRequest(this.addressObject, function (json) {
+console.log(json);
+        });
+    },
+
+    /**
+     * Executes a select request.
+     *
+     * @return {Object} Select results
+     */
+    selectAction: function() {
+        var selectRequest = new SelectRequest(apiUrl);
+
+        if (!this.addressObject.uuid) {
+            throw 'Missing required field <uuid>';
+        }
+
+        selectRequest.doSelectRequest(this.addressObject, function (json) {
+console.log(json);
+        });
     }
 };
