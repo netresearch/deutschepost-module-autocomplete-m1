@@ -4,11 +4,10 @@
  */
 ?>
 <script type="text/javascript">
-    //<![CDATA[
-
     var apiUrl = '/query-url/',
         formId = 'form-validate',
-        addressAutocomplete = new AddressAutocomplete(apiUrl, formId);
+        formPrefix = false,
+        watchedFields = ['street1', 'street2', 'city', 'region', 'region_id', 'country_id', 'postcode'],
+        addressAutocomplete = new AddressAutocomplete(apiUrl, formId, formPrefix, watchedFields);
     console.log('Init AddressAutocomplete in postdirekt_autocomplete/handler_customer.phtml', 'Address object: ', addressAutocomplete);
-    //]]>
 </script>

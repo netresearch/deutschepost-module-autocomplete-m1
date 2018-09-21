@@ -7,8 +7,7 @@
     var apiUrl = '/get-address-data/',
         formId = 'co-billing-form',
         formPrefix = 'billing',
-        watchedFields = ['street1', 'street2', 'city', 'region_id', 'postcode'],
+        watchedFields = ['street1', 'street2', 'city', 'region', 'region_id', 'country_id', 'postcode'],
         addressAutocomplete = new AddressAutocomplete(apiUrl, formId, formPrefix, watchedFields);
-    // ToDo: remove debug data
     console.log('Init AddressAutocomplete in postdirekt_autocomplete/handler_checkout.phtml', 'Address object: ', addressAutocomplete);
 </script>

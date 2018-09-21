@@ -10,35 +10,42 @@ var AddressAutocomplete = Class.create();
 AddressAutocomplete.prototype = {
 
     /**
-     * @property {FinalSearch{},CurrentSearch{}}
+     * @property addressObject
      */
-    finalSearch: {},
-    currentSearch: {},
-
-    /**
-     *
-     * @param {string} apiUrl, {string} formId, {string} formPrefix, {array} watchedFields
-     * @constructor
-     */
-    initialize: function(apiUrl, formId, formPrefix, watchedFields) {
-        var apiUrl = apiUrl,
-            formId = formId,
-            formPrefix = formPrefix,
-            addressFieldNames = watchedFields,
-            $addressForm = $(formId),
-            addressFields = this.getSearchFields(formPrefix, addressFieldNames, $addressForm);
-
-        this.listenFields(addressFieldNames, addressFields);
+    addressObject: {
+        init: false,
+        returnId: false,
+        returnAddressObject: false
     },
 
     /**
      *
-     * @param {string} prefix, {array} fieldNames, {object} $addressForm
-     * @return {$fields|object}
+     * @param {string} apiUrl
+     * @param {string} formId
+     * @param {string} formPrefix
+     * @param {array} watchedFields
+     * @constructor
+     */
+    initialize: function(apiUrl, formId, formPrefix, watchedFields) {
+        var self = this,
+            apiUrl = apiUrl,
+            addressFieldNames = watchedFields,
+            $addressForm = $(formId),
+            addressFields = self.getSearchFields(formPrefix, addressFieldNames, $addressForm);
+
+        self.listenFields(addressFieldNames, addressFields);
+    },
+
+    /**
+     *
+     * @param {string} prefix
+     * @param {array} fieldNames
+     * @param {object} $addressForm
+     * @returns {object}
      */
     getSearchFields: function(prefix, fieldNames, $addressForm) {
 
-        var $fields = [];
+        var $fields = {};
         fieldNames.forEach(function(item) {
 
             var $field = $addressForm.select('#' + prefix + '\\:' + item)[0];
@@ -57,24 +64,20 @@ AddressAutocomplete.prototype = {
     /**
      * Adds listener to selected fields
      *
-     * @param {array} addressFieldNames, {object} addressFields
-     * @return void
+     * @param {array} addressFieldNames
+     * @param {object} addressFields
+     * @returns void
      */
     listenFields: function (addressFieldNames, addressFields) {
-        var currentSearch = this.currentSearch,
-            finalSearch = this.finalSearch;
+        var self = this;
 
         addressFieldNames.each(function(item) {
             var obj = addressFields[item];
             if (obj) {
                 obj.field
                     .observe('input', function() {
-                        currentSearch[obj.name] = this.value;
-                        console.log('Current value: ', this.value, currentSearch);
-                    })
-                    .observe('blur', function() {
-                        finalSearch[obj.name] = this.value;
-                        console.log('Value after blur: ', this.value, finalSearch);
+                        self.addressObject[obj.name] = this.value;
+                        console.log('Current value: ', this.value, 'addressObject: ', self.addressObject);
                     });
             }
         });
