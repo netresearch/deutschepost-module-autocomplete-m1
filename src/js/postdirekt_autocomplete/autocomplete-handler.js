@@ -20,9 +20,9 @@ AddressAutocomplete.prototype = {
      * @property addressObject
      */
     addressObject: {
-        init: false,
-        returnId: false,
-        returnAddressObject: false
+        // init: false,
+        // returnId: false,
+        // returnAddressObject: false
     },
 
     /**
@@ -79,24 +79,6 @@ AddressAutocomplete.prototype = {
      * @returns void
      */
     loadPrefilledValues: function (addressFieldNames, addressFields) {
-
-        addressFieldNames.each(function (item) {
-            var obj = addressFields[item];
-
-            if (obj.value && obj.value.length) {
-                self.addressObject[obj.name] = obj.value;
-            }
-        });
-    },
-
-    /**
-     * Writes existing field values into object
-     *
-     * @param {object} addressFields
-     *
-     * @returns void
-     */
-    loadPrefilledValues: function (addressFields) {
         var self = this;
 
         for (var key in addressFields) {
@@ -125,14 +107,13 @@ AddressAutocomplete.prototype = {
 
             obj.field
                 .observe('autocomplete:datalist-select', function (event) {
-                    var value = event.target.value,
+                    var value  = event.target.value,
                         option = event.target.next('datalist').down("[value='" + value + "']");
 
                     if (option) {
-                        var id = parseInt(option.id),
-                            currentSuggestionObject = self.suggestionObject.filter(function (item) {
-                                return item.id === parseInt(id);
-                            });
+                        var currentSuggestionObject = self.suggestionObject.filter(function (item) {
+                            return item.uuid === option.id;
+                        });
 
                         // fill all fields with response values
                         addressFieldNames.each(function (item) {
