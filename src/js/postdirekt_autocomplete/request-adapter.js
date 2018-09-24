@@ -12,7 +12,7 @@ RequestAdapter.prototype = {
 
     /**
      *
-     * @param {string} apiUrl
+     * @param {string} url
      * @constructor
      */
     initialize: function(url) {
@@ -20,7 +20,7 @@ RequestAdapter.prototype = {
     },
 
     /**
-     * Performs a AJAX request.
+     * Performs an AJAX request.
      *
      * @param {String}   action
      * @param {Object}   searchFields
