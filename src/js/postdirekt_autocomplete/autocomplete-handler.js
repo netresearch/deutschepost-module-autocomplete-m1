@@ -217,10 +217,12 @@ console.log('Current value: ', event.target.value, 'addressObject: ', self.addre
      */
     searchAction: function ($field) {
         var self          = this,
-            searchRequest = new SearchRequest(apiUrl);
+            searchRequest = new SearchRequest(apiUrl),
+            renderer      = new DataListRenderer($field);
 
         searchRequest.doSearchRequest(this.addressObject, function (json) {
-            self.fillDataList($field, json);
+            renderer.render(json);
+
             self.suggestionObject = json;
         });
     },
@@ -241,33 +243,5 @@ console.log('Current value: ', event.target.value, 'addressObject: ', self.addre
         selectRequest.doSelectRequest(this.addressObject, function (json) {
 console.log(json);
         });
-    },
-
-    fillDataList: function ($field, suggestions) {
-        var fieldId          = $field.id,
-            $currentDataList = $('datalist-' + fieldId),
-            addressData      = '',
-            $dataList        = new Element('datalist', {
-                'id': 'datalist-' + fieldId,
-            });
-
-        if ($currentDataList) {
-            $currentDataList.remove();
-        }
-
-        for (var i = 0; i < suggestions.length; ++i) {
-            var $dataListOption  = new Element('option', {
-                'id': suggestions[i].uuid
-            });
-
-            addressData = suggestions[i].street + ', '
-                + suggestions[i].postCode + ', '
-                + suggestions[i].city;
-
-            $dataListOption.value = addressData;
-            $dataList.insert({bottom: $dataListOption});
-        }
-        $field.setAttribute('list', 'datalist-' + fieldId);
-        $field.insert({after: $dataList});
     }
 };
