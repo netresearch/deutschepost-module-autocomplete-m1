@@ -19,6 +19,11 @@ DataListRenderer.prototype = {
         this.currentDataList = $('datalist-' + this.field.id);
     },
 
+    /**
+     * Renders the datalist.
+     *
+     * @param {Array} suggestions
+     */
     render: function (suggestions) {
         if (this.currentDataList) {
             this.currentDataList.remove();
@@ -34,14 +39,18 @@ DataListRenderer.prototype = {
             });
 
             var addressData = suggestions[i].street + ', '
-                + suggestions[i].postCode + ', '
+                + suggestions[i].postcode + ', '
                 + suggestions[i].city;
 
             $dataListOption.value = addressData;
-            $dataList.insert({bottom: $dataListOption});
+            $dataList.insert({
+                bottom: $dataListOption
+            });
         }
 
         this.field.setAttribute('list', 'datalist-' + this.field.id);
-        this.field.insert({after: $dataList});
+        this.field.insert({
+            after: $dataList
+        });
     }
 };
