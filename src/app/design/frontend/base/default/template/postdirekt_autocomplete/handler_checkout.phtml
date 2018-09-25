@@ -5,11 +5,11 @@
 ?>
 <script type="text/javascript">
     var apiUrl = '/address/autocomplete/',
-        watchedFieldIds = [
-            'billing\\:street1',
-            'billing\\:city',
-            'billing\\:postcode'
-        ],
+        watchedFieldIds = {
+            'street': 'billing\\:street1',
+            'city': 'billing\\:city',
+            'postcode': 'billing\\:postcode'
+        },
         addressAutocomplete = new AddressAutocomplete(apiUrl, watchedFieldIds);
 
     console.log('Init AddressAutocomplete in postdirekt_autocomplete/handler_checkout.phtml', 'Address object: ', addressAutocomplete);

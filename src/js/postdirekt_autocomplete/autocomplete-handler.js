@@ -45,16 +45,17 @@ AddressAutocomplete.prototype = {
     getSearchFields: function (fieldNames) {
         var $fields = {};
 
-        fieldNames.each(function (item) {
+        for (var key in fieldNames) {
+            var item   = fieldNames[key];
             var $field = $$('#' + item)[0];
 
             if ($field) {
                 $fields[$field.id] = {
-                    name: $field.id,
+                    name: key,
                     field: $field
                 };
             }
-        });
+        };
 
         return $fields;
     },
@@ -73,7 +74,7 @@ AddressAutocomplete.prototype = {
             var obj = addressFields[key];
 
             if (obj.field.value && obj.field.value.length) {
-                self.addressObject[key] = obj.field.value;
+                self.addressObject[obj.name] = obj.field.value;
             }
         };
     },
@@ -93,7 +94,9 @@ AddressAutocomplete.prototype = {
 
             obj.field
                 .observe('input', function (event) {
-                    self.addressObject[event.target.id] = event.target.value;
+                    var item = addressFields[event.target.id];
+
+                    self.addressObject[item.name] = event.target.value;
 
 console.log('Current value: ', event.target.value, 'addressObject: ', self.addressObject);
 
