@@ -103,7 +103,7 @@ AddressAutocomplete.prototype = {
         for (var key in addressFields) {
             var obj = addressFields[key];
 
-            obj.field.setAttribute('data-address-item', item);
+            obj.field.setAttribute('data-address-item', key);
 
             obj.field
                 .observe('autocomplete:datalist-select', function (event) {
@@ -115,16 +115,17 @@ AddressAutocomplete.prototype = {
                             return item.uuid === option.id;
                         });
 
-                        // fill all fields with response values
-                        addressFieldNames.each(function (item) {
-                            // get data selector with address item
-                            var selector = '[data-address-item="' + item + '"]',
-                                addressFieldById = self.form.select(selector);
+                        // Fill all fields with response values
+                        for (var field in addressFields) {
+                            // Get data selector with address item
+                            var selector         = '[data-address-item="' + field + '"]',
+                                addressFieldById = $$(selector),
+                                item             = addressFields[field].name;
 
                             if (addressFieldById && currentSuggestionObject[0][item]) {
                                 addressFieldById[0].value = currentSuggestionObject[0][item];
                             }
-                        });
+                        };
                     }
                 });
 
