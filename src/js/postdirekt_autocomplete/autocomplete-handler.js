@@ -8,7 +8,7 @@ var AddressAutocomplete = Class.create();
  * @type {{}}
  */
 AddressAutocomplete.prototype = {
-    typingDelay: 30,
+    typingDelay: 100,
     timeoutId: null,
 
     /**
@@ -19,11 +19,7 @@ AddressAutocomplete.prototype = {
     /**
      * @property addressObject
      */
-    addressObject: {
-        // init: false,
-        // returnId: false,
-        // returnAddressObject: false
-    },
+    addressObject: {},
 
     /**
      * @property form
@@ -40,20 +36,19 @@ AddressAutocomplete.prototype = {
      * @constructor
      */
     initialize: function (formId, searchUrl, respondUrl, watchedFieldIds) {
-        var self              = this,
-            $addressForm    = $(formId),
+        var $addressForm    = $(formId),
             addressFieldNames = watchedFieldIds,
-            addressFields     = self.getSearchFields(addressFieldNames, $addressForm);
+            addressFields     = this.getSearchFields(addressFieldNames, $addressForm);
 
-        self.form = $addressForm;
-
-        self.loadPrefilledValues(addressFields);
-        self.listenFields(addressFields);
+        this.form = $addressForm;
+        this.loadPrefilledValues(addressFields);
+        this.listenFields(addressFields);
     },
 
     /**
      *
      * @param {array} fieldNames
+     * @param {HTMLElement} $form
      *
      * @returns {object}
      */
@@ -92,7 +87,7 @@ AddressAutocomplete.prototype = {
             if (obj.field.value && obj.field.value.length) {
                 self.addressObject[obj.name] = obj.field.value;
             }
-        };
+        }
     },
 
     /**
@@ -208,7 +203,7 @@ console.log('Current value: ', event.target.value, 'addressObject: ', self.addre
             renderer      = new DataListRenderer($field);
 
         searchRequest.doSearchRequest(this.addressObject, function (json) {
-            renderer.render(json);
+            renderer.render(json, watchedFieldIds, ', ');
 
             self.suggestionObject = json;
         });

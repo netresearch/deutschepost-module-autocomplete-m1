@@ -23,8 +23,10 @@ DataListRenderer.prototype = {
      * Renders the datalist.
      *
      * @param {Array} suggestions
+     * @param {Array} fieldNames
+     * @param {String} divider
      */
-    render: function (suggestions) {
+    render: function (suggestions, fieldNames, divider) {
         if (this.currentDataList) {
             this.currentDataList.remove();
         }
@@ -33,14 +35,28 @@ DataListRenderer.prototype = {
             'id': 'datalist-' + this.field.id,
         });
 
+
         for (var i = 0; i < suggestions.length; ++i) {
             var $dataListOption  = new Element('option', {
-                'id': suggestions[i].uuid
-            });
+                    'id': suggestions[i].uuid
+                }),
+                addressData = '',
+                initLoop = false;
 
-            var addressData = suggestions[i].street + ', '
-                + suggestions[i].postcode + ', '
-                + suggestions[i].city;
+            // Combine all address items to suggestion string, divided by divider
+            for (var fieldName in fieldNames) {
+
+                if (suggestions[i][fieldName]) {
+                    // Add divider in front of all items but first
+                    if (!initLoop) {
+                        initLoop = true;
+                    } else {
+                        addressData += divider;
+                    }
+                    addressData += suggestions[i][fieldName];
+                }
+
+            }
 
             $dataListOption.value = addressData;
             $dataList.insert({
