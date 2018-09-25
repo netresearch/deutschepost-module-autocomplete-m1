@@ -8,7 +8,7 @@ var AddressAutocomplete = Class.create();
  * @type {{}}
  */
 AddressAutocomplete.prototype = {
-    typingDelay: 300,
+    typingDelay: 30,
     timeoutId: null,
 
     /**
@@ -32,15 +32,20 @@ AddressAutocomplete.prototype = {
 
     /**
      *
-     * @param {string} apiUrl
+     * @param {string} formId
+     * @param {string} searchUrl
+     * @param {string} respondUrl
      * @param {array}  watchedFieldIds
      *
      * @constructor
      */
-    initialize: function (apiUrl, watchedFieldIds) {
+    initialize: function (formId, searchUrl, respondUrl, watchedFieldIds) {
         var self              = this,
+            $addressForm    = $(formId),
             addressFieldNames = watchedFieldIds,
-            addressFields     = self.getSearchFields(addressFieldNames);
+            addressFields     = self.getSearchFields(addressFieldNames, $addressForm);
+
+        self.form = $addressForm;
 
         self.loadPrefilledValues(addressFields);
         self.listenFields(addressFields);
@@ -52,12 +57,12 @@ AddressAutocomplete.prototype = {
      *
      * @returns {object}
      */
-    getSearchFields: function (fieldNames) {
+    getSearchFields: function (fieldNames, $form) {
         var $fields = {};
 
         for (var key in fieldNames) {
             var item   = fieldNames[key];
-            var $field = $$('#' + item)[0];
+            var $field = $form.select('#' + item)[0];
 
             if ($field) {
                 $fields[$field.id] = {
@@ -119,7 +124,7 @@ AddressAutocomplete.prototype = {
                         for (var field in addressFields) {
                             // Get data selector with address item
                             var selector         = '[data-address-item="' + field + '"]',
-                                addressFieldById = $$(selector),
+                                addressFieldById = self.form.select(selector),
                                 item             = addressFields[field].name;
 
                             if (addressFieldById && currentSuggestionObject[0][item]) {
@@ -199,7 +204,7 @@ console.log('Current value: ', event.target.value, 'addressObject: ', self.addre
      */
     searchAction: function ($field) {
         var self          = this,
-            searchRequest = new SearchRequest(apiUrl),
+            searchRequest = new SearchRequest(searchUrl),
             renderer      = new DataListRenderer($field);
 
         searchRequest.doSearchRequest(this.addressObject, function (json) {
@@ -216,7 +221,7 @@ console.log('Current value: ', event.target.value, 'addressObject: ', self.addre
      */
     selectAction: function ($field) {
         var self          = this,
-            selectRequest = new SelectRequest(apiUrl);
+            selectRequest = new SelectRequest(respondUrl);
 
         if (!this.addressObject.uuid) {
             throw 'Missing required field <uuid>';

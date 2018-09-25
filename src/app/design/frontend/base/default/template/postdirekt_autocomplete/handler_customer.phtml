@@ -3,14 +3,17 @@
  * See LICENSE.md for license details.
  */
 ?>
+<?php /** @var Postdirekt_Autocomplete_Block_AddressHandler $this */ ?>
 <script type="text/javascript">
-    var apiUrl = '/query-url/',
-        watchedFields = {
-            'street': 'billing\\:street1',
-            'city': 'billing\\:city',
-            'postcode': 'billing\\:postcode'
+    var searchUrl = '<?php echo $this->getSearchEndpoint() ?>',
+        respondUrl = '<?php echo $this->getSelectEndpoint() ?>',
+        formId = 'form-validate',
+        watchedFieldIds = {
+            'street': 'street1',
+            'city': 'city',
+            'postcode': 'postcode'
         },
-        addressAutocomplete = new AddressAutocomplete(apiUrl, watchedFields);
+        addressAutocomplete = new AddressAutocomplete(formId, searchUrl, respondUrl, watchedFieldIds);
 
     console.log('Init AddressAutocomplete in postdirekt_autocomplete/handler_customer.phtml', 'Address object: ', addressAutocomplete);
 </script>

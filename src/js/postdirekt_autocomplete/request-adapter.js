@@ -28,7 +28,7 @@ RequestAdapter.prototype = {
      */
     ajax: function(action, searchFields, callback) {
         new Ajax.Request(
-            this.url + action,
+            this.url,
             {
                 method: 'get',
                 parameters: searchFields,
