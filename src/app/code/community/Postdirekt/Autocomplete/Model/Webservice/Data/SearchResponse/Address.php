@@ -55,7 +55,7 @@ class Postdirekt_Autocomplete_Model_Webservice_Data_SearchResponse_Address
      *
      * @var string
      */
-    const POST_CODE = 'postCode';
+    const POST_CODE = 'postcode';
 
     /**
      * The street, post office number or packing station number depending on the value of the

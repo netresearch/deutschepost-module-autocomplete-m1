@@ -34,6 +34,7 @@ AddressAutocomplete.prototype = {
             $addressForm = $(formId),
             addressFields = self.getSearchFields(formPrefix, addressFieldNames, $addressForm);
 
+        self.loadPrefilledValues(addressFieldNames, addressFields);
         self.listenFields(addressFieldNames, addressFields);
     },
 
@@ -58,6 +59,26 @@ AddressAutocomplete.prototype = {
         });
 
         return $fields;
+    },
+
+    /**
+     * Writes existing field values into object
+     *
+     * @param {array} addressFieldNames
+     * @param {object} addressFields
+     *
+     * @returns void
+     */
+    loadPrefilledValues: function (addressFieldNames, addressFields) {
+        var self = this;
+
+        addressFieldNames.each(function (item) {
+            var obj = addressFields[item];
+
+            if (obj.field.value && obj.field.value.length) {
+                self.addressObject[item] = obj.field.value;
+            }
+        });
     },
 
     /**
