@@ -23,36 +23,34 @@ AddressAutocomplete.prototype = {
     /**
      *
      * @param {string} apiUrl
-     * @param {string} formId
-     * @param {string} formPrefix
-     * @param {array} watchedFields
+     * @param {array}  watchedFieldIds
+     *
      * @constructor
      */
-    initialize: function(apiUrl, formId, formPrefix, watchedFields) {
-        var self = this,
-            addressFieldNames = watchedFields,
-            $addressForm = $(formId),
-            addressFields = self.getSearchFields(formPrefix, addressFieldNames, $addressForm);
+    initialize: function (apiUrl, watchedFieldIds) {
+        var self              = this,
+            addressFieldNames = watchedFieldIds,
+            addressFields     = self.getSearchFields(addressFieldNames);
 
-        self.loadPrefilledValues(addressFieldNames, addressFields);
-        self.listenFields(addressFieldNames, addressFields);
+        self.loadPrefilledValues(addressFields);
+        self.listenFields(addressFields);
     },
 
     /**
      *
-     * @param {string} prefix
      * @param {array} fieldNames
-     * @param {object} $addressForm
+     *
      * @returns {object}
      */
-    getSearchFields: function(prefix, fieldNames, $addressForm) {
+    getSearchFields: function (fieldNames) {
         var $fields = {};
-        fieldNames.forEach(function(item) {
-            var $field = $addressForm.select('#' + prefix + '\\:' + item)[0];
 
-            if ($fields) {
-                $fields[item] = {
-                    name: item,
+        fieldNames.each(function (item) {
+            var $field = $$('#' + item)[0];
+
+            if ($field) {
+                $fields[$field.id] = {
+                    name: $field.id,
                     field: $field
                 };
             }
@@ -64,47 +62,46 @@ AddressAutocomplete.prototype = {
     /**
      * Writes existing field values into object
      *
-     * @param {array} addressFieldNames
      * @param {object} addressFields
      *
      * @returns void
      */
-    loadPrefilledValues: function (addressFieldNames, addressFields) {
+    loadPrefilledValues: function (addressFields) {
         var self = this;
 
-        addressFieldNames.each(function (item) {
-            var obj = addressFields[item];
+        for (var key in addressFields) {
+            var obj = addressFields[key];
 
             if (obj.field.value && obj.field.value.length) {
-                self.addressObject[item] = obj.field.value;
+                self.addressObject[key] = obj.field.value;
             }
-        });
+        };
     },
 
     /**
      * Adds listener to selected fields
      *
-     * @param {array} addressFieldNames
      * @param {object} addressFields
+     *
      * @returns void
      */
-    listenFields: function (addressFieldNames, addressFields) {
+    listenFields: function (addressFields) {
         var self = this;
 
-        addressFieldNames.each(function(item) {
-            var obj = addressFields[item];
-            if (obj) {
-                obj.field
-                    .observe('input', function() {
-                        self.addressObject[obj.name] = this.value;
-                        console.log('Current value: ', this.value, 'addressObject: ', self.addressObject);
+        for (var key in addressFields) {
+            var obj = addressFields[key];
 
-                        self.triggerDelayedCallback(function () {
-                            self.searchAction();
-                        });
+            obj.field
+                .observe('input', function (event) {
+                    self.addressObject[event.target.id] = event.target.value;
+
+console.log('Current value: ', event.target.value, 'addressObject: ', self.addressObject);
+
+                    self.triggerDelayedCallback(function () {
+                        self.searchAction();
                     });
-            }
-        });
+                });
+        }
     },
 
     /**
@@ -133,7 +130,7 @@ AddressAutocomplete.prototype = {
      *
      * @return {Object} Search results
      */
-    searchAction: function() {
+    searchAction: function () {
         var searchRequest = new SearchRequest(apiUrl);
 
         searchRequest.doSearchRequest(this.addressObject, function (json) {
@@ -146,7 +143,7 @@ console.log(json);
      *
      * @return {Object} Select results
      */
-    selectAction: function() {
+    selectAction: function () {
         var selectRequest = new SelectRequest(apiUrl);
 
         if (!this.addressObject.uuid) {

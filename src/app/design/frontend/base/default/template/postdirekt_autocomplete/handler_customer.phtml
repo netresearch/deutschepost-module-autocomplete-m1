@@ -5,10 +5,12 @@
 ?>
 <script type="text/javascript">
     var apiUrl = '/query-url/',
-        formId = 'form-validate',
-        formPrefix = false,
-        watchedFields = ['street1', 'city', 'postcode'],
-        addressAutocomplete = new AddressAutocomplete(apiUrl, formId, formPrefix, watchedFields);
+        watchedFields = [
+            'billing\\:street1',
+            'billing\\:city',
+            'billing\\:postcode'
+        ],
+        addressAutocomplete = new AddressAutocomplete(apiUrl, watchedFields);
 
     console.log('Init AddressAutocomplete in postdirekt_autocomplete/handler_customer.phtml', 'Address object: ', addressAutocomplete);
 </script>
