@@ -189,10 +189,10 @@ console.log('Current value: ', event.target.value, 'addressObject: ', self.addre
      */
     searchAction: function ($field) {
         var self          = this,
-            searchRequest = new SearchRequest(this.searchUrl),
-            renderer      = new DataListRenderer($field);
+            searchRequest = new SearchRequest(this.searchUrl);
 
         searchRequest.doSearchRequest(this.addressObject, function (json) {
+            var renderer = new DataListRenderer($field);
             renderer.render(json, self.addressFieldNames, ', ');
 
             self.suggestionObject = json;
