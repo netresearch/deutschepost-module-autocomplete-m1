@@ -5,15 +5,35 @@
 ?>
 <?php /** @var Postdirekt_Autocomplete_Block_AddressHandler $this */ ?>
 <script type="text/javascript">
-    var searchUrl = '<?php echo $this->getSearchEndpoint() ?>',
-        respondUrl = '<?php echo $this->getSelectEndpoint() ?>',
-        formId = 'co-billing-form',
-        watchedFieldIds = {
+
+var searchUrl = '<?php echo $this->getSearchEndpoint() ?>',
+    respondUrl = '<?php echo $this->getSelectEndpoint() ?>',
+
+    // Billing address form
+    addressAutocompleteBilling = new AddressAutocomplete(
+        'co-billing-form',
+        searchUrl,
+        respondUrl,
+        {
             'street': 'billing\\:street1',
             'city': 'billing\\:city',
             'postcode': 'billing\\:postcode'
-        },
-        addressAutocomplete = new AddressAutocomplete(formId, searchUrl, respondUrl, watchedFieldIds);
+        }
+    ),
 
-    console.log('Init AddressAutocomplete in postdirekt_autocomplete/handler_checkout.phtml', 'Address object: ', addressAutocomplete);
+    // Shipping address form
+    addressAutocompleteShipping = new AddressAutocomplete(
+        'co-shipping-form',
+        searchUrl,
+        respondUrl,
+        {
+            'street': 'shipping\\:street1',
+            'city': 'shipping\\:city',
+            'postcode': 'shipping\\:postcode'
+        }
+    );
+
+console.log('Init AddressAutocomplete in postdirekt_autocomplete/handler_customer.phtml', 'Address object: ', addressAutocompleteBilling);
+console.log('Init AddressAutocomplete in postdirekt_autocomplete/handler_customer.phtml', 'Address object: ', addressAutocompleteShipping);
+
 </script>

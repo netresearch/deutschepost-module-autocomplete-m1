@@ -5,15 +5,19 @@
 ?>
 <?php /** @var Postdirekt_Autocomplete_Block_AddressHandler $this */ ?>
 <script type="text/javascript">
-    var searchUrl = '<?php echo $this->getSearchEndpoint() ?>',
-        respondUrl = '<?php echo $this->getSelectEndpoint() ?>',
-        formId = 'form-validate',
-        watchedFieldIds = {
+var searchUrl = '<?php echo $this->getSearchEndpoint() ?>',
+    respondUrl = '<?php echo $this->getSelectEndpoint() ?>',
+
+    addressAutocomplete = new AddressAutocomplete(
+        'form-validate',
+        searchUrl,
+        respondUrl,
+        {
             'street': 'street_1',
             'city': 'city',
             'postcode': 'zip'
-        },
-        addressAutocomplete = new AddressAutocomplete(formId, searchUrl, respondUrl, watchedFieldIds);
+        }
+    );
 
-    console.log('Init AddressAutocomplete in postdirekt_autocomplete/handler_customer.phtml', 'Address object: ', addressAutocomplete);
+console.log('Init AddressAutocomplete in postdirekt_autocomplete/handler_customer.phtml', 'Address object: ', addressAutocomplete);
 </script>
