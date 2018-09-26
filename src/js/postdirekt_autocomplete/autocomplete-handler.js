@@ -72,10 +72,11 @@ AddressAutocomplete.prototype = {
         var self = this;
 
         for (var key in self.addressFields) {
-            var obj = self.addressFields[key];
 
-            if (obj.field.value && obj.field.value.length) {
-                self.addressObject[obj.name] = obj.field.value;
+            var fieldItem = self.addressFields[key];
+
+            if (fieldItem.field.value && fieldItem.field.value.length) {
+                self.addressObject[fieldItem.name] = fieldItem.field.value;
             }
         }
     },
@@ -89,35 +90,19 @@ AddressAutocomplete.prototype = {
         var self = this;
 
         for (var key in self.addressFields) {
-            var obj = self.addressFields[key];
+            var fieldItem = self.addressFields[key];
 
-            obj.field.setAttribute('data-address-item', key);
+            fieldItem.field.setAttribute('data-address-item', key);
 
-            obj.field
+            fieldItem.field
                 .observe('autocomplete:datalist-select', function (event) {
-                    var value  = event.target.value,
-                        option = event.target.next('datalist').down("[value='" + value + "']");
+                    var $currentField = event.target,
+                        datalistSelect = new DatalistSelect($currentField, self.form, self.addressFields, self.suggestionObject);
 
-                    if (option) {
-                        var currentSuggestionObject = self.suggestionObject.filter(function (item) {
-                            return item.uuid === option.id;
-                        });
-
-                        // Fill all fields with response values
-                        for (var field in self.addressFields) {
-                            // Get data selector with address item
-                            var selector         = '[data-address-item="' + field + '"]',
-                                addressFieldById = self.form.select(selector),
-                                item             = self.addressFields[field].name;
-
-                            if (addressFieldById && currentSuggestionObject[0][item]) {
-                                addressFieldById[0].value = currentSuggestionObject[0][item];
-                            }
-                        }
-                    }
+                    datalistSelect.updateFields();
                 });
 
-            obj.field
+            fieldItem.field
                 .observe('input', function (event) {
                     var $field = this;
                     var item   = self.addressFields[event.target.id];

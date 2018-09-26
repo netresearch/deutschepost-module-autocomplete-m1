@@ -12,6 +12,7 @@
             <action method="addJs" ifconfig="customer/postdirekt_address/active"><script>postdirekt_autocomplete/request-adapter.js</script></action>
             <action method="addJs" ifconfig="customer/postdirekt_address/active"><script>postdirekt_autocomplete/action/search-request.js</script></action>
             <action method="addJs" ifconfig="customer/postdirekt_address/active"><script>postdirekt_autocomplete/action/select-request.js</script></action>
+            <action method="addJs" ifconfig="customer/postdirekt_address/active"><script>postdirekt_autocomplete/action/datalist-select.js</script></action>
         </reference>
     </postdirekt_autocomplete_handle>
 
