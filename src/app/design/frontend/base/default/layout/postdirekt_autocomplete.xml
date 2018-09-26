@@ -7,14 +7,15 @@
 <layout version="0.1.0">
     <postdirekt_autocomplete_handle>
         <reference name="head">
-            <action method="addJs" ifconfig="customer/postdirekt_address/active"><script>postdirekt_autocomplete/autocomplete-handler.js</script></action>
-            <action method="addJs" ifconfig="customer/postdirekt_address/active"><script>postdirekt_autocomplete/view/datalist-renderer.js</script></action>
-            <action method="addJs" ifconfig="customer/postdirekt_address/active"><script>postdirekt_autocomplete/request-adapter.js</script></action>
-            <action method="addJs" ifconfig="customer/postdirekt_address/active"><script>postdirekt_autocomplete/action/search-request.js</script></action>
-            <action method="addJs" ifconfig="customer/postdirekt_address/active"><script>postdirekt_autocomplete/action/select-request.js</script></action>
-            <action method="addJs" ifconfig="customer/postdirekt_address/active"><script>postdirekt_autocomplete/action/datalist-select.js</script></action>
-            <action method="addJs" ifconfig="customer/postdirekt_address/active"><script>postdirekt_autocomplete/model/autocomplete-address-suggestions.js</script></action>
-            <action method="addJs" ifconfig="customer/postdirekt_address/active"><script>postdirekt_autocomplete/model/autocomplete-address-data.js</script></action>
+            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/autocomplete-handler.js</script></action>
+            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/request-adapter.js</script></action>
+            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/view/datalist-renderer.js</script></action>
+            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/model/autocomplete-address-suggestions.js</script></action>
+             <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/model/autocomplete-address-data.js</script></action>
+            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/action/search-request.js</script></action>
+            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/action/select-request.js</script></action>
+            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/action/datalist-select.js</script></action>
+            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/action/field-input.js</script></action>
         </reference>
     </postdirekt_autocomplete_handle>
 

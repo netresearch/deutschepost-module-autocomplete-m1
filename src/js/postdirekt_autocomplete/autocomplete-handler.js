@@ -22,12 +22,14 @@ AddressAutocomplete.prototype = {
      */
     initialize: function (formId, searchUrl, respondUrl, watchedFieldIds) {
         this.form               = $(formId);
+        this.addressFieldNames  = watchedFieldIds;
         this.searchUrl          = searchUrl;
         this.respondUrl         = respondUrl;
-        this.addressFieldNames  = watchedFieldIds;
         this.addressFields      = this.getSearchFields();
+        this.searchRequest      = new SearchRequest(this.searchUrl);
         this.addressSuggestions = new AutocompleteAddressSuggestions({});
         this.addressData        = new AutocompleteAddressData({});
+        this.fieldInputAction   = new FieldInput(this.addressFields, this.addressData, this.searchRequest);
 
         this.loadPrefilledValues();
         this.listenFields();
@@ -95,19 +97,18 @@ AddressAutocomplete.prototype = {
                 });
 
             fieldItem.field
-                .observe('input', function (event) {
-                    var $field = this;
-                    var item   = self.addressFields[event.target.id];
+                .observe('input', function () {
+                    var $currentField = this;
 
-                    self.triggerDataListChangeEvent(event);
+                    self.triggerDataListChangeEvent($currentField);
+                    self.fieldInputAction.doInputAction($currentField);
 
-                    self.addressData.setValue(item.name, event.target.value);
-
-console.log('Current value: ', event.target.value, 'self.addressData: ', self.addressData);
+console.log('Current value: ', event.target.value, 'addressObject: ', self.addressData);
 
                     self.triggerDelayedCallback(function () {
-                        self.searchAction($field);
+                        self.searchAction($currentField);
                     });
+
                 });
         }
     },
@@ -115,11 +116,10 @@ console.log('Current value: ', event.target.value, 'self.addressData: ', self.ad
     /**
      * Trigger an custom event "autocomplete:datalist-select" on datalist selection.
      *
-     * @param event
+     * @param {HTMLElement} $field
      */
-    triggerDataListChangeEvent: function (event) {
-        var input       = event.target,
-            listId      = input.getAttribute('list'),
+    triggerDataListChangeEvent: function ($field) {
+        var listId      = $field.getAttribute('list'),
             dataList    = $(listId),
             dataOptions = null;
 
@@ -127,8 +127,8 @@ console.log('Current value: ', event.target.value, 'self.addressData: ', self.ad
             dataOptions = dataList.childNodes;
 
             for (var i = 0; i < dataOptions.length; ++i) {
-                if (dataOptions[i].value === input.value) {
-                    Event.fire($(input), 'autocomplete:datalist-select');
+                if (dataOptions[i].value === $field.value) {
+                    Event.fire($($field), 'autocomplete:datalist-select');
                     break;
                 }
             }
@@ -165,10 +165,9 @@ console.log('Current value: ', event.target.value, 'self.addressData: ', self.ad
      * @return {Object} Search results
      */
     searchAction: function ($field) {
-        var self          = this,
-            searchRequest = new SearchRequest(this.searchUrl);
+        var self = this;
 
-        searchRequest.doSearchRequest(this.addressData.getData, function (json) {
+        this.searchRequest.doSearchRequest(this.addressData.getData(), function (json) {
             var renderer = new DataListRenderer($field);
             renderer.render(json, self.addressFieldNames, ', ');
             self.addressSuggestions.setAddressSuggestions(json);
