@@ -37,7 +37,6 @@ DataListRenderer.prototype = {
             'id': 'datalist-' + this.field.id
         });
 
-
         for (var i = 0; i < this.suggestions.length; ++i) {
             var $dataListOption  = new Element('option', {
                     'id': this.suggestions[i].uuid
@@ -47,7 +46,6 @@ DataListRenderer.prototype = {
 
             // Combine all address items to suggestion string, divided by divider
             for (var fieldName in fieldNames) {
-
                 if (this.suggestions[i][fieldName]) {
                     // Add divider in front of all items but first
                     if (!initLoop) {
@@ -57,7 +55,6 @@ DataListRenderer.prototype = {
                     }
                     addressData += this.suggestions[i][fieldName];
                 }
-
             }
 
             $dataListOption.value = addressData;

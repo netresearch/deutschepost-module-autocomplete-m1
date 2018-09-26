@@ -193,7 +193,7 @@ console.log('Current value: ', event.target.value, 'addressObject: ', self.addre
             renderer      = new DataListRenderer($field);
 
         searchRequest.doSearchRequest(this.addressObject, function (json) {
-            renderer.render(json, self.watchedFieldIds, ', ');
+            renderer.render(json, self.addressFieldNames, ', ');
 
             self.suggestionObject = json;
         });
