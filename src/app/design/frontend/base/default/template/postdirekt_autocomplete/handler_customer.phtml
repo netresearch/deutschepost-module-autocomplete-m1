@@ -9,9 +9,9 @@
         respondUrl = '<?php echo $this->getSelectEndpoint() ?>',
         formId = 'form-validate',
         watchedFieldIds = {
-            'street': 'street1',
+            'street': 'street_1',
             'city': 'city',
-            'postcode': 'postcode'
+            'postcode': 'zip'
         },
         addressAutocomplete = new AddressAutocomplete(formId, searchUrl, respondUrl, watchedFieldIds);
 
