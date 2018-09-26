@@ -12,16 +12,6 @@ AddressAutocomplete.prototype = {
     timeoutId: null,
 
     /**
-     * @property suggestionObject
-     */
-    suggestionObject: {},
-
-    /**
-     * @property addressObject
-     */
-    addressObject: {},
-
-    /**
      *
      * @param {string} formId
      * @param {string} searchUrl
@@ -36,6 +26,8 @@ AddressAutocomplete.prototype = {
         this.respondUrl         = respondUrl;
         this.addressFieldNames  = watchedFieldIds;
         this.addressFields      = this.getSearchFields();
+        this.addressSuggestions = new AutocompleteAddressSuggestions({});
+        this.addressData        = new AutocompleteAddressData({});
 
         this.loadPrefilledValues();
         this.listenFields();
@@ -43,7 +35,7 @@ AddressAutocomplete.prototype = {
 
     /**
      *
-     * @returns {object}
+     * @returns {Object}
      */
     getSearchFields: function () {
         var $fields = {};
@@ -76,7 +68,7 @@ AddressAutocomplete.prototype = {
             var fieldItem = self.addressFields[key];
 
             if (fieldItem.field.value && fieldItem.field.value.length) {
-                self.addressObject[fieldItem.name] = fieldItem.field.value;
+                self.addressData.setValue(fieldItem.name, fieldItem.field.value);
             }
         }
     },
@@ -97,7 +89,7 @@ AddressAutocomplete.prototype = {
             fieldItem.field
                 .observe('autocomplete:datalist-select', function (event) {
                     var $currentField = event.target,
-                        datalistSelect = new DatalistSelect($currentField, self.form, self.addressFields, self.suggestionObject);
+                        datalistSelect = new DatalistSelect($currentField, self.form, self.addressFields, self.addressSuggestions.getAddressSuggestions());
 
                     datalistSelect.updateFields();
                 });
@@ -109,9 +101,9 @@ AddressAutocomplete.prototype = {
 
                     self.triggerDataListChangeEvent(event);
 
-                    self.addressObject[item.name] = event.target.value;
+                    self.addressData.setValue(item.name, event.target.value);
 
-console.log('Current value: ', event.target.value, 'addressObject: ', self.addressObject);
+console.log('Current value: ', event.target.value, 'self.addressData: ', self.addressData);
 
                     self.triggerDelayedCallback(function () {
                         self.searchAction($field);
@@ -176,11 +168,10 @@ console.log('Current value: ', event.target.value, 'addressObject: ', self.addre
         var self          = this,
             searchRequest = new SearchRequest(this.searchUrl);
 
-        searchRequest.doSearchRequest(this.addressObject, function (json) {
+        searchRequest.doSearchRequest(this.addressData.getData, function (json) {
             var renderer = new DataListRenderer($field);
             renderer.render(json, self.addressFieldNames, ', ');
-
-            self.suggestionObject = json;
+            self.addressSuggestions.setAddressSuggestions(json);
         });
     },
 
@@ -192,11 +183,11 @@ console.log('Current value: ', event.target.value, 'addressObject: ', self.addre
     selectAction: function () {
         var selectRequest = new SelectRequest(this.respondUrl);
 
-        if (!this.addressObject.uuid) {
+        if (!this.addressData.getAddressData().uuid) {
             throw 'Missing required field <uuid>';
         }
 
-        selectRequest.doSelectRequest(this.addressObject, function (json) {
+        selectRequest.doSelectRequest(this.addressData.getAddressData(), function (json) {
 console.log(json);
         });
     }
