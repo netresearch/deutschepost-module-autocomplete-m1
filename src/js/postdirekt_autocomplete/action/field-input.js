@@ -31,7 +31,5 @@ FieldInput.prototype = {
             item = this.allFields[fieldId];
 
         this.addressData.setDataValue(item.name, item.field.value);
-        // this.searchRequest.selectAction(this.addressData.getData(), '');
-
     }
 };

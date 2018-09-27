@@ -8,52 +8,58 @@ var DataListRenderer = Class.create();
  * @type {{}}
  */
 DataListRenderer.prototype = {
-    field: null,
-    currentDataList: null,
 
     /**
+     *
+     * @param {Array} fieldNames
+     * @param {Array} suggestions
+     * @param {String} divider
+     *
      * @constructor
      */
-    initialize: function(field) {
-        this.field           = field;
-        this.currentDataList = $('datalist-' + this.field.id);
+    initialize: function(fieldNames, suggestions, divider) {
+        this.suggestions = suggestions;
+        this.fieldNames = fieldNames;
+        this.divider = divider;
+        this.field = false;
     },
 
     /**
      * Renders the datalist.
      *
-     * @param {Array} suggestions
-     * @param {Array} fieldNames
-     * @param {String} divider
+     * @param {HTMLElement} $currentField
+     *
      */
-    render: function (suggestions, fieldNames, divider) {
-        this.suggestions = suggestions;
+    render: function ($currentField) {
+        this.field = $currentField;
+        var $currentDataList = $('datalist-' + this.field.id);
 
-        if (this.currentDataList) {
-            this.currentDataList.remove();
+        if ($currentDataList) {
+            $currentDataList.remove();
         }
 
         var $dataList = new Element('datalist', {
             'id': 'datalist-' + this.field.id
         });
 
-        for (var i = 0; i < this.suggestions.length; ++i) {
+        for (var i = 0; i < this.suggestions.data.length; ++i) {
+
             var $dataListOption  = new Element('option', {
-                    'id': this.suggestions[i].uuid
+                    'id': this.suggestions.data[i].uuid
                 }),
                 addressData = '',
                 initLoop = false;
 
             // Combine all address items to suggestion string, divided by divider
-            for (var fieldName in fieldNames) {
-                if (this.suggestions[i][fieldName]) {
+            for (var fieldName in this.fieldNames) {
+                if (this.suggestions.data[i][fieldName]) {
                     // Add divider in front of all items but first
                     if (!initLoop) {
                         initLoop = true;
                     } else {
-                        addressData += divider;
+                        addressData += this.divider;
                     }
-                    addressData += this.suggestions[i][fieldName];
+                    addressData += this.suggestions.data[i][fieldName];
                 }
             }
 

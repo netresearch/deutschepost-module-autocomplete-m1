@@ -10,6 +10,7 @@ var AddressAutocomplete = Class.create();
 AddressAutocomplete.prototype = {
     typingDelay: 100,
     timeoutId: null,
+    addressItemDivider: ', ',
 
     /**
      *
@@ -21,40 +22,44 @@ AddressAutocomplete.prototype = {
      * @constructor
      */
     initialize: function (formId, searchUrl, respondUrl, watchedFieldIds) {
-        this.form               = $(formId);
-        this.addressFieldNames  = watchedFieldIds;
-        this.searchUrl          = searchUrl;
-        this.respondUrl         = respondUrl;
-        this.addressFields      = this.getSearchFields();
-        this.searchRequest      = new SearchRequest(this.searchUrl);
-        this.addressSuggestions = new AutocompleteAddressSuggestions({});
-        this.addressData        = new AutocompleteAddressData({});
-        this.fieldInputAction   = new FieldInput(this.addressFields, this.addressData, this.searchRequest);
+        this.form                   = $(formId);
+        this.searchUrl              = searchUrl;
+        this.respondUrl             = respondUrl;
+        this.addressFieldNames      = watchedFieldIds;
+        this.addressFields          = this.getAutocompleteFields();
+        this.searchRequest          = new SearchRequest(this.searchUrl);
+        this.selectRequest          = new SelectRequest(this.respondUrl);
+        this.addressSuggestions     = new AutocompleteAddressSuggestions({});
+        this.addressData            = new AutocompleteAddressData({});
+        this.fieldInputAction       = new FieldInput(this.addressFields, this.addressData, this.searchRequest);
+        this.datalistRenderer       = new DataListRenderer(this.addressFieldNames, this.addressSuggestions, this.addressItemDivider);
+        this.datalistSelectAction   = new DatalistSelect(this.form, this.addressFields, this.addressSuggestions);
 
         this.loadPrefilledValues();
         this.listenFields();
     },
 
     /**
+     * Gets all form fields with name and field element
      *
      * @returns {Object}
      */
-    getSearchFields: function () {
-        var $fields = {};
+    getAutocompleteFields: function () {
+        var fields = {};
 
         for (var key in this.addressFieldNames) {
             var item   = this.addressFieldNames[key];
             var $field = this.form.select('#' + item)[0];
 
             if ($field) {
-                $fields[$field.id] = {
+                fields[$field.id] = {
                     name: key,
                     field: $field
                 };
             }
         }
 
-        return $fields;
+        return fields;
     },
 
     /**
@@ -66,7 +71,6 @@ AddressAutocomplete.prototype = {
         var self = this;
 
         for (var key in self.addressFields) {
-
             var fieldItem = self.addressFields[key];
 
             if (fieldItem.field.value && fieldItem.field.value.length) {
@@ -76,7 +80,7 @@ AddressAutocomplete.prototype = {
     },
 
     /**
-     * Adds listener to selected fields
+     * Adds listener to observed address fields
      *
      * @returns void
      */
@@ -86,29 +90,25 @@ AddressAutocomplete.prototype = {
         for (var key in self.addressFields) {
             var fieldItem = self.addressFields[key];
 
+            // Set field name as data attribute
             fieldItem.field.setAttribute('data-address-item', key);
-
+            // Watch input value changes
             fieldItem.field
-                .observe('autocomplete:datalist-select', function (event) {
-                    var $currentField = event.target,
-                        datalistSelect = new DatalistSelect($currentField, self.form, self.addressFields, self.addressSuggestions.getAddressSuggestions());
-
-                    datalistSelect.updateFields();
-                });
-
-            fieldItem.field
-                .observe('input', function () {
-                    var $currentField = this;
-
-                    self.triggerDataListChangeEvent($currentField);
-                    self.fieldInputAction.doInputAction($currentField);
-
-console.log('Current value: ', event.target.value, 'addressObject: ', self.addressData);
-
+                .observe('input', function (e) {
+                    // Update address object
+                    self.fieldInputAction.doInputAction(e.target);
+                    // Run address search with timeout
                     self.triggerDelayedCallback(function () {
-                        self.searchAction($currentField);
+                        self.searchAction(e.target);
                     });
-
+                    // Run actions after datalist changes
+                    self.triggerDataListChangeEvent(e.target);
+                });
+            // Watch suggestion selection
+            fieldItem.field
+                .observe('autocomplete:datalist-select', function (e) {
+                    // Update all observed fields after item was selected in datalist
+                    self.datalistSelectAction.updateFields(e.target);
                 });
         }
     },
@@ -166,11 +166,9 @@ console.log('Current value: ', event.target.value, 'addressObject: ', self.addre
      */
     searchAction: function ($field) {
         var self = this;
-
         this.searchRequest.doSearchRequest(this.addressData.getData(), function (json) {
-            var renderer = new DataListRenderer($field);
-            renderer.render(json, self.addressFieldNames, ', ');
             self.addressSuggestions.setAddressSuggestions(json);
+            this.datalistRenderer.render($field);
         });
     },
 
@@ -180,13 +178,11 @@ console.log('Current value: ', event.target.value, 'addressObject: ', self.addre
      * @return {Object} Select results
      */
     selectAction: function () {
-        var selectRequest = new SelectRequest(this.respondUrl);
-
-        if (!this.addressData.getAddressData().uuid) {
+        if (!this.addressData.getData().uuid) {
             throw 'Missing required field <uuid>';
         }
 
-        selectRequest.doSelectRequest(this.addressData.getAddressData(), function (json) {
+        this.selectRequest.doSelectRequest(this.addressData.getData(), function (json) {
 console.log(json);
         });
     }

@@ -12,47 +12,51 @@ DatalistSelect.prototype = {
     /**
      * Initialize.
      *
-     * @param {HTMLElement} $currentField
      * @param {HTMLElement} $currentForm
      * @param {Object} observedFields
      * @param {Object} suggestionModel
      *
      * @constructor
      */
-    initialize: function($currentField, $currentForm, observedFields, suggestionModel) {
-        this.field = $currentField;
-        this.value = $currentField.value;
+    initialize: function($currentForm, observedFields, suggestionModel) {
         this.form = $currentForm;
         this.fields = observedFields;
-        this.suggestions = suggestionModel;
-        this.option = this.field.next('datalist').down("[value='" + this.value + "']");
+        this.suggestionModel = suggestionModel;
         this.currentSuggestionObject = false;
-
-        var optionId = this.option.identify();
-
-        if (optionId) {
-            this.currentSuggestionObject = this.suggestions.filter(function (item) {
-                return item.uuid === optionId;
-            });
-        }
     },
 
     /**
      * Updates all observed fields.
      *
+     * @param {HTMLElement} $currentField
+     *
      */
-    updateFields: function () {
+    updateFields: function ($currentField) {
+        var fieldValue = $currentField.value,
+            suggestions = this.suggestionModel.getAddressSuggestions(),
+            option = $currentField.next('datalist').down("[value='" + fieldValue + "']"),
+            optionId = option.identify();
 
-        // Fill all fields with response values
-        for (var field in this.fields) {
+        this.currentSuggestionObject = false;
 
-            // Get data selector with address item
-            var selector         = '[data-address-item="' + field + '"]',
-                addressFieldById = this.form.select(selector),
-                item             = this.fields[field].name;
+        if (optionId) {
+            this.currentSuggestionObject = suggestions.filter(function (item) {
+                return item.uuid === optionId;
+            });
+        }
 
-            if (addressFieldById && this.currentSuggestionObject[0][item]) {
-                addressFieldById[0].value = this.currentSuggestionObject[0][item];
+        if(this.currentSuggestionObject) {
+            // Fill all fields with response values
+            for (var field in this.fields) {
+
+                // Get data selector with address item
+                var selector         = '[data-address-item="' + field + '"]',
+                    addressFieldById = this.form.select(selector),
+                    item             = this.fields[field].name;
+
+                if (addressFieldById && this.currentSuggestionObject[0][item]) {
+                    addressFieldById[0].value = this.currentSuggestionObject[0][item];
+                }
             }
         }
     }
