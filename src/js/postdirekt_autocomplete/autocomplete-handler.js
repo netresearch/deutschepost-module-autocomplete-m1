@@ -8,9 +8,13 @@ var AddressAutocomplete = Class.create();
  * @type {{}}
  */
 AddressAutocomplete.prototype = {
+<<<<<<< HEAD
     /**
      * @property {int} typingDelay
      */
+=======
+
+>>>>>>> PDAC-28: add support datalist check, update list renderer
     typingDelay: 300,
 
     /**
@@ -85,8 +89,14 @@ AddressAutocomplete.prototype = {
         this.addressData            = new AutocompleteAddressData({});
         this.fieldInputAction       = new FieldInput(this.addressFields, this.addressData);
         this.datalistRenderer       = new DataListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
+<<<<<<< HEAD
         this.datalistSelectAction   = new DatalistSelect(this.addressFields, this.addressSuggestions);
         this.countrySelect          = new CountrySelect(form);
+=======
+        this.datalistSelectAction   = new DatalistSelect(this.form, this.addressFields, this.addressSuggestions);
+        this.datalistAble           = this.datalistSuppport();
+        this.listRenderer           = new ListRenderer(this.addressFieldNames, this.addressSuggestions, this.addressItemDivider);
+>>>>>>> PDAC-28: add support datalist check, update list renderer
 
         this.loadPrefilledValues();
         this.listenFields();
@@ -126,6 +136,7 @@ AddressAutocomplete.prototype = {
                     // Update address object
                     self.fieldInputAction.doInputAction(e.target);
                     // Run address search with timeout
+
                     self.triggerDelayedCallback(function () {
                         self.searchAction(e.target);
                     });
@@ -160,6 +171,18 @@ AddressAutocomplete.prototype = {
                     self.datalistSelectAction.updateFields(e.target);
                     self.selectAction();
                 });
+            if (!this.datalistAble) {
+                fieldItem.field
+                    .observe('keydown', function (e) {
+                        var isUp = e.keyCode === 38,
+                            isDown = e.keyCode === 40,
+                            isEnter = e.keyCode === 13;
+
+                        if (isUp || isDown || isEnter) {
+                            self.triggerKeydown(e.target, isDown, isUp, isEnter);
+                        }
+                    });
+            }
         });
     },
 
@@ -195,6 +218,7 @@ AddressAutocomplete.prototype = {
             return;
         }
 
+<<<<<<< HEAD
         if (this.countrySelect.isGermany) {
             this.searchRequest.doSearchRequest(this.addressData.getData(), function (json) {
                 this.addressSuggestions.setAddressSuggestions(json);
@@ -202,6 +226,18 @@ AddressAutocomplete.prototype = {
             }.bind(this));
         }
 
+=======
+        var self = this;
+        this.searchRequest.doSearchRequest(this.addressData.getData(), function (json) {
+
+            self.addressSuggestions.setAddressSuggestions(json);
+            if(self.datalistAble){
+                self.datalistRenderer.render($field);
+            } else {
+                self.listRenderer.render($field);
+            }
+        });
+>>>>>>> PDAC-28: add support datalist check, update list renderer
     },
 
     /**
@@ -218,6 +254,7 @@ AddressAutocomplete.prototype = {
 
         this.selectRequest.doSelectRequest(selectedSuggestion);
     },
+<<<<<<< HEAD
 
     /**
      * Remove all datalists when country is not Germany.
@@ -232,5 +269,90 @@ AddressAutocomplete.prototype = {
                 }.bind(this));
             }
         }.bind(this));
+=======
+    /**
+     * Check support for datalist html element
+     * s
+     * @returns {boolean}
+     */
+    datalistSuppport: function () {
+        var datalistSupported = !!(document.createElement('datalist') && window.HTMLDataListElement);
+        var ua = navigator.userAgent;
+
+        // Android does not have actual support
+        var isAndroidBrowser = ua.match(/Android/) && !ua.match(/(Firefox|Chrome|Opera|OPR)/);
+        if( datalistSupported && !isAndroidBrowser ) {
+            return true;
+        }
+        return false;
+    },
+
+    /**
+     * Keynavigation for polyfill ul
+     *
+     * @param {HTMLElement} $field
+     * @param {boolean} isDown
+     * @param {boolean} isUp
+     * @param {boolean} isEnter
+     */
+    triggerKeydown: function ($field, isDown, isUp, isEnter) {
+
+        var dataList    = $field.datalist,
+            dataOptions = null;
+
+        if(!dataList) {
+            return;
+        }
+        dataOptions = dataList.childElements();
+        var activeItem = dataList.down('[data-active]');
+        var firstItem = dataOptions[0];
+
+        if (!activeItem && isEnter) {
+            return;
+        }
+
+        if (isDown && !activeItem) {
+            firstItem.setAttribute('data-active', 'true');
+            firstItem.className = 'active';
+        } else if(activeItem) {
+            var prevVisible = null;
+            var nextVisible = null;
+
+            for( var i = 0; i < dataOptions.length; i++ ) {
+                var visItem = dataOptions[i];
+                if( visItem === activeItem ) {
+                    prevVisible = dataOptions[i-1];
+                    nextVisible = dataOptions[i+1];
+                    break;
+                }
+            }
+            activeItem.removeAttribute('data-active');
+
+            if ( isUp ) {
+                if( prevVisible ) {
+                    prevVisible.setAttribute('data-active', 'true');
+                    if ( prevVisible.offsetTop < dataList.scrollTop ) {
+                        dataList.scrollTop -= prevVisible.offsetHeight;
+                    }
+                } else {
+                    dataOptions[dataOptions.length - 1].setAttribute('data-active', 'true');
+                }
+            }
+            if ( isDown ) {
+                if( nextVisible ) {
+                    nextVisible.setAttribute('data-active', 'true');
+                } else {
+                    dataOptions[0].setAttribute('data-active', 'true');
+                }
+            }
+
+            if (isEnter) {
+                $field.value = activeItem.dataset.value;
+                Event.fire($($field), 'autocomplete:datalist-select');
+                dataList.hide();
+                $field.blur();
+            }
+        }
+>>>>>>> PDAC-28: add support datalist check, update list renderer
     }
 };

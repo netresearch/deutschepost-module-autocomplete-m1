@@ -26,12 +26,13 @@ DatalistSelect.prototype = {
      *
      * @param {AutocompleteFields} observedFields
      * @param {AutocompleteAddressSuggestions} suggestionModel
-     *
+     * @param {boolean}     datalistSupport
      * @constructor
      */
-    initialize: function(observedFields, suggestionModel) {
+    initialize: function(observedFields, suggestionModel, datalistSupport) {
         this.fields          = observedFields;
         this.suggestionModel = suggestionModel;
+        this.datalistSuppport = datalistSupport;
     },
 
     /**
@@ -56,8 +57,14 @@ DatalistSelect.prototype = {
         var self        = this,
             fieldValue  = $currentField.value,
             suggestions = this.suggestionModel,
-            option      = $currentField.next('datalist').down("[value='" + fieldValue + "']"),
-            optionId    = option.identify();
+            option = null;
+
+        if (this.datalistSuppport) {
+            option = $currentField.next('datalist').down("[value='" + fieldValue + "']");
+        } else {
+            option = $currentField.next('ul.datalist').down("[data-value='" + fieldValue + "']");
+        }
+        var optionId = option.identify();
 
         if (optionId) {
             self.currentSuggestionObject = suggestions.getByUuid(optionId);
