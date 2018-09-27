@@ -201,6 +201,7 @@ AddressAutocomplete.prototype = {
                 this.datalistRenderer.render($currentField);
             }.bind(this));
         }
+
     },
 
     /**

@@ -1,0 +1,33 @@
+.datalist {
+    position: relative;
+    z-index: 100;
+    list-style: none;
+    background: white;
+    border-right:1px solid silver;
+    border-bottom: 1px solid silver;
+    border-left: 1px solid silver;
+    margin: 0;
+    padding: 0;
+    height: auto;
+    overflow-y: scroll;
+}
+
+.datalist:empty {
+    display: none !important;
+}
+
+.datalist > li {
+    padding: 3px;
+    font: 15px "Helvetica Neue", Verdana, Arial, sans-serif;
+    line-height: 1.5;
+}
+
+.datalist > li:hover, .datalist > li.active {
+    background: #3875d7;
+    color: white;
+}
+
+.datalist.active {
+
+}
+

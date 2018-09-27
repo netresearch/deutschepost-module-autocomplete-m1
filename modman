@@ -3,3 +3,4 @@ src/app/etc/modules/Postdirekt_Autocomplete.xml app/etc/modules/Postdirekt_Autoc
 src/app/design/frontend/base/default/layout/postdirekt_autocomplete.xml app/design/frontend/base/default/layout/postdirekt_autocomplete.xml
 src/app/design/frontend/base/default/template/postdirekt_autocomplete/ app/design/frontend/base/default/template/postdirekt_autocomplete/
 src/js/postdirekt_autocomplete/ js/postdirekt_autocomplete/
+src/skin/frontend/base/default/css/postdirekt_autocomplete/ skin/frontend/base/default/css/postdirekt_autocomplete/
