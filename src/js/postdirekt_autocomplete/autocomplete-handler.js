@@ -8,13 +8,9 @@ var AddressAutocomplete = Class.create();
  * @type {{}}
  */
 AddressAutocomplete.prototype = {
-<<<<<<< HEAD
     /**
      * @property {int} typingDelay
      */
-=======
-
->>>>>>> PDAC-28: add support datalist check, update list renderer
     typingDelay: 300,
 
     /**
@@ -88,15 +84,11 @@ AddressAutocomplete.prototype = {
         this.addressSuggestions     = new AutocompleteAddressSuggestions({});
         this.addressData            = new AutocompleteAddressData({});
         this.fieldInputAction       = new FieldInput(this.addressFields, this.addressData);
-        this.datalistRenderer       = new DataListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
-<<<<<<< HEAD
         this.datalistSelectAction   = new DatalistSelect(this.addressFields, this.addressSuggestions);
         this.countrySelect          = new CountrySelect(form);
-=======
-        this.datalistSelectAction   = new DatalistSelect(this.form, this.addressFields, this.addressSuggestions);
-        this.datalistAble           = this.datalistSuppport();
-        this.listRenderer           = new ListRenderer(this.addressFieldNames, this.addressSuggestions, this.addressItemDivider);
->>>>>>> PDAC-28: add support datalist check, update list renderer
+        this.datalistRenderer       = new DataListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
+        this.listRenderer           = new ListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
+        this.datalistAble       = this.datalistSuppport();
 
         this.loadPrefilledValues();
         this.listenFields();
@@ -214,30 +206,20 @@ AddressAutocomplete.prototype = {
      * @param {HTMLElement} $currentField
      */
     searchAction: function ($currentField) {
+        var self = this;
         if (this.addressData.isEmpty()) {
             return;
         }
-
-<<<<<<< HEAD
         if (this.countrySelect.isGermany) {
             this.searchRequest.doSearchRequest(this.addressData.getData(), function (json) {
                 this.addressSuggestions.setAddressSuggestions(json);
-                this.datalistRenderer.render($currentField);
+                if(self.datalistAble){
+                    self.datalistRenderer.render($currentField);
+                } else {
+                    self.listRenderer.render($currentField);
+                }
             }.bind(this));
         }
-
-=======
-        var self = this;
-        this.searchRequest.doSearchRequest(this.addressData.getData(), function (json) {
-
-            self.addressSuggestions.setAddressSuggestions(json);
-            if(self.datalistAble){
-                self.datalistRenderer.render($field);
-            } else {
-                self.listRenderer.render($field);
-            }
-        });
->>>>>>> PDAC-28: add support datalist check, update list renderer
     },
 
     /**
@@ -254,7 +236,6 @@ AddressAutocomplete.prototype = {
 
         this.selectRequest.doSelectRequest(selectedSuggestion);
     },
-<<<<<<< HEAD
 
     /**
      * Remove all datalists when country is not Germany.
@@ -269,7 +250,8 @@ AddressAutocomplete.prototype = {
                 }.bind(this));
             }
         }.bind(this));
-=======
+    },
+
     /**
      * Check support for datalist html element
      * s
@@ -353,6 +335,5 @@ AddressAutocomplete.prototype = {
                 $field.blur();
             }
         }
->>>>>>> PDAC-28: add support datalist check, update list renderer
     }
 };
