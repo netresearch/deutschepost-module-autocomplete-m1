@@ -11,15 +11,16 @@ DataListRenderer.prototype = {
 
     /**
      *
-     * @param {Object} fieldNames
+     * @param {Object} fields
      * @param {Object} suggestions
      * @param {String} divider
      *
      * @constructor
      */
-    initialize: function(fieldNames, suggestions, divider) {
+    initialize: function(fields, suggestions, divider) {
         this.suggestionModel = suggestions;
-        this.fieldNames      = fieldNames;
+        this.fields          = fields;
+        this.fieldNames      = fields.getNames();
         this.divider         = divider;
     },
 
@@ -30,7 +31,8 @@ DataListRenderer.prototype = {
      *
      */
     render: function ($currentField) {
-        var fieldId = $currentField.id,
+        var self = this,
+            fieldId = $currentField.id,
             $currentDataList = $('datalist-' + fieldId),
             suggestions = this.suggestionModel.getAddressSuggestions();
 
@@ -42,31 +44,25 @@ DataListRenderer.prototype = {
             'id': 'datalist-' + fieldId
         });
 
-        for (var i = 0; i < suggestions.length; ++i) {
+        suggestions.each(function(suggestionItem) {
             var $dataListOption  = new Element('option', {
-                    'id': suggestions[i].uuid
+                    'id': suggestionItem.uuid
                 }),
-                addressData = '',
-                initLoop = false;
+                addressDataArray = [];
 
             // Combine all address items to suggestion string, divided by divider
-            for (var fieldName in this.fieldNames) {
-                if (suggestions[i][fieldName]) {
-                    // Add divider in front of all items but first
-                    if (!initLoop) {
-                        initLoop = true;
-                    } else {
-                        addressData += this.divider;
-                    }
-                    addressData += suggestions[i][fieldName];
+            self.fieldNames.each(function(fieldName) {
+                if (suggestionItem[fieldName] && suggestionItem[fieldName].length) {
+                    addressDataArray.push(suggestionItem[fieldName]);
                 }
-            }
+            });
 
-            $dataListOption.value = addressData;
+            // Print suggestions's items to datalist option, separated by divider
+            $dataListOption.value = addressDataArray.join(self.divider);
             $dataList.insert({
                 bottom: $dataListOption
             });
-        }
+        });
 
         $currentField.setAttribute('list', 'datalist-' + fieldId);
         $currentField.insert({

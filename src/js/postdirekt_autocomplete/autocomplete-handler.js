@@ -26,40 +26,17 @@ AddressAutocomplete.prototype = {
         this.searchUrl              = searchUrl;
         this.respondUrl             = respondUrl;
         this.addressFieldNames      = watchedFieldIds;
-        this.addressFields          = this.getAutocompleteFields();
+        this.addressFields          = new AutocompleteFields(this.form, this.addressFieldNames);
         this.searchRequest          = new SearchRequest(this.searchUrl);
         this.selectRequest          = new SelectRequest(this.respondUrl);
         this.addressSuggestions     = new AutocompleteAddressSuggestions({});
         this.addressData            = new AutocompleteAddressData({});
         this.fieldInputAction       = new FieldInput(this.addressFields, this.addressData, this.searchRequest);
-        this.datalistRenderer       = new DataListRenderer(this.addressFieldNames, this.addressSuggestions, this.addressItemDivider);
+        this.datalistRenderer       = new DataListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
         this.datalistSelectAction   = new DatalistSelect(this.form, this.addressFields, this.addressSuggestions);
 
         this.loadPrefilledValues();
         this.listenFields();
-    },
-
-    /**
-     * Gets all form fields with name and field element
-     *
-     * @returns {Object}
-     */
-    getAutocompleteFields: function () {
-        var fields = {};
-
-        for (var key in this.addressFieldNames) {
-            var item   = this.addressFieldNames[key];
-            var $field = this.form.select('#' + item)[0];
-
-            if ($field) {
-                fields[$field.id] = {
-                    name: key,
-                    field: $field
-                };
-            }
-        }
-
-        return fields;
     },
 
     /**
@@ -68,13 +45,11 @@ AddressAutocomplete.prototype = {
      * @returns void
      */
     loadPrefilledValues: function () {
-        for (var key in this.addressFields) {
-            var fieldItem = this.addressFields[key];
-
-            if (fieldItem.field.value && fieldItem.field.value.length) {
-                this.addressData.setDataValue(fieldItem.name, fieldItem.field.value);
+        this.addressFields.getFields().each(function(field) {
+            if (field.value && field.length) {
+                this.addressData.setDataValue(field.name, field.value);
             }
-        }
+        });
     },
 
     /**
@@ -85,14 +60,14 @@ AddressAutocomplete.prototype = {
     listenFields: function () {
         var self = this;
 
-        for (var key in self.addressFields) {
-            var fieldItem = self.addressFields[key];
+        this.addressFields.getIds().each(function(fieldId) {
+            var fieldItem = self.addressFields.getFieldById(fieldId);
 
-            // Set field name as data attribute
-            fieldItem.field.setAttribute('data-address-item', key);
+            // Set field name as data attribute to prevent problems with colon selectors
+            fieldItem.setAttribute('data-address-item', fieldId);
 
             // Watch input value changes
-            fieldItem.field
+            fieldItem
                 .observe('input', function (e) {
                     // Update address object
                     self.fieldInputAction.doInputAction(e.target);
@@ -105,12 +80,12 @@ AddressAutocomplete.prototype = {
                 });
 
             // Watch suggestion selection
-            fieldItem.field
+            fieldItem
                 .observe('autocomplete:datalist-select', function (e) {
                     // Update all observed fields after item was selected in datalist
                     self.datalistSelectAction.updateFields(e.target);
                 });
-        }
+        });
     },
 
     /**

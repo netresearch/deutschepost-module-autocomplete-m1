@@ -30,9 +30,8 @@ FieldInput.prototype = {
      * @param {HTMLElement}   $currentField
      */
     doInputAction: function($currentField) {
-        var fieldId = $currentField.identify(),
-            item    = this.allFields[fieldId];
-
-        this.addressData.setDataValue(item.name, item.field.value);
+        var fieldId = $currentField.getAttribute('data-address-item'),
+            item    = this.allFields.getFieldById(fieldId);
+        this.addressData.setDataValue(item.name, item.value);
     }
 };

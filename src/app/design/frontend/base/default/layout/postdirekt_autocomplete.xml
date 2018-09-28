@@ -8,6 +8,7 @@
     <postdirekt_autocomplete_handle>
         <reference name="head">
             <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/autocomplete-handler.js</script></action>
+            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/model/autocomplete-fields.js</script></action>
             <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/model/request-adapter.js</script></action>
             <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/view/datalist-renderer.js</script></action>
             <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/model/autocomplete-address-suggestions.js</script></action>

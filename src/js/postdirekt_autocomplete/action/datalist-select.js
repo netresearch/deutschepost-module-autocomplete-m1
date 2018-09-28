@@ -21,6 +21,7 @@ DatalistSelect.prototype = {
     initialize: function($currentForm, observedFields, suggestionModel) {
         this.form = $currentForm;
         this.fields = observedFields;
+        this.fieldNames = observedFields.getNames();
         this.suggestionModel = suggestionModel;
     },
 
@@ -31,7 +32,8 @@ DatalistSelect.prototype = {
      *
      */
     updateFields: function ($currentField) {
-        var fieldValue = $currentField.value,
+        var self = this,
+            fieldValue = $currentField.value,
             suggestions = this.suggestionModel,
             option = $currentField.next('datalist').down("[value='" + fieldValue + "']"),
             optionId = option.identify(),
@@ -43,16 +45,15 @@ DatalistSelect.prototype = {
 
         if (currentSuggestionObject && currentSuggestionObject.length) {
             // Fill all fields with response values
-            for (var field in this.fields) {
-                // Get data selector with address item
-                var selector         = '[data-address-item="' + field + '"]',
-                    addressFieldById = this.form.select(selector),
-                    item             = this.fields[field].name;
+            this.fieldNames.each(function(fieldName) {
 
-                if (addressFieldById && currentSuggestionObject[0][item]) {
-                    addressFieldById[0].value = currentSuggestionObject[0][item];
+                // Get data selector with address item
+                var field = self.fields.getFieldByName(fieldName);
+
+                if (field && currentSuggestionObject[0][fieldName]) {
+                    field.value = currentSuggestionObject[0][fieldName];
                 }
-            }
+            });
         }
     }
 };
