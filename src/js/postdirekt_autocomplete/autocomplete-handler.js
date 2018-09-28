@@ -8,7 +8,7 @@ var AddressAutocomplete = Class.create();
  * @type {{}}
  */
 AddressAutocomplete.prototype = {
-    typingDelay: 200,
+    typingDelay: 300,
     timeoutId: null,
     addressItemDivider: ', ',
 
@@ -66,16 +66,21 @@ AddressAutocomplete.prototype = {
             // Set field name as data attribute to prevent problems with colon selectors
             fieldItem.setAttribute('data-address-item', fieldId);
 
-            // Watch input value changes
+            // Watch key strokes
             fieldItem
-                .observe('input', function (e) {
+                .observe('keyup', function (e) {
                     // Update address object
                     self.fieldInputAction.doInputAction(e.target);
                     // Run address search with timeout
                     self.triggerDelayedCallback(function () {
                         self.searchAction(e.target);
                     });
-                    // Run actions after datalist changes
+                });
+
+            // Watch input value changes
+            fieldItem
+                .observe('input', function (e) {
+                     // Run actions after datalist changes
                     self.datalistSelectAction.receiveSelectEvent(e.target);
                 });
 
