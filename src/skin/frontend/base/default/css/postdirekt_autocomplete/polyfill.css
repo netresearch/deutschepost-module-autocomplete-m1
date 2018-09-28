@@ -22,7 +22,7 @@
     line-height: 1.5;
 }
 
-.datalist > li:hover, .datalist > li.active {
+.datalist > li:hover, .datalist > li[data-active]{
     background: #3875d7;
     color: white;
 }

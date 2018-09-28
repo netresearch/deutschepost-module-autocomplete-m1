@@ -62,7 +62,8 @@ DatalistSelect.prototype = {
         if (this.datalistSuppport) {
             option = $currentField.next('datalist').down("[value='" + fieldValue + "']");
         } else {
-            option = $currentField.next('ul.datalist').down("[data-value='" + fieldValue + "']");
+            console.log($currentField);
+            option = $currentField.datalist.down("[data-value='" + fieldValue + "']");
         }
         var optionId = option.identify();
 
