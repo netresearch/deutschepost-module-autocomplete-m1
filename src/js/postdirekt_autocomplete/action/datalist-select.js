@@ -76,7 +76,7 @@ DatalistSelect.prototype = {
      *
      * @return {boolean}
      */
-    datalistSelected: function ($currentField) {
+    detectSelectEvent: function ($currentField) {
         var fieldValue  = $currentField.value,
             listId      = $currentField.getAttribute('list'),
             $dataList   = $(listId);
