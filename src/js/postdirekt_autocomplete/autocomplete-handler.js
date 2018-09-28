@@ -81,7 +81,9 @@ AddressAutocomplete.prototype = {
             fieldItem
                 .observe('input', function (e) {
                      // Run actions after datalist changes
-                    self.datalistSelectAction.receiveSelectEvent(e.target);
+                    if (self.datalistSelectAction.datalistSelected(e.target)) {
+                        e.target.fire('autocomplete:datalist-select');
+                    }
                 });
 
             // Watch suggestion selection

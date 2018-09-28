@@ -70,21 +70,22 @@ DatalistSelect.prototype = {
     },
 
     /**
-     * Triggers the custom event "autocomplete:datalist-select" on selection of an element from the datalist.
+     * Returns TRUE whether an datalist element has been selected or not.
      *
      * @param {HTMLElement} $currentField
+     *
+     * @return {boolean}
      */
-    receiveSelectEvent: function ($currentField) {
+    datalistSelected: function ($currentField) {
         var fieldValue  = $currentField.value,
             listId      = $currentField.getAttribute('list'),
             $dataList   = $(listId);
 
-        if ($dataList) {
-            var option = $dataList.down("[value='" + fieldValue + "']");
-
-            if (option && (option.value === fieldValue)) {
-                $currentField.fire('autocomplete:datalist-select');
-            }
+        if (!$dataList) {
+            return false;
         }
+
+        var option = $dataList.down("[value='" + fieldValue + "']");
+        return option && (option.value === fieldValue);
     }
 };
