@@ -130,9 +130,8 @@ AddressAutocomplete.prototype = {
                     // Run address search with timeout
 
                     self.triggerDelayedCallback(function () {
-                        self.searchReady = false;
                         self.searchAction(e.target);
-                        self.searchReady = true;
+
                     });
                 });
 
