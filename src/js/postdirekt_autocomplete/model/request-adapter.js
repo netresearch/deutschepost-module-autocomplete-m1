@@ -53,10 +53,9 @@ RequestAdapter.prototype = {
     /**
      * Triggers the AJAX select request.
      *
-     * @param {Object}   selectFields
-     * @param {Function} callback
+     * @param {Object} selectFields
      */
-    selectAction: function(selectFields, callback) {
-        this.ajax(selectFields, callback);
+    selectAction: function(selectFields) {
+        this.ajax(selectFields);
     }
 };

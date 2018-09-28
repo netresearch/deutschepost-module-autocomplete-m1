@@ -24,10 +24,9 @@ SelectRequest.prototype = {
     /**
      * Triggers the AJAX select request.
      *
-     * @param {Object}   selectFields
-     * @param {Function} callback
+     * @param {Object} selectFields
      */
-    doSelectRequest: function(selectFields, callback) {
-        this.requestAdapter.selectAction(selectFields, callback);
+    doSelectRequest: function(selectFields) {
+        this.requestAdapter.selectAction(selectFields);
     }
 };
