@@ -72,7 +72,7 @@ AddressAutocomplete.prototype = {
             var fieldItem = this.addressFields[key];
 
             if (fieldItem.field.value && fieldItem.field.value.length) {
-                this.addressData.setValue(fieldItem.name, fieldItem.field.value);
+                this.addressData.setDataValue(fieldItem.name, fieldItem.field.value);
             }
         }
     },
