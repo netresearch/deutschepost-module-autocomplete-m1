@@ -87,6 +87,9 @@ AddressAutocomplete.prototype = {
             // Watch suggestion selection
             fieldItem
                 .observe('autocomplete:datalist-select', function (e) {
+                    // Remove focus after selection, preventing chrome from re-showing the datalist again
+                    e.target.blur();
+
                     // Update all observed fields after item was selected in datalist
                     self.datalistSelectAction.updateFields(e.target);
                     self.selectAction();
