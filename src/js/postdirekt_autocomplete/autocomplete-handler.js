@@ -297,7 +297,6 @@ AddressAutocomplete.prototype = {
 
         if (isDown && !activeItem) {
             firstItem.setAttribute('data-active', 'true');
-            firstItem.className = 'active';
         } else if(activeItem) {
             var prevVisible = null;
             var nextVisible = null;
