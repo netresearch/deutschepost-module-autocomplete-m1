@@ -17,38 +17,11 @@ class Postdirekt_Autocomplete_Model_Webservice_Data_SearchResponse_Address
     implements JsonSerializable
 {
     /**
-     * The address type. If the element $street is supplied, then this element is also present.
-     * The element can contain the following values:
-     *
-     * A = Address
-     * F = Post office
-     * P = Packing station
-     *
-     * @var string
-     */
-    const ADDRESS_TYPE = 'addressType';
-
-    /**
-     * The type used in the request. This element allows conclusions about the presence
-     * of the other parameters.
-     *
-     * @var string
-     */
-    const REQUEST_TYPE = 'requestType';
-
-    /**
      * The city of the proposal.
      *
      * @var string
      */
     const CITY = 'city';
-
-    /**
-     * The district of the proposal.
-     *
-     * @var string
-     */
-    const DISTRICT = 'district';
 
     /**
      * The post code of the proposal.
@@ -73,26 +46,6 @@ class Postdirekt_Autocomplete_Model_Webservice_Data_SearchResponse_Address
     const UUID = 'uuid';
 
     /**
-     * Returns the address type.
-     *
-     * @return string
-     */
-    public function getAddressType()
-    {
-        return $this->getData(self::ADDRESS_TYPE);
-    }
-
-    /**
-     * Returns the request type.
-     *
-     * @return string
-     */
-    public function getRequestType()
-    {
-        return $this->getData(self::REQUEST_TYPE);
-    }
-
-    /**
      * Returns the city.
      *
      * @return string
@@ -100,16 +53,6 @@ class Postdirekt_Autocomplete_Model_Webservice_Data_SearchResponse_Address
     public function getCity()
     {
         return $this->getData(self::CITY);
-    }
-
-    /**
-     * Returns the district.
-     *
-     * @return string
-     */
-    public function getDistrict()
-    {
-        return $this->getData(self::DISTRICT);
     }
 
     /**
@@ -149,10 +92,7 @@ class Postdirekt_Autocomplete_Model_Webservice_Data_SearchResponse_Address
     {
         return $this->toArray(
             array(
-                self::ADDRESS_TYPE,
-                self::REQUEST_TYPE,
                 self::CITY,
-                self::DISTRICT,
                 self::POST_CODE,
                 self::STREET,
                 self::UUID,
