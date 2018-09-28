@@ -27,14 +27,13 @@ DataListRenderer.prototype = {
     /**
      * Renders the datalist.
      *
-     * @param {HTMLElement} $currentField
-     *
+     * @param {HTMLElement} currentField
      */
     render: function ($currentField) {
-        var self = this,
-            fieldId = $currentField.id,
+        var self             = this,
+            fieldId          = $currentField.id,
             $currentDataList = $('datalist-' + fieldId),
-            suggestions = this.suggestionModel.getAddressSuggestions();
+            suggestions      = this.suggestionModel.getAddressSuggestions();
 
         if ($currentDataList) {
             $currentDataList.remove();

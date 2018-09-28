@@ -8,7 +8,7 @@ var AddressAutocomplete = Class.create();
  * @type {{}}
  */
 AddressAutocomplete.prototype = {
-    typingDelay: 100,
+    typingDelay: 200,
     timeoutId: null,
     addressItemDivider: ', ',
 
@@ -76,7 +76,7 @@ AddressAutocomplete.prototype = {
                         self.searchAction(e.target);
                     });
                     // Run actions after datalist changes
-                    self.triggerDataListChangeEvent(e.target);
+                    self.datalistSelectAction.receiveSelectEvent(e.target);
                 });
 
             // Watch suggestion selection
@@ -89,32 +89,10 @@ AddressAutocomplete.prototype = {
     },
 
     /**
-     * Triggers a custom event "autocomplete:datalist-select" on datalist selection.
-     *
-     * @param {HTMLElement} $field
-     */
-    triggerDataListChangeEvent: function ($field) {
-        var listId      = $field.getAttribute('list'),
-            dataList    = $(listId),
-            dataOptions = null;
-
-        if (dataList) {
-            dataOptions = dataList.childNodes;
-            // Find option that matches the field value and fire the event for this item
-            for (var i = 0; i < dataOptions.length; ++i) {
-                if (dataOptions[i].value === $field.value) {
-                    Event.fire($($field), 'autocomplete:datalist-select');
-                    break;
-                }
-            }
-        }
-    },
-
-    /**
      * Triggers an delayed callback.
      *
      * @param {Function} callback Callback to execute after timeout
-     * @param {int} delay Delay in milliseconds
+     * @param {int}      delay    Delay in milliseconds
      */
     triggerDelayedCallback: function (callback, delay) {
         delay = delay || this.typingDelay;
@@ -137,12 +115,12 @@ AddressAutocomplete.prototype = {
      *
      * @return {Object} Search results
      */
-    searchAction: function ($field) {
+    searchAction: function (currentField) {
         var self = this;
 
         this.searchRequest.doSearchRequest(this.addressData.getData(), function (json) {
             self.addressSuggestions.setAddressSuggestions(json);
-            self.datalistRenderer.render($field);
+            self.datalistRenderer.render(currentField);
         });
     },
 

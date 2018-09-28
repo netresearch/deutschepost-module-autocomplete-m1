@@ -31,12 +31,11 @@ DatalistSelect.prototype = {
      * @param {HTMLElement} $currentField
      */
     updateFields: function ($currentField) {
-        var self = this,
-            fieldValue = $currentField.value,
+        var self        = this,
+            fieldValue  = $currentField.value,
             suggestions = this.suggestionModel,
-            // Find option by current field's value
-            option = $currentField.next('datalist').down("[value='" + fieldValue + "']"),
-            optionId = option.identify(),
+            option      = $currentField.next('datalist').down("[value='" + fieldValue + "']"),
+            optionId    = option.identify(),
             currentSuggestionObject;
 
         if (optionId) {
@@ -54,6 +53,25 @@ DatalistSelect.prototype = {
                     field.value = currentSuggestionObject[0][fieldName];
                 }
             });
+        }
+    },
+
+    /**
+     * Triggers the custom event "autocomplete:datalist-select" on selection of an element from the datalist.
+     *
+     * @param {HTMLElement} currentField
+     */
+    receiveSelectEvent: function (currentField) {
+        var fieldValue  = currentField.value,
+            listId      = currentField.getAttribute('list'),
+            $dataList   = $(listId);
+
+        if ($dataList) {
+            var option = $dataList.down("[value='" + fieldValue + "']");
+
+            if (option && (option.value === fieldValue)) {
+                $(currentField).fire('autocomplete:datalist-select');
+            }
         }
     }
 };
