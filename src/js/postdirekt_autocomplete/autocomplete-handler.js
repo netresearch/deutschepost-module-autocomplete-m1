@@ -84,6 +84,7 @@ AddressAutocomplete.prototype = {
                 .observe('autocomplete:datalist-select', function (e) {
                     // Update all observed fields after item was selected in datalist
                     self.datalistSelectAction.updateFields(e.target);
+                    self.selectAction();
                 });
         });
     },
@@ -115,12 +116,12 @@ AddressAutocomplete.prototype = {
      *
      * @return {Object} Search results
      */
-    searchAction: function (currentField) {
+    searchAction: function ($currentField) {
         var self = this;
 
         this.searchRequest.doSearchRequest(this.addressData.getData(), function (json) {
             self.addressSuggestions.setAddressSuggestions(json);
-            self.datalistRenderer.render(currentField);
+            self.datalistRenderer.render($currentField);
         });
     },
 
@@ -130,12 +131,14 @@ AddressAutocomplete.prototype = {
      * @return {Object} Select results
      */
     selectAction: function () {
-        if (!this.addressData.getData().uuid) {
+        var selectedSuggestion = this.datalistSelectAction.getCurrentSuggestion();
+
+        if (!selectedSuggestion.uuid) {
             throw 'Missing required field <uuid>';
         }
 
-        this.selectRequest.doSelectRequest(this.addressData.getData(), function (json) {
-console.log('ToDo: add callback for Data:', json);
-        });
+        this.selectRequest.doSelectRequest(this.addressData.getData());
+
+        // this.selectRequest.doSelectRequest(selectedSuggestion);
     }
 };

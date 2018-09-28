@@ -27,7 +27,7 @@ DataListRenderer.prototype = {
     /**
      * Renders the datalist.
      *
-     * @param {HTMLElement} currentField
+     * @param {HTMLElement} $currentField
      */
     render: function ($currentField) {
         var self             = this,

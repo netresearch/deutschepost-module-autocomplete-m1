@@ -26,6 +26,19 @@ DatalistSelect.prototype = {
     },
 
     /**
+     * Returns the selected suggestion object.
+     *
+     * @returns {boolean|Object}
+     */
+    getCurrentSuggestion: function () {
+        if (this.currentSuggestionObject && this.currentSuggestionObject[0]) {
+            return this.currentSuggestionObject[0];
+        }
+
+        return false;
+    },
+
+    /**
      * Updates all observed fields.
      *
      * @param {HTMLElement} $currentField
@@ -59,18 +72,18 @@ DatalistSelect.prototype = {
     /**
      * Triggers the custom event "autocomplete:datalist-select" on selection of an element from the datalist.
      *
-     * @param {HTMLElement} currentField
+     * @param {HTMLElement} $currentField
      */
-    receiveSelectEvent: function (currentField) {
-        var fieldValue  = currentField.value,
-            listId      = currentField.getAttribute('list'),
+    receiveSelectEvent: function ($currentField) {
+        var fieldValue  = $currentField.value,
+            listId      = $currentField.getAttribute('list'),
             $dataList   = $(listId);
 
         if ($dataList) {
             var option = $dataList.down("[value='" + fieldValue + "']");
 
             if (option && (option.value === fieldValue)) {
-                $(currentField).fire('autocomplete:datalist-select');
+                $currentField.fire('autocomplete:datalist-select');
             }
         }
     }
