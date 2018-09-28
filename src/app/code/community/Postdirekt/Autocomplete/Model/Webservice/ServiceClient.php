@@ -26,8 +26,12 @@ class Postdirekt_Autocomplete_Model_Webservice_ServiceClient
 
     const TYPE_REGULAR_ADDRESSES = 'A';
 
+    const TYPE_DATA_CITY             = 'Ort';
+    const TYPE_DATA_POSTAL_CODE_CITY = 'PlzOrt';
+    const TYPE_DATA_ALL              = 'PlzOrtStr';
+
     const SERVICE_URI = 'https://autocomplete.postdirekt.de';
-    const SERVICE_OPERATION_SEARCH = 'autocomplete/de/search/PlzOrtStr';
+    const SERVICE_OPERATION_SEARCH = 'autocomplete/de/search';
     const SERVICE_OPERATION_SELECT = 'autocomplete/de/select';
 
     /**
@@ -88,8 +92,21 @@ class Postdirekt_Autocomplete_Model_Webservice_ServiceClient
             throw new \InvalidArgumentException('No message logger given.');
         }
 
+        $requestParams['daten'] = self::TYPE_DATA_ALL;
+        $requestParams['type']  = self::TYPE_REGULAR_ADDRESSES;
+
+        if (!array_key_exists('str', $requestParams)) {
+            $requestParams['daten'] = self::TYPE_DATA_POSTAL_CODE_CITY;
+
+            // Unset "type" as this wont return any data without a provided street
+            $requestParams['type'] = null;
+
+            if (!array_key_exists('plz', $requestParams)) {
+                $requestParams['daten'] = self::TYPE_DATA_CITY;
+            }
+        }
+
         $uri = sprintf('%s/%s', self::SERVICE_URI, $operation);
-        $requestParams['type'] = self::TYPE_REGULAR_ADDRESSES;
 
         $this->_httpClient->setUri($uri);
         $this->_httpClient->setHeaders('Accept', 'application/json');
