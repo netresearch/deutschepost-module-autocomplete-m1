@@ -11,17 +11,16 @@ DataListRenderer.prototype = {
 
     /**
      *
-     * @param {Array} fieldNames
-     * @param {Array} suggestions
+     * @param {Object} fieldNames
+     * @param {Object} suggestions
      * @param {String} divider
      *
      * @constructor
      */
     initialize: function(fieldNames, suggestions, divider) {
-        this.suggestions = suggestions;
-        this.fieldNames = fieldNames;
-        this.divider = divider;
-        this.field = false;
+        this.suggestionModel = suggestions;
+        this.fieldNames      = fieldNames;
+        this.divider         = divider;
     },
 
     /**
@@ -31,35 +30,35 @@ DataListRenderer.prototype = {
      *
      */
     render: function ($currentField) {
-        this.field = $currentField;
-        var $currentDataList = $('datalist-' + this.field.id);
+        var fieldId = $currentField.id,
+            $currentDataList = $('datalist-' + fieldId),
+            suggestions = this.suggestionModel.getAddressSuggestions();
 
         if ($currentDataList) {
             $currentDataList.remove();
         }
 
         var $dataList = new Element('datalist', {
-            'id': 'datalist-' + this.field.id
+            'id': 'datalist-' + fieldId
         });
 
-        for (var i = 0; i < this.suggestions.data.length; ++i) {
-
+        for (var i = 0; i < suggestions.length; ++i) {
             var $dataListOption  = new Element('option', {
-                    'id': this.suggestions.data[i].uuid
+                    'id': suggestions[i].uuid
                 }),
                 addressData = '',
                 initLoop = false;
 
             // Combine all address items to suggestion string, divided by divider
             for (var fieldName in this.fieldNames) {
-                if (this.suggestions.data[i][fieldName]) {
+                if (suggestions[i][fieldName]) {
                     // Add divider in front of all items but first
                     if (!initLoop) {
                         initLoop = true;
                     } else {
                         addressData += this.divider;
                     }
-                    addressData += this.suggestions.data[i][fieldName];
+                    addressData += suggestions[i][fieldName];
                 }
             }
 
@@ -69,8 +68,8 @@ DataListRenderer.prototype = {
             });
         }
 
-        this.field.setAttribute('list', 'datalist-' + this.field.id);
-        this.field.insert({
+        $currentField.setAttribute('list', 'datalist-' + fieldId);
+        $currentField.insert({
             after: $dataList
         });
     }

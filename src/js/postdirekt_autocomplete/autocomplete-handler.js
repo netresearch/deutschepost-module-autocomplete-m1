@@ -182,7 +182,7 @@ AddressAutocomplete.prototype = {
         }
 
         this.selectRequest.doSelectRequest(this.addressData.getData(), function (json) {
-console.log(json);
+console.log('ToDo: add callback for Data:', json);
         });
     }
 };

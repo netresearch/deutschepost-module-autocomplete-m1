@@ -22,7 +22,6 @@ DatalistSelect.prototype = {
         this.form = $currentForm;
         this.fields = observedFields;
         this.suggestionModel = suggestionModel;
-        this.currentSuggestionObject = false;
     },
 
     /**
@@ -33,19 +32,16 @@ DatalistSelect.prototype = {
      */
     updateFields: function ($currentField) {
         var fieldValue = $currentField.value,
-            suggestions = this.suggestionModel.getAddressSuggestions(),
+            suggestions = this.suggestionModel,
             option = $currentField.next('datalist').down("[value='" + fieldValue + "']"),
-            optionId = option.identify();
-
-        this.currentSuggestionObject = false;
+            optionId = option.identify(),
+            currentSuggestionObject;
 
         if (optionId) {
-            this.currentSuggestionObject = suggestions.filter(function (item) {
-                return item.uuid === optionId;
-            });
+            currentSuggestionObject = suggestions.getByUuid(optionId);
         }
 
-        if (this.currentSuggestionObject) {
+        if (currentSuggestionObject && currentSuggestionObject.length) {
             // Fill all fields with response values
             for (var field in this.fields) {
                 // Get data selector with address item
@@ -53,8 +49,8 @@ DatalistSelect.prototype = {
                     addressFieldById = this.form.select(selector),
                     item             = this.fields[field].name;
 
-                if (addressFieldById && this.currentSuggestionObject[0][item]) {
-                    addressFieldById[0].value = this.currentSuggestionObject[0][item];
+                if (addressFieldById && currentSuggestionObject[0][item]) {
+                    addressFieldById[0].value = currentSuggestionObject[0][item];
                 }
             }
         }

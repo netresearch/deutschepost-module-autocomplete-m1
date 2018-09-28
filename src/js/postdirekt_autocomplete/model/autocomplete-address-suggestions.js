@@ -38,5 +38,18 @@ AutocompleteAddressSuggestions.prototype = {
      */
     getAddressSuggestions: function() {
         return this.data;
+    },
+    /**
+     * Returns suggestion item by Uuid.
+     *
+     * @param {String} uuid
+     *
+     * @returns {Object}
+     *
+     */
+    getByUuid: function(uuid) {
+        return this.data.filter(function (item) {
+            return item.uuid === uuid;
+        });
     }
 };

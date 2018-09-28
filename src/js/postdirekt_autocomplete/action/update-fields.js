@@ -12,6 +12,10 @@ FieldInput.prototype = {
     /**
      * Initialize.
      *
+     * @param {Object} allFields
+     * @param {Object} addressData
+     * @param {Object} searchRequest
+     *
      * @constructor
      */
     initialize: function(allFields, addressData, searchRequest) {
@@ -23,8 +27,7 @@ FieldInput.prototype = {
     /**
      * doInputAction
      *
-     * @param {Object}   selectFields
-     * @param {Function} callback
+     * @param {HTMLElement}   $currentField
      */
     doInputAction: function($currentField) {
         var fieldId = $currentField.identify(),
