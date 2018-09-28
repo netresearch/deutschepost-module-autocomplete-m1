@@ -45,10 +45,9 @@ DatalistSelect.prototype = {
             });
         }
 
-        if(this.currentSuggestionObject) {
+        if (this.currentSuggestionObject) {
             // Fill all fields with response values
             for (var field in this.fields) {
-
                 // Get data selector with address item
                 var selector         = '[data-address-item="' + field + '"]',
                     addressFieldById = this.form.select(selector),

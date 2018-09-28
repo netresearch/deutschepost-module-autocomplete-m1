@@ -15,9 +15,9 @@ FieldInput.prototype = {
      * @constructor
      */
     initialize: function(allFields, addressData, searchRequest) {
-        this.allFields          = allFields;
-        this.addressData        = addressData;
-        this.searchRequest      = searchRequest;
+        this.allFields     = allFields;
+        this.addressData   = addressData;
+        this.searchRequest = searchRequest;
     },
 
     /**
@@ -28,7 +28,7 @@ FieldInput.prototype = {
      */
     doInputAction: function($currentField) {
         var fieldId = $currentField.identify(),
-            item = this.allFields[fieldId];
+            item    = this.allFields[fieldId];
 
         this.addressData.setDataValue(item.name, item.field.value);
     }

@@ -68,13 +68,11 @@ AddressAutocomplete.prototype = {
      * @returns void
      */
     loadPrefilledValues: function () {
-        var self = this;
-
-        for (var key in self.addressFields) {
-            var fieldItem = self.addressFields[key];
+        for (var key in this.addressFields) {
+            var fieldItem = this.addressFields[key];
 
             if (fieldItem.field.value && fieldItem.field.value.length) {
-                self.addressData.setValue(fieldItem.name, fieldItem.field.value);
+                this.addressData.setValue(fieldItem.name, fieldItem.field.value);
             }
         }
     },
@@ -92,6 +90,7 @@ AddressAutocomplete.prototype = {
 
             // Set field name as data attribute
             fieldItem.field.setAttribute('data-address-item', key);
+
             // Watch input value changes
             fieldItem.field
                 .observe('input', function (e) {
@@ -104,6 +103,7 @@ AddressAutocomplete.prototype = {
                     // Run actions after datalist changes
                     self.triggerDataListChangeEvent(e.target);
                 });
+
             // Watch suggestion selection
             fieldItem.field
                 .observe('autocomplete:datalist-select', function (e) {
@@ -142,13 +142,11 @@ AddressAutocomplete.prototype = {
      * @param {int} delay Delay in milliseconds
      */
     triggerDelayedCallback: function (callback, delay) {
-        var self = this;
-
-        delay = delay || self.typingDelay;
+        delay = delay || this.typingDelay;
 
         // Clear timeout to prevent previous task from execution
         if (typeof this.timeoutId === 'number') {
-            clearTimeout(self.timeoutId);
+            clearTimeout(this.timeoutId);
         }
 
         this.timeoutId = window.setTimeout(
@@ -166,9 +164,10 @@ AddressAutocomplete.prototype = {
      */
     searchAction: function ($field) {
         var self = this;
+
         this.searchRequest.doSearchRequest(this.addressData.getData(), function (json) {
             self.addressSuggestions.setAddressSuggestions(json);
-            this.datalistRenderer.render($field);
+            self.datalistRenderer.render($field);
         });
     },
 

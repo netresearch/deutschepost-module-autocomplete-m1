@@ -22,11 +22,10 @@ RequestAdapter.prototype = {
     /**
      * Performs an AJAX request.
      *
-     * @param {String}   action
      * @param {Object}   searchFields
      * @param {Function} callback
      */
-    ajax: function(action, searchFields, callback) {
+    ajax: function(searchFields, callback) {
         new Ajax.Request(
             this.url,
             {
@@ -48,7 +47,7 @@ RequestAdapter.prototype = {
      * @param {Function} callback
      */
     searchAction: function(searchFields, callback) {
-        this.ajax('search', searchFields, callback);
+        this.ajax(searchFields, callback);
     },
 
     /**
@@ -58,6 +57,6 @@ RequestAdapter.prototype = {
      * @param {Function} callback
      */
     selectAction: function(selectFields, callback) {
-        this.ajax('select', selectFields, callback);
+        this.ajax(selectFields, callback);
     }
 };
