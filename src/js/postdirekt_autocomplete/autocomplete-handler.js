@@ -138,7 +138,7 @@ AddressAutocomplete.prototype = {
     selectAction: function () {
         var selectedSuggestion = this.datalistSelectAction.getCurrentSuggestion();
 
-        if (!selectedSuggestion.uuid) {
+        if (!selectedSuggestion || !selectedSuggestion.uuid) {
             throw 'Missing required field <uuid>';
         }
 
