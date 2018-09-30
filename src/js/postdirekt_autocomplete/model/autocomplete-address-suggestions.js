@@ -21,7 +21,7 @@ AutocompleteAddressSuggestions.prototype = {
     },
 
     /**
-     * getAddressSuggestions.
+     * Sets suggestion object.
      *
      * @param {Object} data
      *

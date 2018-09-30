@@ -12,32 +12,32 @@ AutocompleteFields.prototype = {
     /**
      * Initialize.
      *
-     * @param {HTMLElement} form
+     * @param {HTMLElement} $form
      * @param {Object} autocompleteFieldNames
      *
      * @constructor
      */
-    initialize: function(form, autocompleteFieldNames) {
-        this.form             = form;
+    initialize: function($form, autocompleteFieldNames) {
+        this.form             = $form;
         this.fieldNamesObject = autocompleteFieldNames;
         this.fieldNames       = Object.keys(this.fieldNamesObject);
-        this.fieldIs          = Object.values(this.fieldNamesObject);
+        this.fieldIds         = Object.values(this.fieldNamesObject);
     },
 
     /**
-     * Returns all suggestion field's IDs
+     * Returns array of all autocomplete field IDs
      *
-     * @returns {Object} addressData
+     * @returns {Array} this.fieldIds
      *
      */
     getIds: function() {
-        return this.fieldIs;
+        return this.fieldIds;
     },
 
     /**
-     * Returns all suggestion field's names
+     * Returns array of all autocomplete field names
      *
-     * @returns {Object} addressData
+     * @returns {Array} this.fieldNames
      *
      */
     getNames: function() {
@@ -45,44 +45,41 @@ AutocompleteFields.prototype = {
     },
 
     /**
-     * Returns all suggestion fields
+     * Returns array of all autocomplete fields
      *
-     * @returns {Object} addressData
-     *
+     * @returns {Array} formFields
      */
     getFields: function() {
-        var self = this,
-            fields = [];
+        var self       = this,
+            formFields = [];
 
-        this.fieldIs.each(function(fieldName) {
+        this.fieldIds.each(function(fieldName) {
             var $field = self.form.select('#' + fieldName)[0];
             if ($field) {
-                fields.push($field);
+                formFields.push($field);
             }
         });
 
-        return fields;
+        return formFields;
     },
 
     /**
-     * Returns current address object by name
+     * Returns autocomplete field by name
      *
      * @param {string} name
      *
-     * @returns {Object} addressData
-     *
+     * @returns {HTMLElement}
      */
     getFieldByName: function(name) {
         return this.form.select('#' + this.fieldNamesObject[name])[0];
     },
 
     /**
-     * Returns current address object by ID
+     * Returns autocomplete field by ID
      *
      * @param {string} id
      *
-     * @returns {Object} addressData
-     *
+     * @returns {HTMLElement}
      */
     getFieldById: function(id) {
         return this.form.select('#' + id)[0];

@@ -89,7 +89,7 @@ AddressAutocomplete.prototype = {
     },
 
     /**
-     * Trigger an custom event "autocomplete:datalist-select" on datalist selection.
+     * Triggers a custom event "autocomplete:datalist-select" on datalist selection.
      *
      * @param {HTMLElement} $field
      */
@@ -100,7 +100,7 @@ AddressAutocomplete.prototype = {
 
         if (dataList) {
             dataOptions = dataList.childNodes;
-
+            // Find option that matches the field value and fire the event for this item
             for (var i = 0; i < dataOptions.length; ++i) {
                 if (dataOptions[i].value === $field.value) {
                     Event.fire($($field), 'autocomplete:datalist-select');

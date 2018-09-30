@@ -35,6 +35,7 @@ DatalistSelect.prototype = {
         var self = this,
             fieldValue = $currentField.value,
             suggestions = this.suggestionModel,
+            // Find option by current field's value
             option = $currentField.next('datalist').down("[value='" + fieldValue + "']"),
             optionId = option.identify(),
             currentSuggestionObject;

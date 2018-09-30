@@ -27,7 +27,7 @@ FieldInput.prototype = {
     /**
      * doInputAction
      *
-     * @param {HTMLElement}   $currentField
+     * @param {HTMLElement} $currentField
      */
     doInputAction: function($currentField) {
         var fieldId = $currentField.getAttribute('data-address-item'),
