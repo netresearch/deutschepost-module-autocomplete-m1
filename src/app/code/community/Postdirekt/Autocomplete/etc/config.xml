@@ -44,6 +44,9 @@
                 </args>
             </postdirekt_autocomplete>
         </routers>
+        <secure_url>
+            <postdirekt_autocomplete>/address/autocomplete/</postdirekt_autocomplete>
+        </secure_url>
     </frontend>
     <default>
         <customer>
