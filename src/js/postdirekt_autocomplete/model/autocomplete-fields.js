@@ -55,6 +55,7 @@ AutocompleteFields.prototype = {
 
         this.fieldIds.each(function(fieldName) {
             var $field = self.form.select('#' + fieldName)[0];
+
             if ($field) {
                 formFields.push($field);
             }
@@ -83,5 +84,22 @@ AutocompleteFields.prototype = {
      */
     getFieldById: function(id) {
         return this.form.select('#' + id)[0];
+    },
+
+    /**
+     * Returns autocomplete field name by field id
+     *
+     * @param {string} id
+     *
+     * @returns {HTMLElement}
+     */
+    getNameById: function(id) {
+        for (var key in this.fieldNamesObject) {
+            if (id === this.fieldNamesObject[key]) {
+                return key;
+            }
+        }
+
+        return null;
     }
 };

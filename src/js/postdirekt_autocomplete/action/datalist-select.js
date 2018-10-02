@@ -13,15 +13,15 @@ DatalistSelect.prototype = {
      * Initialize.
      *
      * @param {HTMLElement} $currentForm
-     * @param {Object} observedFields
-     * @param {Object} suggestionModel
+     * @param {Object}      observedFields
+     * @param {Object}      suggestionModel
      *
      * @constructor
      */
     initialize: function($currentForm, observedFields, suggestionModel) {
-        this.form = $currentForm;
-        this.fields = observedFields;
-        this.fieldNames = observedFields.getNames();
+        this.form            = $currentForm;
+        this.fields          = observedFields;
+        this.fieldNames      = observedFields.getNames();
         this.suggestionModel = suggestionModel;
     },
 
@@ -29,7 +29,6 @@ DatalistSelect.prototype = {
      * Updates all observed fields.
      *
      * @param {HTMLElement} $currentField
-     *
      */
     updateFields: function ($currentField) {
         var self = this,
