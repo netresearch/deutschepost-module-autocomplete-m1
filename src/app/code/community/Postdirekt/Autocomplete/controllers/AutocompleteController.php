@@ -44,8 +44,7 @@ class Postdirekt_Autocomplete_AutocompleteController extends Mage_Core_Controlle
         Zend_Controller_Request_Abstract $request,
         Zend_Controller_Response_Abstract $response,
         array $invokeArgs = array()
-    )
-    {
+    ) {
         $this->_clientFactory = Mage::getModel('postdirekt_autocomplete/webservice_serviceClientFactory');
         $this->_searchRequestFactory = Mage::getModel('postdirekt_autocomplete/webservice_searchRequestFactory');
         $this->_selectRequestFactory = Mage::getModel('postdirekt_autocomplete/webservice_selectRequestFactory');
@@ -68,7 +67,7 @@ class Postdirekt_Autocomplete_AutocompleteController extends Mage_Core_Controlle
                  ->setHeader('HTTP/1.1', '404 Not Found')
                  ->setHeader('Status', '404 File not found');
 
-            $this->_forward('defaultNoRoute');
+            $this->_forward('noRoute');
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
 

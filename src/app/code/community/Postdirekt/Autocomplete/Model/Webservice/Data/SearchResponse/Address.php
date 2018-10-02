@@ -143,7 +143,7 @@ class Postdirekt_Autocomplete_Model_Webservice_Data_SearchResponse_Address
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function jsonSerialize()
     {
