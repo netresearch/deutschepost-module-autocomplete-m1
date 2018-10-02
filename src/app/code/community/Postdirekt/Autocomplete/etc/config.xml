@@ -35,6 +35,15 @@
                 </postdirekt_autocomplete>
             </updates>
         </layout>
+        <routers>
+            <postdirekt_autocomplete>
+                <use>standard</use>
+                <args>
+                    <module>Postdirekt_Autocomplete</module>
+                    <frontName>address</frontName>
+                </args>
+            </postdirekt_autocomplete>
+        </routers>
     </frontend>
     <default>
         <customer>
@@ -50,15 +59,4 @@
             </modules>
         </suite>
     </phpunit>
-    <frontend>
-        <routers>
-            <postdirekt_autocomplete>
-                <use>standard</use>
-                <args>
-                    <module>Postdirekt_Autocomplete</module>
-                    <frontName>address</frontName>
-                </args>
-            </postdirekt_autocomplete>
-        </routers>
-    </frontend>
 </config>
