@@ -87,13 +87,7 @@ AddressAutocomplete.prototype = {
         this.datalistSelectAction   = new DatalistSelect(this.addressFields, this.addressSuggestions);
         this.countrySelect          = new CountrySelect(form);
         this.datalistAble           = this.datalistSuppport();
-
-        if(this.datalistAble) {
-            this.datalistRenderer   = new DataListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
-        } else {
-            this.datalistRenderer   = new ListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
-        }
-
+        this.getDatalistRenderer();
         this.loadPrefilledValues();
         this.listenFields();
         this.removeListOnCountryChange();
@@ -168,18 +162,6 @@ AddressAutocomplete.prototype = {
                     self.datalistSelectAction.updateFields(e.target);
                     self.selectAction();
                 });
-            if (!self.datalistAble) {
-                fieldItem
-                    .observe('keydown', function (e) {
-                        var isUp = e.keyCode === 38,
-                            isDown = e.keyCode === 40,
-                            isEnter = e.keyCode === 13;
-
-                        if (isUp || isDown || isEnter) {
-                            self.triggerKeydown(e.target, isDown, isUp, isEnter);
-                        }
-                    });
-            }
         });
     },
 
@@ -271,69 +253,13 @@ AddressAutocomplete.prototype = {
     },
 
     /**
-     * Keynavigation for polyfill ul
-     *
-     * @param {HTMLElement} $field
-     * @param {boolean} isDown
-     * @param {boolean} isUp
-     * @param {boolean} isEnter
+     * get datalist renderer pending on ability of dealing with datalist element
      */
-    triggerKeydown: function ($field, isDown, isUp, isEnter) {
-
-        var dataList    = $field.datalist,
-            dataOptions = null;
-
-        if(!dataList) {
-            return;
-        }
-        dataOptions = dataList.childElements();
-        var activeItem = dataList.down('[data-active]');
-        var firstItem = dataOptions[0];
-
-        if (!activeItem && isEnter) {
-            return;
-        }
-
-        if (isDown && !activeItem) {
-            firstItem.setAttribute('data-active', 'true');
-        } else if(activeItem) {
-            var prevVisible = null;
-            var nextVisible = null;
-
-            for( var i = 0; i < dataOptions.length; i++ ) {
-                var visItem = dataOptions[i];
-                if( visItem === activeItem ) {
-                    prevVisible = dataOptions[i-1];
-                    nextVisible = dataOptions[i+1];
-                    break;
-                }
-            }
-            activeItem.removeAttribute('data-active');
-
-            if ( isUp ) {
-                if( prevVisible ) {
-                    prevVisible.setAttribute('data-active', 'true');
-                    if ( prevVisible.offsetTop < dataList.scrollTop ) {
-                        dataList.scrollTop -= prevVisible.offsetHeight;
-                    }
-                } else {
-                    dataOptions[dataOptions.length - 1].setAttribute('data-active', 'true');
-                }
-            }
-            if ( isDown ) {
-                if( nextVisible ) {
-                    nextVisible.setAttribute('data-active', 'true');
-                } else {
-                    dataOptions[0].setAttribute('data-active', 'true');
-                }
-            }
-
-            if (isEnter) {
-                $field.value = activeItem.dataset.value;
-                Event.fire($($field), 'autocomplete:datalist-select');
-                dataList.hide();
-                $field.blur();
-            }
+    getDatalistRenderer: function() {
+        if (!this.datalistAble) {
+           this.datalistRenderer = new ListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
+        } else {
+            this.datalistRenderer = new DataListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
         }
     }
 };
