@@ -54,7 +54,7 @@ AddressAutocomplete.prototype = {
     fieldInputAction: null,
 
     /**
-     * @property {DataListRenderer} datalistRenderer
+     * @property {DataListRenderer|ListRenderer} datalistRenderer
      */
     datalistRenderer: null,
 
@@ -86,9 +86,13 @@ AddressAutocomplete.prototype = {
         this.fieldInputAction       = new FieldInput(this.addressFields, this.addressData);
         this.datalistSelectAction   = new DatalistSelect(this.addressFields, this.addressSuggestions);
         this.countrySelect          = new CountrySelect(form);
-        this.datalistRenderer       = new DataListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
-        this.listRenderer           = new ListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
-        this.datalistAble       = this.datalistSuppport();
+        this.datalistAble           = this.datalistSuppport();
+
+        if(this.datalistAble) {
+            this.datalistRenderer   = new DataListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
+        } else {
+            this.datalistRenderer   = new ListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
+        }
 
         this.loadPrefilledValues();
         this.listenFields();
@@ -164,8 +168,8 @@ AddressAutocomplete.prototype = {
                     self.datalistSelectAction.updateFields(e.target);
                     self.selectAction();
                 });
-            if (!this.datalistAble) {
-                fieldItem.field
+            if (!self.datalistAble) {
+                fieldItem
                     .observe('keydown', function (e) {
                         var isUp = e.keyCode === 38,
                             isDown = e.keyCode === 40,
@@ -207,18 +211,14 @@ AddressAutocomplete.prototype = {
      * @param {HTMLElement} $currentField
      */
     searchAction: function ($currentField) {
-        var self = this;
         if (this.addressData.isEmpty()) {
             return;
         }
+
         if (this.countrySelect.isGermany) {
             this.searchRequest.doSearchRequest(this.addressData.getData(), function (json) {
                 this.addressSuggestions.setAddressSuggestions(json);
-                if(self.datalistAble){
-                    self.datalistRenderer.render($currentField);
-                } else {
-                    self.listRenderer.render($currentField);
-                }
+                this.datalistRenderer.render($currentField);
             }.bind(this));
         }
     },
@@ -255,7 +255,7 @@ AddressAutocomplete.prototype = {
 
     /**
      * Check support for datalist html element
-     * s
+     *
      * @returns {boolean}
      */
     datalistSuppport: function () {

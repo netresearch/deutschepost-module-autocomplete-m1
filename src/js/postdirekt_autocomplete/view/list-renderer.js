@@ -13,15 +13,15 @@ ListRenderer.prototype = {
 
     /**
      *
-     * @param {Array} fieldNames
-     * @param {Array} suggestions
+     * @param {Object} fields
+     * @param {Object} suggestions
      * @param {String} divider
      */
-    initialize: function(fieldNames, suggestions, divider) {
-        this.suggestions = suggestions;
-        this.fieldNames = fieldNames;
-        this.divider = divider;
-        this.field = false;
+    initialize: function(fields, suggestions, divider) {
+        this.suggestionModel = suggestions;
+        this.fields          = fields;
+        this.fieldNames      = fields.getNames();
+        this.divider         = divider;
     },
 
     /**
@@ -30,65 +30,57 @@ ListRenderer.prototype = {
      * @param {HTMLElement} $currentField
      */
     render: function ($currentField) {
-        var self = this;
-
-        this.field           = $currentField;
-        var $currentDataList = $currentField.datalist;
+        var self = this,
+            suggestions = this.suggestionModel.getAddressSuggestions(),
+            $currentDataList = $currentField.datalist;
 
         if ($currentDataList) {
             $currentDataList.remove();
         }
         var $dataList = new Element('ul', {
-            'id': 'datalist-' + this.field.id,
+            'id': 'datalist-' + $currentField.id,
             'class' : 'datalist',
-            'style' : 'width:'+ this.field.offsetWidth +'px'
+            'style' : 'width:'+ $currentField.offsetWidth +'px'
         });
 
-        for (var i = 0; i < this.suggestions.data.length; ++i) {
+        suggestions.each(function(suggestionItem) {
             var $dataListOption  = new Element('li', {
-                    'id': this.suggestions.data[i].uuid
-                }),
-                addressData = '',
-                initLoop = false;
+                'id': suggestionItem.uuid
+            }),
+                addressDataArray = [];
 
             // Combine all address items to suggestion string, divided by divider
-            for (var fieldName in this.fieldNames) {
-                if (this.suggestions.data[i][fieldName]) {
-                    // Add divider in front of all items but first
-                    if (!initLoop) {
-                        initLoop = true;
-                    } else {
-                        addressData += this.divider;
-                    }
-                    addressData += this.suggestions.data[i][fieldName];
+            self.fieldNames.each(function(fieldName) {
+                if (suggestionItem[fieldName] && suggestionItem[fieldName].length) {
+                    addressDataArray.push(suggestionItem[fieldName]);
                 }
-            }
+            });
 
+            var addressData = addressDataArray.join(self.divider);
+            // Print suggestions's items to datalist option, separated by divider
             $dataListOption.update(addressData);
             $dataListOption.setAttribute('data-value', addressData);
 
             $dataList.insert({
                 bottom: $dataListOption
             });
-        }
+        });
 
-
-
-        this.field.setAttribute('list', 'datalist-' + this.field.id);
-        this.field.insert({
+        $currentField.setAttribute('list', 'datalist-' + $currentField.id);
+        $currentField.insert({
             after: $dataList
         });
-        this.field.datalist = $dataList;
+        $currentField.datalist = $dataList;
 
         $dataList.observe('mousedown', function (e) {
-            self.itemSelect(e.target);
-            Event.fire(self.field, 'autocomplete:datalist-select');
+            self.itemSelect(e.target, $currentField);
+            Event.fire($currentField, 'autocomplete:datalist-select');
             this.remove();
         });
 
     },
 
-    itemSelect: function (item) {
-        this.field.value = item.dataset.value;
+    itemSelect: function (item, field) {
+        field.value = item.dataset.value;
     },
 };
