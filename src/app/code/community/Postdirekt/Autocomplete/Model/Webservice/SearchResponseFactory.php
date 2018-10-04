@@ -35,8 +35,8 @@ class Postdirekt_Autocomplete_Model_Webservice_SearchResponseFactory
             foreach ($result as $addressData) {
                 $args = array();
 
-                $args[Address::STREET] = $addressData['Strasse'];
-                $args[Address::POST_CODE] = $addressData['Plz'];
+                $args[Address::STREET] = isset($addressData['Strasse']) ? $addressData['Strasse'] : '';
+                $args[Address::POST_CODE] = isset($addressData['Plz']) ? $addressData['Plz'] : '';
                 $args[Address::CITY] = $addressData['Ort'];
                 $args[Address::UUID] = $addressData['UUID'];
 
