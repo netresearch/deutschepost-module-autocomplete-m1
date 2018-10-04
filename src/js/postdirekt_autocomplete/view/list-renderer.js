@@ -80,6 +80,7 @@ ListRenderer.prototype = {
     },
 
     /**
+     * Set field value from selected li
      *
      * @param {Object} item
      * @param {HTMLElement} field
@@ -88,8 +89,9 @@ ListRenderer.prototype = {
     itemSelect: function (item, field, dataList) {
         field.value = item.dataset.value;
         Event.fire($(field), 'autocomplete:datalist-select');
-        dataList.hide();
+        dataList.remove();
     },
+
     /**
      * Keynavigation for ul
      *
@@ -109,6 +111,7 @@ ListRenderer.prototype = {
         if (isTab) {
             dataList.hide();
         }
+
         dataOptions = dataList.childElements();
         var activeItem = dataList.down('[data-active]');
         var firstItem = dataOptions[0];
@@ -133,8 +136,8 @@ ListRenderer.prototype = {
             }
             activeItem.removeAttribute('data-active');
 
-            if ( isUp ) {
-                if( prevVisible ) {
+            if (isUp) {
+                if (prevVisible) {
                     prevVisible.setAttribute('data-active', 'true');
                     if ( prevVisible.offsetTop < dataList.scrollTop ) {
                         dataList.scrollTop -= prevVisible.offsetHeight;
@@ -143,15 +146,15 @@ ListRenderer.prototype = {
                     dataOptions[dataOptions.length - 1].setAttribute('data-active', 'true');
                 }
             }
-            if ( isDown ) {
-                if( nextVisible ) {
+            if (isDown) {
+                if (nextVisible) {
                     nextVisible.setAttribute('data-active', 'true');
                 } else {
                     dataOptions[0].setAttribute('data-active', 'true');
                 }
             }
 
-            if (isEnter ) {
+            if (isEnter) {
                 this.itemSelect(activeItem, $field, dataList);
             }
         }
