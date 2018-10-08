@@ -24,7 +24,6 @@ AutocompleteAddressData.prototype = {
      * setAddressData.
      *
      * @param {Object} addressData
-     *
      */
     setData: function(addressData) {
         this.addressData = addressData;
@@ -35,7 +34,6 @@ AutocompleteAddressData.prototype = {
      *
      * @param {String} key
      * @param {String} value
-     *
      */
     setDataValue: function(key, value) {
         this.addressData[key] = value;
@@ -45,9 +43,23 @@ AutocompleteAddressData.prototype = {
      * Returns current address object
      *
      * @returns {Object} addressData
-     *
      */
     getData: function() {
         return this.addressData;
+    },
+
+    /**
+     * Returns TRUE if the object is empty, FALSE if some address data is set.
+     *
+     * @returns {boolean}
+     */
+    isEmpty: function() {
+        for (var key in this.addressData) {
+            if (this.addressData[key].length) {
+                return false;
+            }
+        }
+
+        return true;
     }
 };

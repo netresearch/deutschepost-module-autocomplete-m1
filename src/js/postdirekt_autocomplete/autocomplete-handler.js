@@ -132,11 +132,13 @@ AddressAutocomplete.prototype = {
     /**
      * Executes a search request.
      *
-     * @param {HTMLElement} $field
-     *
-     * @return {Object} Search results
+     * @param {HTMLElement} $currentField
      */
     searchAction: function ($currentField) {
+        if (this.addressData.isEmpty()) {
+            return;
+        }
+
         var self = this;
 
         this.searchRequest.doSearchRequest(this.addressData.getData(), function (json) {
@@ -147,8 +149,6 @@ AddressAutocomplete.prototype = {
 
     /**
      * Executes a select request.
-     *
-     * @return {Object} Select results
      */
     selectAction: function () {
         var selectedSuggestion = this.datalistSelectAction.getCurrentSuggestion();
