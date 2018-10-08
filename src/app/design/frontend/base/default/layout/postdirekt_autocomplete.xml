@@ -20,7 +20,7 @@
             <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/model/country-select.js</script></action>
             <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/view/list-renderer.js</script></action>
             <action method="addCss" ifconfig="customer/postdirekt_autocomplete/active">
-                <stylesheet>css/postdirekt_autocomplete/polyfill.css</stylesheet>
+                <stylesheet>css/postdirekt_autocomplete/datalist.css</stylesheet>
             </action>
         </reference>
     </postdirekt_autocomplete_handle>
