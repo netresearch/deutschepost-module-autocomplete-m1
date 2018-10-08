@@ -19,7 +19,6 @@ DataListRenderer.prototype = {
      */
     initialize: function(fields, suggestions, divider) {
         this.suggestionModel = suggestions;
-        this.fields          = fields;
         this.fieldNames      = fields.getNames();
         this.divider         = divider;
     },

@@ -58,7 +58,6 @@ DatalistSelect.prototype = {
         if (self.currentSuggestionObject && self.currentSuggestionObject.length) {
             // Fill all fields with response values
             this.fieldNames.each(function(fieldName) {
-
                 // Get data selector with address item
                 var field = self.fields.getFieldByName(fieldName);
 

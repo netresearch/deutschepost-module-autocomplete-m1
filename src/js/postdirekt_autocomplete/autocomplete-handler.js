@@ -77,6 +77,16 @@ AddressAutocomplete.prototype = {
                     });
                 });
 
+            fieldItem
+                .observe('focus', function (e) {
+                    // Update address object
+                    self.fieldInputAction.doInputAction(e.target);
+                    // Run address search with timeout
+                    self.triggerDelayedCallback(function () {
+                        self.searchAction(e.target);
+                    });
+                });
+
             // Watch input value changes
             fieldItem
                 .observe('input', function (e) {
