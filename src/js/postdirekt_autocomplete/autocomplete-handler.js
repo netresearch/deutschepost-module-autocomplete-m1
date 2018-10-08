@@ -147,8 +147,6 @@ AddressAutocomplete.prototype = {
             throw 'Missing required field <uuid>';
         }
 
-        this.selectRequest.doSelectRequest(this.addressData.getData());
-
-        // this.selectRequest.doSelectRequest(selectedSuggestion);
+        this.selectRequest.doSelectRequest(selectedSuggestion);
     }
 };
