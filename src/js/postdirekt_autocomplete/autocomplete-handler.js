@@ -84,10 +84,11 @@ AddressAutocomplete.prototype = {
         this.addressSuggestions     = new AutocompleteAddressSuggestions({});
         this.addressData            = new AutocompleteAddressData({});
         this.fieldInputAction       = new FieldInput(this.addressFields, this.addressData);
-        this.datalistSelectAction   = new DatalistSelect(this.addressFields, this.addressSuggestions);
         this.countrySelect          = new CountrySelect(form);
-        this.datalistAble           = this.datalistSuppport();
-        this.getDatalistRenderer();
+        this.datalistSupport        = new DatalistSupport();
+        this.datalistSelectAction   = new DatalistSelect(this.addressFields, this.addressSuggestions, this.datalistSupport.hasSupport());
+        this.datalistRenderer       = this.getDatalistRenderer();
+
         this.loadPrefilledValues();
         this.listenFields();
         this.removeListOnCountryChange();
@@ -236,30 +237,13 @@ AddressAutocomplete.prototype = {
     },
 
     /**
-     * Check support for datalist html element
-     *
-     * @returns {boolean}
-     */
-    datalistSuppport: function () {
-        var datalistSupported = !!(document.createElement('datalist') && window.HTMLDataListElement);
-        var ua = navigator.userAgent;
-
-        // Android does not have actual support
-        var isAndroidBrowser = ua.match(/Android/) && !ua.match(/(Firefox|Chrome|Opera|OPR)/);
-        if( datalistSupported && !isAndroidBrowser ) {
-            return true;
-        }
-        return false;
-    },
-
-    /**
      * get datalist renderer pending on ability of dealing with datalist element
+     * @returns {Object}
      */
     getDatalistRenderer: function() {
-        if (!this.datalistAble) {
-           this.datalistRenderer = new ListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
-        } else {
-            this.datalistRenderer = new DataListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
+        if (this.datalistSupport.hasSupport()) {
+            return new DataListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
         }
+        return new ListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
     }
 };
