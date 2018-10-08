@@ -37,7 +37,7 @@ AutocompleteFields.prototype = {
     /**
      * Returns array of all autocomplete field names
      *
-     * @returns {Array} this.fieldNames
+     * @returns {String[]} this.fieldNames
      *
      */
     getNames: function() {
@@ -47,7 +47,7 @@ AutocompleteFields.prototype = {
     /**
      * Returns array of all autocomplete fields
      *
-     * @returns {Array} formFields
+     * @returns {HTMLElement[]} formFields
      */
     getFields: function() {
         var self       = this,

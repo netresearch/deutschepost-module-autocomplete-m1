@@ -34,9 +34,12 @@ AddressAutocomplete.prototype = {
         this.fieldInputAction       = new FieldInput(this.addressFields, this.addressData, this.searchRequest);
         this.datalistRenderer       = new DataListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
         this.datalistSelectAction   = new DatalistSelect(this.form, this.addressFields, this.addressSuggestions);
+        this.countrySelect          = new CountrySelect(this.form);
 
         this.loadPrefilledValues();
         this.listenFields();
+
+        this.removeListOnCountryChange();
     },
 
     /**
@@ -140,11 +143,12 @@ AddressAutocomplete.prototype = {
         }
 
         var self = this;
-
-        this.searchRequest.doSearchRequest(this.addressData.getData(), function (json) {
-            self.addressSuggestions.setAddressSuggestions(json);
-            self.datalistRenderer.render($currentField);
-        });
+        if (this.countrySelect.isGermany) {
+            this.searchRequest.doSearchRequest(this.addressData.getData(), function (json) {
+                self.addressSuggestions.setAddressSuggestions(json);
+                self.datalistRenderer.render($currentField);
+            });
+        }
     },
 
     /**
@@ -158,5 +162,18 @@ AddressAutocomplete.prototype = {
         }
 
         this.selectRequest.doSelectRequest(selectedSuggestion);
+    },
+
+    /**
+     * Remove all datalists when country is not Germany
+     */
+    removeListOnCountryChange: function () {
+        this.countrySelect.listenOnChange(function (isGermany) {
+            if (!isGermany) {
+                this.addressFields.getFields().each(function (field) {
+                    this.datalistRenderer.removeDatalist(field);
+                }.bind(this));
+            }
+        }.bind(this));
     }
 };

@@ -17,6 +17,7 @@
             <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/action/select-request.js</script></action>
             <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/action/datalist-select.js</script></action>
             <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/action/update-fields.js</script></action>
+            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/model/country-select.js</script></action>
         </reference>
     </postdirekt_autocomplete_handle>
 

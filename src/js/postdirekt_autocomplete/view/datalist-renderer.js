@@ -31,12 +31,10 @@ DataListRenderer.prototype = {
     render: function ($currentField) {
         var self             = this,
             fieldId          = $currentField.id,
-            $currentDataList = $('datalist-' + fieldId),
             suggestions      = this.suggestionModel.getAddressSuggestions();
 
-        if ($currentDataList) {
-            $currentDataList.remove();
-        }
+        this.removeDatalist($currentField);
+
 
         var $dataList = new Element('datalist', {
             'id': 'datalist-' + fieldId
@@ -66,5 +64,28 @@ DataListRenderer.prototype = {
         $currentField.insert({
             after: $dataList
         });
+    },
+    /**
+     * @private
+     * @param {HTMLElement} field
+     * @returns {HTMLElement}
+     */
+    getDatalist: function(field) {
+        var fieldId = field.id;
+
+        return $('datalist-' + fieldId)
+    },
+
+    /**
+     *
+     * @param {HTMLElement} field
+     */
+    removeDatalist: function (field) {
+        var datalist = this.getDatalist(field);
+
+        if (datalist) {
+            datalist.remove();
+        }
+
     }
 };
