@@ -28,7 +28,7 @@ DataListRenderer.prototype = {
     render: function ($currentField) {
         var self             = this,
             fieldId          = $currentField.id,
-            suggestionOptions      = this.suggestionModel.getAddressSuggestionOptions(self.fieldNames, self.divider);
+            suggestionOptions      = this.suggestionModel.getAddressSuggestionOptions(self.fieldNames, self.divider, 'option');
 
         this.removeDatalist($currentField);
 

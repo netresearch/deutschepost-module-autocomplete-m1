@@ -124,7 +124,8 @@ AddressAutocomplete.prototype = {
             // Watch key strokes
             fieldItem
                 .observe('keyup', function (e) {
-                    var navigatorCodes = [9, 13, 38, 40];
+                    //arrows, tab, enter
+                    var navigatorCodes = [9, 13, 37, 38, 39, 40];
                     if (navigatorCodes.indexOf(e.keyCode) === -1) {
                         // Update address object
                         self.fieldInputAction.doInputAction(e.target);
