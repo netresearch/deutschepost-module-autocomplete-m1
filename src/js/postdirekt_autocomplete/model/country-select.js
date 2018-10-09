@@ -3,25 +3,38 @@
 var CountrySelect = Class.create();
 
 /**
- * Wrapper for country select in checkout
- * @type {{initialize: CountrySelect.initialize, listenOnChange: CountrySelect.listenOnChange}}
+ * Wrapper for country selection in checkout.
  */
 CountrySelect.prototype = {
+    /**
+     * @property {Boolean} isGermany
+     */
+    isGermany: false,
 
     /**
+     * The HTML Element that is the source of the country selection.
+     *
+     * @property {HTMLElement} countrySelect
+     */
+    countrySelect: null,
+
+    /**
+     * Initialize.
+     *
      * @param {HTMLElement} $form
+     *
+     * @constructor
      */
     initialize: function ($form) {
         this.countrySelect = $form.down('[name*="country_id"]');
-        this.isGermany = true;
-        if (this.countrySelect.value !== 'DE') {
-            this.isGermany = false;
+        if (this.countrySelect.value === 'DE') {
+            this.isGermany = true;
         }
     },
 
     /**
-     * Callback is executed when country changes and get this.isGermany as param
-     * @param callback
+     * @param callback Is executed every time the address country changes.
+     *                 Will recieve boolean this.isGermany as parameter.
      */
     listenOnChange: function(callback) {
         this.countrySelect.observe('change', function(e){

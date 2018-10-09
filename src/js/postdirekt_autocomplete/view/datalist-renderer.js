@@ -3,16 +3,13 @@
 var DataListRenderer = Class.create();
 
 /**
- * Resource model for full AddressAutocomplete objects
- *
- * @type {{}}
+ * Renderer for native datalist elements
  */
 DataListRenderer.prototype = {
-
     /**
      *
-     * @param {Object} fields
-     * @param {Object} suggestions
+     * @param {AutocompleteFields} fields
+     * @param {AutocompleteAddressSuggestions} suggestions
      * @param {String} divider
      *
      * @constructor
@@ -77,7 +74,6 @@ DataListRenderer.prototype = {
     },
 
     /**
-     *
      * @param {HTMLElement} field
      */
     removeDatalist: function (field) {

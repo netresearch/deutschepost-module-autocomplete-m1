@@ -4,26 +4,34 @@ var DatalistSelect = Class.create();
 
 /**
  * Resource model for DatalistSelect objects.
- *
- * @type {{}}
  */
 DatalistSelect.prototype = {
+    /**
+     * @property {AutocompleteFields}
+     */
+    fields: null,
+
+    /**
+     * @property {AutocompleteAddressSuggestions}
+     */
+    suggestionModel: null,
+
+    /**
+     * @property {Object}
+     */
+    currentSuggestionObject: null,
 
     /**
      * Initialize.
      *
-     * @param {HTMLElement} $currentForm
-     * @param {Object}      observedFields
-     * @param {Object}      suggestionModel
+     * @param {AutocompleteFields} observedFields
+     * @param {AutocompleteAddressSuggestions} suggestionModel
      *
      * @constructor
      */
-    initialize: function($currentForm, observedFields, suggestionModel) {
-        this.form            = $currentForm;
+    initialize: function(observedFields, suggestionModel) {
         this.fields          = observedFields;
-        this.fieldNames      = observedFields.getNames();
         this.suggestionModel = suggestionModel;
-        this.currentSuggestionObject = null;
     },
 
     /**
@@ -57,7 +65,7 @@ DatalistSelect.prototype = {
 
         if (self.currentSuggestionObject && self.currentSuggestionObject.length) {
             // Fill all fields with response values
-            this.fieldNames.each(function(fieldName) {
+            self.fields.getNames().each(function(fieldName) {
                 // Get data selector with address item
                 var field = self.fields.getFieldByName(fieldName);
 
@@ -69,7 +77,7 @@ DatalistSelect.prototype = {
     },
 
     /**
-     * Returns TRUE whether an datalist element has been selected or not.
+     * Returns TRUE when a datalist element has been selected.
      *
      * @param {HTMLElement} $currentField
      *
@@ -85,6 +93,7 @@ DatalistSelect.prototype = {
         }
 
         var option = $dataList.down("[value='" + fieldValue + "']");
+
         return option && (option.value === fieldValue);
     }
 };

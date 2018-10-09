@@ -2,26 +2,28 @@
 
 var FieldInput = Class.create();
 
-/**
- * Resource model for SelectRequest objects.
- *
- * @type {{}}
- */
 FieldInput.prototype = {
+    /**
+     * @property {AutocompleteFields} allFields
+     */
+    allFields: null,
+
+    /**
+     * @property {AutocompleteAddressData} addressData
+     */
+    addressData: null,
 
     /**
      * Initialize.
      *
-     * @param {Object} allFields
-     * @param {Object} addressData
-     * @param {Object} searchRequest
+     * @param {AutocompleteFields} allFields
+     * @param {AutocompleteAddressData} addressData
      *
      * @constructor
      */
-    initialize: function(allFields, addressData, searchRequest) {
+    initialize: function(allFields, addressData) {
         this.allFields     = allFields;
         this.addressData   = addressData;
-        this.searchRequest = searchRequest;
     },
 
     /**

@@ -8,11 +8,13 @@ var RequestAdapter = Class.create();
  * @type {{}}
  */
 RequestAdapter.prototype = {
+    /**
+     * @property {string} url
+     */
+    url: '',
 
     /**
-     *
      * @param {string} url
-     *
      * @constructor
      */
     initialize: function(url) {

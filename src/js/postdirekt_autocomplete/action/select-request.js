@@ -4,16 +4,17 @@ var SelectRequest = Class.create();
 
 /**
  * Resource model for SelectRequest objects.
- *
- * @type {{}}
  */
 SelectRequest.prototype = {
+    /**
+     * @property {RequestAdapter} requestAdapter
+     */
     requestAdapter : null,
 
     /**
      * Initialize.
      *
-     * @param {String} url
+     * @param {string} url
      *
      * @constructor
      */

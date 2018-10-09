@@ -3,17 +3,18 @@
 var SearchRequest = Class.create();
 
 /**
- * Resource model for SearchRequest objects.
- *
- * @type {{}}
+ * Search request action.
  */
 SearchRequest.prototype = {
-    requestAdapter : null,
+    /**
+     * @property {RequestAdapter} requestAdapter
+     */
+    requestAdapter: null,
 
     /**
      * Initialize.
      *
-     * @param {String} url
+     * @param {string} url
      *
      * @constructor
      */

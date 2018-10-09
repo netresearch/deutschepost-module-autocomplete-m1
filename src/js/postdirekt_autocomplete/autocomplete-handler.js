@@ -8,44 +8,95 @@ var AddressAutocomplete = Class.create();
  * @type {{}}
  */
 AddressAutocomplete.prototype = {
+    /**
+     * @property {int} typingDelay
+     */
     typingDelay: 300,
+
+    /**
+     * @property {string} timeoutId
+     */
     timeoutId: null,
+
+    /**
+     * @property {string} addressItemDivider
+     */
     addressItemDivider: ', ',
 
     /**
-     *
+     * @property {AutocompleteFields} addressFields
+     */
+    addressFields: null,
+
+    /**
+     * @property {SearchRequest} searchRequest
+     */
+    searchRequest: null,
+
+    /**
+     * @property {SelectRequest} selectRequest
+     */
+    selectRequest: null,
+
+    /**
+     * @property {AutocompleteAddressSuggestions} addressSuggestions
+     */
+    addressSuggestions: null,
+
+    /**
+     * @property {AutocompleteAddressData} addressData
+     */
+    addressData: null,
+
+    /**
+     * @property {FieldInput} fieldInputAction
+     */
+    fieldInputAction: null,
+
+    /**
+     * @property {DataListRenderer} datalistRenderer
+     */
+    datalistRenderer: null,
+
+    /**
+     * @property {DatalistSelect} datalistSelectAction
+     */
+    datalistSelectAction: null,
+
+    /**
+     * @property {CountrySelect} countrySelect
+     */
+    countrySelect: null,
+
+    /**
      * @param {string} formId
      * @param {string} searchUrl
      * @param {string} respondUrl
-     * @param {array}  watchedFieldIds
+     * @param {Object}  watchedFieldIds
      *
      * @constructor
      */
     initialize: function (formId, searchUrl, respondUrl, watchedFieldIds) {
-        this.form                   = $(formId);
-        this.searchUrl              = searchUrl;
-        this.respondUrl             = respondUrl;
-        this.addressFieldNames      = watchedFieldIds;
-        this.addressFields          = new AutocompleteFields(this.form, this.addressFieldNames);
-        this.searchRequest          = new SearchRequest(this.searchUrl);
-        this.selectRequest          = new SelectRequest(this.respondUrl);
+        var form                   = $(formId);
+        this.addressFields          = new AutocompleteFields(form, watchedFieldIds);
+        this.searchRequest          = new SearchRequest(searchUrl);
+        this.selectRequest          = new SelectRequest(respondUrl);
         this.addressSuggestions     = new AutocompleteAddressSuggestions({});
         this.addressData            = new AutocompleteAddressData({});
-        this.fieldInputAction       = new FieldInput(this.addressFields, this.addressData, this.searchRequest);
+        this.fieldInputAction       = new FieldInput(this.addressFields, this.addressData);
         this.datalistRenderer       = new DataListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
-        this.datalistSelectAction   = new DatalistSelect(this.form, this.addressFields, this.addressSuggestions);
-        this.countrySelect          = new CountrySelect(this.form);
+        this.datalistSelectAction   = new DatalistSelect(this.addressFields, this.addressSuggestions);
+        this.countrySelect          = new CountrySelect(form);
 
         this.loadPrefilledValues();
         this.listenFields();
-
         this.removeListOnCountryChange();
     },
 
     /**
      * Writes existing field values into object
      *
-     * @returns void
+     * @private
      */
     loadPrefilledValues: function () {
         this.addressFields.getFields().each(function(field) {
@@ -56,9 +107,9 @@ AddressAutocomplete.prototype = {
     },
 
     /**
-     * Adds listener to observed address fields
+     * Adds listeners to observed address fields
      *
-     * @returns void
+     * @private
      */
     listenFields: function () {
         var self = this;
@@ -115,6 +166,7 @@ AddressAutocomplete.prototype = {
     /**
      * Triggers an delayed callback.
      *
+     * @private
      * @param {Function} callback Callback to execute after timeout
      * @param {int}      delay    Delay in milliseconds
      */
@@ -135,6 +187,7 @@ AddressAutocomplete.prototype = {
     /**
      * Executes a search request.
      *
+     * @private
      * @param {HTMLElement} $currentField
      */
     searchAction: function ($currentField) {
@@ -142,17 +195,18 @@ AddressAutocomplete.prototype = {
             return;
         }
 
-        var self = this;
         if (this.countrySelect.isGermany) {
             this.searchRequest.doSearchRequest(this.addressData.getData(), function (json) {
-                self.addressSuggestions.setAddressSuggestions(json);
-                self.datalistRenderer.render($currentField);
-            });
+                this.addressSuggestions.setAddressSuggestions(json);
+                this.datalistRenderer.render($currentField);
+            }.bind(this));
         }
     },
 
     /**
      * Executes a select request.
+     *
+     * @private
      */
     selectAction: function () {
         var selectedSuggestion = this.datalistSelectAction.getCurrentSuggestion();
@@ -165,7 +219,9 @@ AddressAutocomplete.prototype = {
     },
 
     /**
-     * Remove all datalists when country is not Germany
+     * Remove all datalists when country is not Germany.
+     *
+     * @private
      */
     removeListOnCountryChange: function () {
         this.countrySelect.listenOnChange(function (isGermany) {

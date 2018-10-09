@@ -3,9 +3,7 @@
 var AutocompleteFields = Class.create();
 
 /**
- * Resource model for AutocompleteAddressData objects.
- *
- * @type {{}}
+ * Resource model for HTMLElements that are augmented with autocomplete functionality.
  */
 AutocompleteFields.prototype = {
 
@@ -27,7 +25,7 @@ AutocompleteFields.prototype = {
     /**
      * Returns array of all autocomplete field IDs
      *
-     * @returns {Array} this.fieldIds
+     * @returns {string[]}
      *
      */
     getIds: function() {
@@ -37,7 +35,7 @@ AutocompleteFields.prototype = {
     /**
      * Returns array of all autocomplete field names
      *
-     * @returns {String[]} this.fieldNames
+     * @returns {string[]}
      *
      */
     getNames: function() {
@@ -47,7 +45,7 @@ AutocompleteFields.prototype = {
     /**
      * Returns array of all autocomplete fields
      *
-     * @returns {HTMLElement[]} formFields
+     * @returns {HTMLElement[]}
      */
     getFields: function() {
         var self       = this,
@@ -91,7 +89,7 @@ AutocompleteFields.prototype = {
      *
      * @param {string} id
      *
-     * @returns {HTMLElement}
+     * @returns {string}
      */
     getNameById: function(id) {
         for (var key in this.fieldNamesObject) {
@@ -100,6 +98,6 @@ AutocompleteFields.prototype = {
             }
         }
 
-        return null;
+        return '';
     }
 };
