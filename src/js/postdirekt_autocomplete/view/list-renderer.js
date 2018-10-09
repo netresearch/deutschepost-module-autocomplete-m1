@@ -3,7 +3,7 @@
 var ListRenderer = Class.create();
 
 /**
- * Resource model for full AddressAutocomplete objects
+ * Resource model for AddressAutocomplete ul objects
  *
  * @type {{}}
  */
@@ -22,7 +22,8 @@ ListRenderer.prototype = {
         this.fields          = fields;
         this.fieldNames      = fields.getNames();
         this.divider         = divider;
-        this.observeFields();
+        // prevent timing problems
+        this.addFieldKeyListener();
     },
 
     /**
@@ -32,8 +33,9 @@ ListRenderer.prototype = {
      */
     render: function ($currentField) {
         var self = this,
-            suggestions = this.suggestionModel.getAddressSuggestions(),
-            $currentDataList = $currentField.datalist;
+            suggestionOptions = this.suggestionModel.getAddressSuggestionOptions(self.fieldNames, self.divider, 'li'),
+            fieldId          = $currentField.id,
+            $currentDataList = $('datalist-' + fieldId);
 
         if ($currentDataList) {
             $currentDataList.remove();
@@ -44,34 +46,18 @@ ListRenderer.prototype = {
             'style' : 'width:'+ $currentField.offsetWidth +'px'
         });
 
-        suggestions.each(function(suggestionItem) {
-            var $dataListOption  = new Element('li', {
-                'id': suggestionItem.uuid
-            }),
-                addressDataArray = [];
-
-            // Combine all address items to suggestion string, divided by divider
-            self.fieldNames.each(function(fieldName) {
-                if (suggestionItem[fieldName] && suggestionItem[fieldName].length) {
-                    addressDataArray.push(suggestionItem[fieldName]);
-                }
+        if (suggestionOptions.length > 0) {
+            suggestionOptions.each(function ($dataListOption) {
+                $dataList.insert({
+                    bottom: $dataListOption
+                });
             });
-
-            var addressData = addressDataArray.join(self.divider);
-            // Print suggestions's items to datalist option, separated by divider
-            $dataListOption.update(addressData);
-            $dataListOption.setAttribute('data-value', addressData);
-
-            $dataList.insert({
-                bottom: $dataListOption
-            });
-        });
+        }
 
         $currentField.setAttribute('list', 'datalist-' + $currentField.id);
         $currentField.insert({
             after: $dataList
         });
-        $currentField.datalist = $dataList;
 
         $dataList.observe('mousedown', function (e) {
             self.itemSelect(e.target, $currentField, this);
@@ -99,9 +85,11 @@ ListRenderer.prototype = {
      * @param {boolean} isDown
      * @param {boolean} isUp
      * @param {boolean} isEnter
+     * @param {boolean} isTab
      */
     triggerKeydown: function ($field, isDown, isUp, isEnter, isTab) {
-        var dataList    = $field.datalist,
+        var fieldId = $field.id,
+            dataList    = $('datalist-' + fieldId),
             dataOptions = null;
 
         if(!dataList) {
@@ -113,8 +101,8 @@ ListRenderer.prototype = {
         }
 
         dataOptions = dataList.childElements();
-        var activeItem = dataList.down('[data-active]');
-        var firstItem = dataOptions[0];
+        var activeItem = dataList.down('[data-active]'),
+            firstItem = dataOptions[0];
 
         if (!activeItem && isEnter) {
             return;
@@ -162,7 +150,7 @@ ListRenderer.prototype = {
     /**
      * Add listener to observe address fields
      */
-    observeFields: function () {
+    addFieldKeyListener: function () {
         var self = this;
 
         self.fields.getIds().each(function(fieldId) {
@@ -182,5 +170,17 @@ ListRenderer.prototype = {
                 });
 
         });
+    },
+
+    /**
+     *
+     * @param {HTMLElement} $currentField
+     * @return {String}
+     */
+    getSuggestionUuid: function ($currentField) {
+        var fieldValue  = $currentField.value,
+            option      = $currentField.next('ul').down("[data-value='" + fieldValue + "']"),
+            optionId    =  option.identify();
+        return optionId;
     }
 };

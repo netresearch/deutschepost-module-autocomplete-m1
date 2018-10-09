@@ -28,7 +28,7 @@ DataListRenderer.prototype = {
     render: function ($currentField) {
         var self             = this,
             fieldId          = $currentField.id,
-            suggestions      = this.suggestionModel.getAddressSuggestions();
+            suggestionOptions      = this.suggestionModel.getAddressSuggestionOptions(self.fieldNames, self.divider);
 
         this.removeDatalist($currentField);
 
@@ -37,21 +37,7 @@ DataListRenderer.prototype = {
             'id': 'datalist-' + fieldId
         });
 
-        suggestions.each(function(suggestionItem) {
-            var $dataListOption  = new Element('option', {
-                    'id': suggestionItem.uuid
-                }),
-                addressDataArray = [];
-
-            // Combine all address items to suggestion string, divided by divider
-            self.fieldNames.each(function(fieldName) {
-                if (suggestionItem[fieldName] && suggestionItem[fieldName].length) {
-                    addressDataArray.push(suggestionItem[fieldName]);
-                }
-            });
-
-            // Print suggestions's items to datalist option, separated by divider
-            $dataListOption.value = addressDataArray.join(self.divider);
+        suggestionOptions.each(function($dataListOption){
             $dataList.insert({
                 bottom: $dataListOption
             });
@@ -62,6 +48,7 @@ DataListRenderer.prototype = {
             after: $dataList
         });
     },
+
     /**
      * @private
      * @param {HTMLElement} field
@@ -82,6 +69,17 @@ DataListRenderer.prototype = {
         if (datalist) {
             datalist.remove();
         }
+    },
 
+    /**
+     * @param {HTMLElement} $currentField
+     * @return {string}
+     */
+    getSuggestionUuid: function ($currentField) {
+        var fieldValue  = $currentField.value,
+            option = $currentField.next('datalist').down("[value='" + fieldValue + "']"),
+            optionId = option.identify();
+
+        return optionId;
     }
 };

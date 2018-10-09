@@ -86,7 +86,7 @@ AddressAutocomplete.prototype = {
         this.fieldInputAction       = new FieldInput(this.addressFields, this.addressData);
         this.countrySelect          = new CountrySelect(form);
         this.datalistSupport        = new DatalistSupport();
-        this.datalistSelectAction   = new DatalistSelect(this.addressFields, this.addressSuggestions, this.datalistSupport.hasSupport());
+        this.datalistSelectAction   = new DatalistSelect(this.addressFields, this.addressSuggestions);
         this.datalistRenderer       = this.getDatalistRenderer();
 
         this.loadPrefilledValues();
@@ -124,14 +124,16 @@ AddressAutocomplete.prototype = {
             // Watch key strokes
             fieldItem
                 .observe('keyup', function (e) {
-                    // Update address object
-                    self.fieldInputAction.doInputAction(e.target);
-                    // Run address search with timeout
+                    var navigatorCodes = [9, 13, 38, 40];
+                    if (navigatorCodes.indexOf(e.keyCode) === -1) {
+                        // Update address object
+                        self.fieldInputAction.doInputAction(e.target);
+                        // Run address search with timeout
 
-                    self.triggerDelayedCallback(function () {
-                        self.searchAction(e.target);
-
-                    });
+                        self.triggerDelayedCallback(function () {
+                            self.searchAction(e.target);
+                        });
+                    }
                 });
 
             fieldItem
@@ -158,9 +160,9 @@ AddressAutocomplete.prototype = {
                 .observe('autocomplete:datalist-select', function (e) {
                     // Remove focus after selection, preventing chrome from re-showing the datalist again
                     e.target.blur();
-
+                    var uuid = self.datalistRenderer.getSuggestionUuid(e.target);
                     // Update all observed fields after item was selected in datalist
-                    self.datalistSelectAction.updateFields(e.target);
+                    self.datalistSelectAction.updateFields(uuid);
                     self.selectAction();
                 });
         });

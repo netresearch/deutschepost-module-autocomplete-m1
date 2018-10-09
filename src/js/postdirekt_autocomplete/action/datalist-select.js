@@ -26,13 +26,12 @@ DatalistSelect.prototype = {
      *
      * @param {AutocompleteFields} observedFields
      * @param {AutocompleteAddressSuggestions} suggestionModel
-     * @param {boolean}     datalistSupport
      * @constructor
      */
-    initialize: function(observedFields, suggestionModel, datalistSupport) {
+
+    initialize: function(observedFields, suggestionModel) {
         this.fields          = observedFields;
         this.suggestionModel = suggestionModel;
-        this.datalistSuppport = datalistSupport;
     },
 
     /**
@@ -51,21 +50,11 @@ DatalistSelect.prototype = {
     /**
      * Updates all observed fields.
      *
-     * @param {HTMLElement} $currentField
+     * @param {string} optionId
      */
-    updateFields: function ($currentField) {
+    updateFields: function (optionId) {
         var self        = this,
-            fieldValue  = $currentField.value,
-            suggestions = this.suggestionModel,
-            option = null;
-
-        if (this.datalistSuppport) {
-            option = $currentField.next('datalist').down("[value='" + fieldValue + "']");
-        } else {
-            console.log($currentField);
-            option = $currentField.datalist.down("[data-value='" + fieldValue + "']");
-        }
-        var optionId = option.identify();
+            suggestions = this.suggestionModel;
 
         if (optionId) {
             self.currentSuggestionObject = suggestions.getByUuid(optionId);
