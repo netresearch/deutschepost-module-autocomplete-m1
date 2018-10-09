@@ -39,7 +39,7 @@ class Postdirekt_Autocomplete_Model_Webservice_SearchResponseFactory
                 }
 
                 if (isset($addressData['Plz'])) {
-                    $args[Address::POST_CODE] = $addressData['Plz'];
+                    $args[Address::POST_CODE] = (string)$addressData['Plz'];
                 }
 
                 $args[Address::CITY] = $addressData['Ort'];
