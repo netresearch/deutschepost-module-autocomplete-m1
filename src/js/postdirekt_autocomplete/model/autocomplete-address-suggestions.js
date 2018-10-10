@@ -3,21 +3,32 @@
 var AutocompleteAddressSuggestions = Class.create();
 
 /**
- * Resource model for AutocompleteAddressSuggestions objects.
+ * Resource model for Autocomplete Address Suggestions.
  *
- * @type {{}}
  */
 AutocompleteAddressSuggestions.prototype = {
+
+    /**
+     * @param {Object}
+     */
+    data: {},
+
+    /**
+     * @param {AutocompleteFields} autocompleteFields
+     */
+    autocompleteFields: {},
 
     /**
      * Initialize.
      *
      * @param {Object} data
+     * @param {AutocompleteFields} autocompleteFields
      *
      * @constructor
      */
-    initialize: function(data) {
-        this.data = data
+    initialize: function(data, autocompleteFields) {
+        this.data = data;
+        this.autocompleteFields = autocompleteFields;
     },
 
     /**
@@ -56,54 +67,32 @@ AutocompleteAddressSuggestions.prototype = {
     /**
      * Build datalist options
      *
-     * @param {Array} fieldNames
      * @param {String} divider
      * @param {String} optionType
-     * @return {HTMLElement[]}
+     * @return {{id: string, title: string}[]}
      */
-    getAddressSuggestionOptions: function(fieldNames, divider, optionType) {
+    getAddressSuggestionOptions: function(divider, optionType) {
         var suggestions = this.getAddressSuggestions(),
             options = [];
         if (suggestions.length > 0) {
             suggestions.each(function(suggestionItem) {
-                var $dataListOption  = this.getOptionElement(suggestionItem, optionType),
-                    addressDataArray = [];
+                var addressParts = [],
+                    option = {};
 
                 // Combine all address items to suggestion string, divided by divider
-                fieldNames.each(function(fieldName) {
+                this.autocompleteFields.getNames().each(function(fieldName) {
                     if (suggestionItem[fieldName] && suggestionItem[fieldName].length) {
-                        addressDataArray.push(suggestionItem[fieldName]);
+                        addressParts.push(suggestionItem[fieldName]);
                     }
                 });
-                if (optionType === 'li') {
-                    var addressData = addressDataArray.join(divider);
-                    // Print suggestions's items to datalist option, separated by divider
-                    $dataListOption.update(addressData);
-                    $dataListOption.setAttribute('data-value', addressData);
-                } else {
-                    $dataListOption.value = addressDataArray.join(divider);
-                }
 
-                options.push($dataListOption);
+                option.id = suggestionItem.uuid;
+                option.title = addressParts.join(divider);
+
+                options.push(option);
             }.bind(this));
         }
+
         return options;
     },
-
-    /**
-     *
-     * @param {Object} suggestionItem
-     * @param {String} optionType
-     * @return {Element}
-     */
-    getOptionElement: function (suggestionItem, optionType) {
-        if (optionType === 'li') {
-            return new Element('li',
-                { 'id': suggestionItem.uuid });
-        }
-
-        return new Element('option',
-            { 'id': suggestionItem.uuid });
-    }
-
 };

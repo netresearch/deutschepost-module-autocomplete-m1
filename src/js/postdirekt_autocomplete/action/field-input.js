@@ -4,38 +4,46 @@ var FieldInput = Class.create();
 
 FieldInput.prototype = {
     /**
-     * @property {AutocompleteFields} allFields
+     * @property {AutocompleteFields} fields
      */
-    allFields: null,
+    fields: {},
 
     /**
      * @property {AutocompleteAddressData} addressData
      */
-    addressData: null,
+    addressData: {},
 
     /**
      * Initialize.
      *
-     * @param {AutocompleteFields} allFields
+     * @param {AutocompleteFields} fields
      * @param {AutocompleteAddressData} addressData
      *
      * @constructor
      */
-    initialize: function(allFields, addressData) {
-        this.allFields     = allFields;
+    initialize: function(fields, addressData) {
+        this.fields     = fields;
         this.addressData   = addressData;
     },
 
     /**
-     * doInputAction
+     * Update the address data model with information from an input element.
      *
-     * @param {HTMLElement} $currentField
+     * @param {HTMLElement} $field
      */
-    doInputAction: function($currentField) {
-        var fieldId = $currentField.getAttribute('data-address-item'),
-            name    = this.allFields.getNameById(fieldId),
-            item    = this.allFields.getFieldById(fieldId);
-
+    updateAddressDataFromField: function($field) {
+        var fieldId = $field.getAttribute('data-address-item'),
+            name    = this.fields.getNameById(fieldId),
+            item    = this.fields.getFieldById(fieldId);
         this.addressData.setDataValue(name, item.value);
+    },
+
+    /**
+     * Update the address data model with information from all input elements.
+     */
+    updateAdressData: function () {
+        this.fields.getFields().each(function ($field) {
+            this.updateAddressDataFromField($field);
+        }.bind(this));
     }
 };

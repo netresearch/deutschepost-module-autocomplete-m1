@@ -3,27 +3,28 @@
 var ListRenderer = Class.create();
 
 /**
- * Resource model for AddressAutocomplete ul objects
- *
- * @type {{}}
+ * Renderer for a datalist substitute using a styled list.
  */
 ListRenderer.prototype = {
-    field: null,
-    currentDataList: null,
+    /**
+     * @param {AutocompleteAddressSuggestions}
+     */
+    suggestions: {},
 
     /**
-     *
-     * @param {Object} fields
-     * @param {Object} suggestions
-     * @param {String} divider
+     * @param {string}
      */
-    initialize: function(fields, suggestions, divider) {
-        this.suggestionModel = suggestions;
-        this.fields          = fields;
-        this.fieldNames      = fields.getNames();
-        this.divider         = divider;
-        // prevent timing problems
-        this.addFieldKeyListener();
+    divider: '',
+
+    /**
+     * @param {AutocompleteAddressSuggestions} suggestions
+     * @param {string} divider
+     *
+     * @constructor
+     */
+    initialize: function(suggestions, divider) {
+        this.suggestions = suggestions;
+        this.divider = divider;
     },
 
     /**
@@ -32,54 +33,104 @@ ListRenderer.prototype = {
      * @param {HTMLElement} $currentField
      */
     render: function ($currentField) {
-        var self = this,
-            suggestionOptions = this.suggestionModel.getAddressSuggestionOptions(self.fieldNames, self.divider, 'li'),
-            fieldId          = $currentField.id,
-            $currentDataList = $('datalist-' + fieldId);
+        this.removeDatalist($currentField);
+        /** Disable native autocomplete to avoid overlapping suggestions. */
+        $currentField.setAttribute("autocomplete", "off");
 
-        if ($currentDataList) {
-            $currentDataList.remove();
-        }
         var $dataList = new Element('ul', {
             'id': 'datalist-' + $currentField.id,
             'class' : 'datalist',
             'style' : 'width:'+ $currentField.offsetWidth +'px'
         });
 
+        var suggestionOptions = this.suggestions.getAddressSuggestionOptions(this.divider);
         if (suggestionOptions.length > 0) {
-            suggestionOptions.each(function ($dataListOption) {
-                $dataList.insert({
-                    bottom: $dataListOption
-                });
+            suggestionOptions.each(function (option) {
+                var $li = new Element('li', {'id': option.id, 'data-value': option.title});
+                $li.update(option.title);
+                $dataList.insert({bottom: $li});
             });
         }
-
+        $currentField.insert({after: $dataList});
         $currentField.setAttribute('list', 'datalist-' + $currentField.id);
-        $currentField.insert({
-            after: $dataList
-        });
 
+        /**
+         * Trigger an Item select when a datalist option is clicked.
+         */
         $dataList.observe('mousedown', function (e) {
-            self.itemSelect(e.target, $currentField, this);
-        });
+            this.itemSelect(e.target, $currentField);
+        }.bind(this));
 
+        /**
+         * Hide the datalist when the field is no longer in focus.
+         */
+        $currentField.observe('focusout', function (e) {
+            this.removeDatalist($currentField);
+        }.bind(this));
+
+        /**
+         * Add listener to observe address field navigation keydowns.
+         */
+        $currentField.observe('keydown', this.navigationKeyListener.bind(this));
     },
 
     /**
-     * Set field value from selected li
+     * Simulate a datalist element select event.
      *
-     * @param {Object} item
-     * @param {HTMLElement} field
-     * @param {HTMLElement} dataList
+     * @param {HTMLElement} $item
+     * @param {HTMLElement} $field
+     * @private
      */
-    itemSelect: function (item, field, dataList) {
-        field.value = item.dataset.value;
-        Event.fire($(field), 'autocomplete:datalist-select');
-        dataList.remove();
+    itemSelect: function ($item, $field) {
+        $field.value = $item.dataset.value;
+        Event.fire($field, 'autocomplete:datalist-select');
+        this.removeDatalist($field);
     },
 
     /**
-     * Keynavigation for ul
+     * @param {HTMLElement} $currentField
+     * @return {string}
+     */
+    getSuggestionUuid: function ($currentField) {
+        var fieldValue  = $currentField.value,
+            option      = $currentField.next('ul').down("[data-value='" + fieldValue + "']");
+
+        return option.id;
+    },
+
+    /**
+     * Remove the datalist from the DOM and stop observers.
+     *
+     * @param {HTMLElement} $field
+     */
+    removeDatalist: function ($field) {
+        var $datalist = $('datalist-' + $field.id);
+
+        if ($datalist) {
+            $datalist.remove();
+        }
+        /** It is not possible to stop observing a bound method, so we stop all keydown observers. */
+        $field.stopObserving("keydown");
+    },
+
+    /**
+     * Add listener to observe address field navigation keydowns.
+     *
+     * @param {KeyboardEvent} e
+     * @private
+     */
+    navigationKeyListener: function (e) {
+        var isUp = e.key === 'ArrowUp',
+            isDown = e.key === 'ArrowDown',
+            isEnter = e.key === 'Enter',
+            isTab = e.key === 'Tabulator';
+        if (isUp || isDown || isEnter || isTab) {
+            this.triggerKeydown(e.target, isDown, isUp, isEnter, isTab);
+        }
+    },
+
+    /**
+     * Keyboard navigation for ul
      *
      * @param {HTMLElement} $field
      * @param {boolean} isDown
@@ -89,8 +140,8 @@ ListRenderer.prototype = {
      */
     triggerKeydown: function ($field, isDown, isUp, isEnter, isTab) {
         var fieldId = $field.id,
-            dataList    = $('datalist-' + fieldId),
-            dataOptions = null;
+            dataList = $('datalist-' + fieldId),
+            dataOptions;
 
         if(!dataList) {
             return;
@@ -143,44 +194,8 @@ ListRenderer.prototype = {
             }
 
             if (isEnter) {
-                this.itemSelect(activeItem, $field, dataList);
+                this.itemSelect(activeItem, $field);
             }
         }
     },
-    /**
-     * Add listener to observe address fields
-     */
-    addFieldKeyListener: function () {
-        var self = this;
-
-        self.fields.getIds().each(function(fieldId) {
-            var fieldItem = self.fields.getFieldById(fieldId);
-
-            // Set field name as data attribute to prevent problems with colon selectors
-            fieldItem.setAttribute('data-address-item', fieldId);
-            fieldItem
-                .observe('keydown', function (e) {
-                    var isUp = e.keyCode === 38,
-                        isDown = e.keyCode === 40,
-                        isEnter = e.keyCode === 13,
-                        isTab = e.keyCode === 9;
-                    if (isUp || isDown || isEnter || isTab) {
-                        self.triggerKeydown(e.target, isDown, isUp, isEnter, isTab);
-                    }
-                });
-
-        });
-    },
-
-    /**
-     *
-     * @param {HTMLElement} $currentField
-     * @return {String}
-     */
-    getSuggestionUuid: function ($currentField) {
-        var fieldValue  = $currentField.value,
-            option      = $currentField.next('ul').down("[data-value='" + fieldValue + "']"),
-            optionId    =  option.identify();
-        return optionId;
-    }
 };

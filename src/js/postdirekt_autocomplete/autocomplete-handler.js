@@ -26,47 +26,47 @@ AddressAutocomplete.prototype = {
     /**
      * @property {AutocompleteFields} addressFields
      */
-    addressFields: null,
+    addressFields: {},
 
     /**
      * @property {SearchRequest} searchRequest
      */
-    searchRequest: null,
+    searchRequest: {},
 
     /**
      * @property {SelectRequest} selectRequest
      */
-    selectRequest: null,
+    selectRequest: {},
 
     /**
      * @property {AutocompleteAddressSuggestions} addressSuggestions
      */
-    addressSuggestions: null,
+    addressSuggestions: {},
 
     /**
      * @property {AutocompleteAddressData} addressData
      */
-    addressData: null,
+    addressData: {},
 
     /**
      * @property {FieldInput} fieldInputAction
      */
-    fieldInputAction: null,
+    fieldInputAction: {},
 
     /**
      * @property {DataListRenderer|ListRenderer} datalistRenderer
      */
-    datalistRenderer: null,
+    datalistRenderer: {},
 
     /**
      * @property {DatalistSelect} datalistSelectAction
      */
-    datalistSelectAction: null,
+    datalistSelectAction: {},
 
     /**
      * @property {CountrySelect} countrySelect
      */
-    countrySelect: null,
+    countrySelect: {},
 
     /**
      * @param {string} formId
@@ -77,11 +77,11 @@ AddressAutocomplete.prototype = {
      * @constructor
      */
     initialize: function (formId, searchUrl, respondUrl, watchedFieldIds) {
-        var form                   = $(formId);
+        var form                    = $(formId);
         this.addressFields          = new AutocompleteFields(form, watchedFieldIds);
         this.searchRequest          = new SearchRequest(searchUrl);
         this.selectRequest          = new SelectRequest(respondUrl);
-        this.addressSuggestions     = new AutocompleteAddressSuggestions({});
+        this.addressSuggestions     = new AutocompleteAddressSuggestions({}, this.addressFields);
         this.addressData            = new AutocompleteAddressData({});
         this.fieldInputAction       = new FieldInput(this.addressFields, this.addressData);
         this.countrySelect          = new CountrySelect(form);
@@ -89,84 +89,66 @@ AddressAutocomplete.prototype = {
         this.datalistSelectAction   = new DatalistSelect(this.addressFields, this.addressSuggestions);
         this.datalistRenderer       = this.getDatalistRenderer();
 
-        this.loadPrefilledValues();
-        this.listenFields();
-        this.removeListOnCountryChange();
-    },
-
-    /**
-     * Writes existing field values into object
-     *
-     * @private
-     */
-    loadPrefilledValues: function () {
-        this.addressFields.getFields().each(function(field) {
-            if (field.value && field.length) {
-                this.addressData.setDataValue(field.name, field.value);
-            }
-        });
-    },
-
-    /**
-     * Adds listeners to observed address fields
-     *
-     * @private
-     */
-    listenFields: function () {
-        var self = this;
-
-        this.addressFields.getIds().each(function(fieldId) {
-            var fieldItem = self.addressFields.getFieldById(fieldId);
-
-            // Set field name as data attribute to prevent problems with colon selectors
+        /**
+         * Attach event handlers to input fields
+         */
+        this.addressFields.getIds().each(function (fieldId) {
+            var fieldItem = this.addressFields.getFieldById(fieldId);
+            // Set field name as data attribute to prevent problems with colon selector
             fieldItem.setAttribute('data-address-item', fieldId);
+                fieldItem.observe('keyup', this.handleFieldKeystroke.bind(this));
+                fieldItem.observe('focus', this.handleFieldFocus.bind(this));
+                fieldItem.observe('autocomplete:datalist-select', this.handleDatalistSelect.bind(this));
+        }.bind(this));
 
-            // Watch key strokes
-            fieldItem
-                .observe('keyup', function (e) {
-                    //arrows, tab, enter
-                    var navigatorCodes = [9, 13, 37, 38, 39, 40];
-                    if (navigatorCodes.indexOf(e.keyCode) === -1) {
-                        // Update address object
-                        self.fieldInputAction.doInputAction(e.target);
-                        // Run address search with timeout
+        this.removeListOnCountryChange();
+        this.fieldInputAction.updateAdressData();
+    },
 
-                        self.triggerDelayedCallback(function () {
-                            self.searchAction(e.target);
-                        });
-                    }
-                });
+    /**
+     * Handles keystrokes, but does not react to navigation keys.
+     *
+     * @param {KeyboardEvent} e
+     */
+    handleFieldKeystroke: function (e) {
+        var navigatorCodes = ['ArrowUp', 'ArrowDown', 'Escape', 'Enter', 'Space'];
+        if (navigatorCodes.indexOf(e.code) === -1) {
+            this.fieldInputAction.updateAddressDataFromField(e.target);
+            this.triggerDelayedCallback(
+                function () {
+                    this.searchAction(e.target)
+                }.bind(this),
+                this.typingDelay
+            );
+        }
+    },
 
-            fieldItem
-                .observe('focus', function (e) {
-                    // Update address object
-                    self.fieldInputAction.doInputAction(e.target);
-                    // Run address search with timeout
-                    self.triggerDelayedCallback(function () {
-                        self.searchAction(e.target);
-                    });
-                });
+    /**
+     * @param {FocusEvent} e
+     */
+    handleFieldFocus: function (e) {
+        this.fieldInputAction.updateAddressDataFromField(e.target);
 
-            // Watch input value changes
-            fieldItem
-                .observe('input', function (e) {
-                     // Run actions after datalist changes
-                    if (self.datalistSelectAction.detectSelectEvent(e.target)) {
-                        e.target.fire('autocomplete:datalist-select');
-                    }
-                });
+        this.triggerDelayedCallback(
+            function () {
+                this.searchAction(e.target)
+            }.bind(this),
+            this.typingDelay
+        );
+    },
 
-            // Watch suggestion selection
-            fieldItem
-                .observe('autocomplete:datalist-select', function (e) {
-                    // Remove focus after selection, preventing chrome from re-showing the datalist again
-                    e.target.blur();
-                    var uuid = self.datalistRenderer.getSuggestionUuid(e.target);
-                    // Update all observed fields after item was selected in datalist
-                    self.datalistSelectAction.updateFields(uuid);
-                    self.selectAction();
-                });
-        });
+    /**
+     * @param {Event} e
+     */
+    handleDatalistSelect: function (e) {
+        var uuid = this.datalistRenderer.getSuggestionUuid(e.target);
+
+        // Remove focus after selection, preventing browsers from re-showing the datalist.
+        e.target.blur();
+
+        // Update all observed fields after item was selected in datalist
+        this.datalistSelectAction.updateFields(uuid);
+        this.selectAction();
     },
 
     /**
@@ -177,8 +159,6 @@ AddressAutocomplete.prototype = {
      * @param {int}      delay    Delay in milliseconds
      */
     triggerDelayedCallback: function (callback, delay) {
-        delay = delay || this.typingDelay;
-
         // Clear timeout to prevent previous task from execution
         if (typeof this.timeoutId === 'number') {
             clearTimeout(this.timeoutId);
@@ -204,7 +184,10 @@ AddressAutocomplete.prototype = {
         if (this.countrySelect.isGermany) {
             this.searchRequest.doSearchRequest(this.addressData.getData(), function (json) {
                 this.addressSuggestions.setAddressSuggestions(json);
-                this.datalistRenderer.render($currentField);
+                /** Only render anything if the input is still active. */
+                if ($currentField === document.activeElement) {
+                    this.datalistRenderer.render($currentField);
+                }
             }.bind(this));
         }
     },
@@ -240,13 +223,14 @@ AddressAutocomplete.prototype = {
     },
 
     /**
-     * get datalist renderer pending on ability of dealing with datalist element
+     * Get datalist renderer pending on ability of dealing with datalist element
+     *
      * @returns {Object}
      */
     getDatalistRenderer: function() {
         if (this.datalistSupport.hasSupport()) {
-            return new DataListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
+            return new DataListRenderer(this.addressSuggestions, this.addressItemDivider);
         }
-        return new ListRenderer(this.addressFields, this.addressSuggestions, this.addressItemDivider);
+        return new ListRenderer(this.addressSuggestions, this.addressItemDivider);
     }
 };

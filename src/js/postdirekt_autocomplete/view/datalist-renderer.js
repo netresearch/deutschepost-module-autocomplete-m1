@@ -7,16 +7,23 @@ var DataListRenderer = Class.create();
  */
 DataListRenderer.prototype = {
     /**
-     *
-     * @param {AutocompleteFields} fields
+     * @param {AutocompleteAddressSuggestions}
+     */
+    suggestions: {},
+
+    /**
+     * @param {string}
+     */
+    divider: '',
+
+    /**
      * @param {AutocompleteAddressSuggestions} suggestions
-     * @param {String} divider
+     * @param {string} divider
      *
      * @constructor
      */
-    initialize: function(fields, suggestions, divider) {
-        this.suggestionModel = suggestions;
-        this.fieldNames      = fields.getNames();
+    initialize: function(suggestions, divider) {
+        this.suggestions = suggestions;
         this.divider         = divider;
     },
 
@@ -26,45 +33,40 @@ DataListRenderer.prototype = {
      * @param {HTMLElement} $currentField
      */
     render: function ($currentField) {
-        var self             = this,
-            fieldId          = $currentField.id,
-            suggestionOptions      = this.suggestionModel.getAddressSuggestionOptions(self.fieldNames, self.divider, 'option');
+        var fieldId = $currentField.id,
+            suggestionOptions = this.suggestions.getAddressSuggestionOptions(this.divider);
 
         this.removeDatalist($currentField);
 
-
-        var $dataList = new Element('datalist', {
-            'id': 'datalist-' + fieldId
-        });
-
-        suggestionOptions.each(function($dataListOption){
-            $dataList.insert({
-                bottom: $dataListOption
-            });
+        var $dataList = new Element('datalist', {id: 'datalist-' + fieldId});
+        suggestionOptions.each(function(option){
+            var $option = Element('option', {id: option.id, value: option.title});
+            $dataList.insert({bottom: $option});
         });
 
         $currentField.setAttribute('list', 'datalist-' + fieldId);
         $currentField.insert({
             after: $dataList
         });
+
+        /**
+         * Watch for datalist item selects and trigger datalist-select event.
+         */
+        $currentField.observe('input', function (e) {
+            var option = $dataList.down("[value='" + e.target.value + "']");
+            if (option && option.value === e.target.value) {
+                e.target.fire('autocomplete:datalist-select');
+            }
+        }.bind(this));
     },
 
     /**
-     * @private
-     * @param {HTMLElement} field
-     * @returns {HTMLElement}
-     */
-    getDatalist: function(field) {
-        var fieldId = field.id;
-
-        return $('datalist-' + fieldId)
-    },
-
-    /**
+     * Remove the datalist from the DOM and stop observers.
+     *
      * @param {HTMLElement} field
      */
     removeDatalist: function (field) {
-        var datalist = this.getDatalist(field);
+        var datalist = $('datalist-' + field.id);
 
         if (datalist) {
             datalist.remove();
@@ -77,9 +79,8 @@ DataListRenderer.prototype = {
      */
     getSuggestionUuid: function ($currentField) {
         var fieldValue  = $currentField.value,
-            option = $currentField.next('datalist').down("[value='" + fieldValue + "']"),
-            optionId = option.identify();
+            option = $currentField.next('datalist').down("[value='" + fieldValue + "']");
 
-        return optionId;
+        return option.id;
     }
 };

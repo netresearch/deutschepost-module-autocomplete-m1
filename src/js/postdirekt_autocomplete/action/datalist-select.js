@@ -9,29 +9,28 @@ DatalistSelect.prototype = {
     /**
      * @property {AutocompleteFields}
      */
-    fields: null,
+    fields: {},
 
     /**
      * @property {AutocompleteAddressSuggestions}
      */
-    suggestionModel: null,
+    addressSuggestions: {},
 
     /**
-     * @property {Object}
+     * @property {Object[]}
      */
-    currentSuggestionObject: null,
+    currentSuggestionObject: false,
 
     /**
      * Initialize.
      *
-     * @param {AutocompleteFields} observedFields
-     * @param {AutocompleteAddressSuggestions} suggestionModel
+     * @param {AutocompleteFields} fields
+     * @param {AutocompleteAddressSuggestions} addressSuggestions
      * @constructor
      */
-
-    initialize: function(observedFields, suggestionModel) {
-        this.fields          = observedFields;
-        this.suggestionModel = suggestionModel;
+    initialize: function(fields, addressSuggestions) {
+        this.fields          = fields;
+        this.addressSuggestions = addressSuggestions;
     },
 
     /**
@@ -54,7 +53,7 @@ DatalistSelect.prototype = {
      */
     updateFields: function (optionId) {
         var self        = this,
-            suggestions = this.suggestionModel;
+            suggestions = this.addressSuggestions;
 
         if (optionId) {
             self.currentSuggestionObject = suggestions.getByUuid(optionId);
