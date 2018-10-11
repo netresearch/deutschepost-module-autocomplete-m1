@@ -7,7 +7,7 @@
 <config>
     <modules>
         <Postdirekt_Autocomplete>
-            <version>0.1.0</version>
+            <version>1.0.0</version>
         </Postdirekt_Autocomplete>
     </modules>
     <global>
