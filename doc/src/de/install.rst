@@ -23,15 +23,15 @@ Die Konfigurations-Einstellungen finden Sie im |mage1| Adminpanel unter:
 Im diesem Konfigurationsbereich können folgende Einstellungen vorgenommen werden:
 
 - *Aktiviert (Enabled)*: Wählen Sie, ob das Modul aktiv sein soll.
-- *Benutzername (Username)*: Geben Sie den Nutzernamen ein, den Sie von |dpdirekt| erhalten haben.
+- *Benutzername (Username)*: Geben Sie den Nutzernamen ein, den Sie von |dpdirekt| erhalten haben,
+  siehe `Zugangsdaten`_.
 - *Passwort (Password)*: Geben Sie das Passwort für den o.g. Nutzer ein.
 - *Logging aktivieren (Logging enabled)*: Wenn aktiviert, wird die Kommunikation mit der
   *Datafactory Autocomplete* in ``var/log/postdirekt_autocomplete.log`` protokolliert. Beachten
   Sie, dass das allgemeine Logging unter *Erweitert → Entwickler → Log-Einstellungen* ebenfalls
   aktiviert sein muss.
 
-Das Modul verfügt nicht über einen Sandbox-Modus. Es sind in jedem Fall `Zugangsdaten`_ erforderlich,
-die Sie von |dpdirekt| erhalten.
+Das Modul verfügt nicht über einen Sandbox-Modus. Es sind in jedem Fall `Zugangsdaten`_ erforderlich.
 
 |mage1| Konfiguration
 ------------------------------------

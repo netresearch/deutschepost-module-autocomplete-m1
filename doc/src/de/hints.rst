@@ -13,7 +13,8 @@ Darstellung im Shop-Frontend
 --------------------------------------
 
 Die optische Darstellung der Adress-Vervollständigung im Shop-Frontend kann je nach Browser, Betriebssystem
-oder Endgerät variieren. Die grundlegende Funktion ist davon jedoch nicht betroffen.
+oder Endgerät variieren. Die grundlegende Funktion ist davon jedoch nicht betroffen. Ein Beispiel sehen Sie
+im Abschnitt `Modulnutzung`_.
 
 Beachten Sie bitte auch die Hinweise zum `Browser-Support`_.
 
