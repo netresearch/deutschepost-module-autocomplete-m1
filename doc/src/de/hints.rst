@@ -4,7 +4,7 @@ Hinweise zur Verwendung des Moduls
 Zugangsdaten
 --------------------------------------
 
-Das Modul kommuniziert mit der *Datafactory Autocomplete* von |dpdirekt|. Zur Nutzung sind
+Das Modul kommuniziert mit dem Service *Datafactory Autocomplete* von |dpdirekt|. Zur Nutzung sind
 entsprechende Zugangsdaten notwendig, welche Sie von |dpdirekt| erhalten.
 
 Weitere Informationen: https://www.deutschepost.de/de/d/deutsche-post-direkt/datafactory.html
@@ -12,9 +12,8 @@ Weitere Informationen: https://www.deutschepost.de/de/d/deutsche-post-direkt/dat
 Darstellung im Shop-Frontend
 --------------------------------------
 
-Die optische Darstellung der Adress-Vervollständigung im Shop-Frontend kann je nach Browser, Betriebssystem
-oder Endgerät variieren. Die grundlegende Funktion ist davon jedoch nicht betroffen. Ein Beispiel sehen Sie
-im Abschnitt `Modulnutzung`_.
+Die optische Darstellung der Adress-Vervollständigung im Shop-Frontend kann je nach Browser und Betriebssystem variieren.
+Die grundlegende Funktionalität ist davon jedoch nicht betroffen. Ein Beispiel sehen Sie im Abschnitt `Modulnutzung`_.
 
 Beachten Sie bitte auch die Hinweise zum `Browser-Support`_.
 

@@ -31,8 +31,8 @@ Browser-Support
 Grundsätzlich werden die aktuellen Versionen gängiger Browser unterstützt. Das Modul kann in älteren
 Browserversionen ebenfalls funktionieren, jedoch wird dies nicht garantiert.
 
-Das Modul nutzt das *data attribute* für die Adress-Eingabefelder im Shop-Frontend. Für bestimmte
-Browser, die das nicht vollständig unterstützen, wurde eine Fallback-Lösung implementiert.
+Das Modul nutzt native *datalist*-Attribute für die Darstellung von Adressvorschlägen im Shop-Frontend.
+Für Browser, die dies nicht vollständig unterstützen, wurde eine Fallback-Lösung implementiert.
 
 Die Funktion im Shop-Frontend wurde in folgenden Desktop-Browsern getestet:
 
