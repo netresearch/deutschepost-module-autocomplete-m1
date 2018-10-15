@@ -16,6 +16,7 @@ class Postdirekt_Autocomplete_Block_AddressHandler extends Mage_Core_Block_Templ
 {
     /**
      * @return string
+     * @throws Mage_Core_Model_Store_Exception
      */
     public function getSearchEndpoint()
     {
@@ -24,6 +25,7 @@ class Postdirekt_Autocomplete_Block_AddressHandler extends Mage_Core_Block_Templ
 
     /**
      * @return string
+     * @throws Mage_Core_Model_Store_Exception
      */
     public function getSelectEndpoint()
     {

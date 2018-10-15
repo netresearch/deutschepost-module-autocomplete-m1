@@ -27,6 +27,8 @@ class Postdirekt_Autocomplete_Test_Model_Webservice_ServiceClientTest extends Ec
     /**
      * @param string $wsResponseJson
      * @return Postdirekt_Autocomplete_Model_Webservice_ServiceClient
+     * @throws Mage_Core_Model_Store_Exception
+     * @throws Zend_Http_Client_Exception
      */
     private function getServiceClient($wsResponseJson)
     {
@@ -64,6 +66,9 @@ class Postdirekt_Autocomplete_Test_Model_Webservice_ServiceClientTest extends Ec
 
      * @param string[] $requestData
      * @param string $wsResponseJson
+     * @throws Mage_Core_Model_Store_Exception
+     * @throws Postdirekt_Autocomplete_Exception_Webservice_ClientException
+     * @throws Zend_Http_Client_Exception
      */
     public function serviceClientSuccess($requestData, $wsResponseJson)
     {

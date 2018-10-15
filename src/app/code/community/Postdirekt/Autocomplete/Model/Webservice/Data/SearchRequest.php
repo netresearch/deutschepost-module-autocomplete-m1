@@ -46,9 +46,7 @@ class Postdirekt_Autocomplete_Model_Webservice_Data_SearchRequest extends Varien
     public function getRequestParams()
     {
         $requestParams = $this->toArray($this->_fields);
-        $requestParams = array_filter($requestParams, function ($value) {
-            return $value !== null && $value !== '';
-        });
+        $requestParams = array_filter($requestParams);
 
         return $requestParams;
     }

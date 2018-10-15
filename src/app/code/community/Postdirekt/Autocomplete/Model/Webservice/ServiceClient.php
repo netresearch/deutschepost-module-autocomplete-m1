@@ -57,7 +57,7 @@ class Postdirekt_Autocomplete_Model_Webservice_ServiceClient
     /**
      * Postdirekt_Autocomplete_Model_Webservice_ServiceClient constructor.
      *
-     * @param array $args
+     * @param mixed[] $args
      */
     public function __construct(array $args)
     {

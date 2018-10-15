@@ -17,8 +17,8 @@ use Postdirekt_Autocomplete_Exception_Webservice_ClientException as ClientExcept
 class Postdirekt_Autocomplete_Model_Webservice_SelectRequestValidator
 {
     /**
-     * @param array $fieldNames
-     * @param array $data
+     * @param string[] $fieldNames
+     * @param string[] $data
      * @return bool
      * @throws ClientException
      */

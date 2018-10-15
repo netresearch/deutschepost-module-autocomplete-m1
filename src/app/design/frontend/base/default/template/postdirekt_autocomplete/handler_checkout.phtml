@@ -6,8 +6,8 @@
 <?php /** @var Postdirekt_Autocomplete_Block_AddressHandler $this */ ?>
 <script type="text/javascript">
 
-    var searchUrl = '<?php echo $this->getSearchEndpoint() ?>',
-        respondUrl = '<?php echo $this->getSelectEndpoint() ?>',
+    var searchUrl = '<?php echo $this->escapeUrl($this->getSearchEndpoint()) ?>',
+        respondUrl = '<?php echo $this->escapeUrl($this->getSelectEndpoint()) ?>',
 
     // Billing address form
     addressAutocompleteBilling = new AddressAutocomplete(

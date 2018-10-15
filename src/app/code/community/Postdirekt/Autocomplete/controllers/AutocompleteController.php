@@ -38,7 +38,7 @@ class Postdirekt_Autocomplete_AutocompleteController extends Mage_Core_Controlle
      * Postdirekt_Autocomplete_AutocompleteController constructor.
      * @param Zend_Controller_Request_Abstract $request
      * @param Zend_Controller_Response_Abstract $response
-     * @param array $invokeArgs
+     * @param mixed[] $invokeArgs
      */
     public function __construct(
         Zend_Controller_Request_Abstract $request,

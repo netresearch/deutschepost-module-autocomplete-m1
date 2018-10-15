@@ -15,8 +15,8 @@
 class Postdirekt_Autocomplete_Model_Webservice_SearchRequestValidator
 {
     /**
-     * @param array $fieldNames
-     * @param array $data
+     * @param string[] $fieldNames
+     * @param string[] $data
      * @return bool
      * @throws \Postdirekt_Autocomplete_Exception_Webservice_ClientException
      */
