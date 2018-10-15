@@ -71,7 +71,9 @@ class Postdirekt_Autocomplete_Model_Webservice_Logger
         if (!$response->isSuccessful()) {
             Mage::log($response->getHeadersAsString(), \Zend_Log::ERR, self::LOG_FILE);
         } else {
-            Mage::log($response->asString(), null, self::LOG_FILE);
+            $headers = $response->getHeadersAsString(true);
+            $body = $response->getBody();
+            Mage::log("$headers\n$body\n", null, self::LOG_FILE);
         }
     }
 }
