@@ -14,7 +14,7 @@
  */
 class Postdirekt_Autocomplete_Model_Config
 {
-    const CONFIG_XML_FIELD_ENABLED = 'customer/postdirekt_autocomplete/enabled';
+    const CONFIG_XML_FIELD_ENABLED = 'customer/postdirekt_autocomplete/active';
     const CONFIG_XML_FIELD_USERNAME = 'customer/postdirekt_autocomplete/username';
     const CONFIG_XML_FIELD_PASSWORD = 'customer/postdirekt_autocomplete/password';
     const CONFIG_XML_FIELD_LOGGING_ENABLED = 'customer/postdirekt_autocomplete/logging_enabled';
