@@ -111,7 +111,7 @@ AddressAutocomplete.prototype = {
      * @param {KeyboardEvent} e
      */
     handleFieldKeystroke: function (e) {
-        var navigatorCodes = ['ArrowUp', 'ArrowDown', 'Escape', 'Enter', 'Space'];
+        var navigatorCodes = ['ArrowUp', 'ArrowDown', 'Escape', 'Enter', 'Space', 'Tab'];
         if (navigatorCodes.indexOf(e.code) === -1) {
             this.fieldInputAction.updateAddressDataFromField(e.target);
             this.triggerDelayedCallback(

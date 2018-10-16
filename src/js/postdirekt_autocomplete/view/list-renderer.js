@@ -123,8 +123,11 @@ ListRenderer.prototype = {
         var isUp = e.key === 'ArrowUp',
             isDown = e.key === 'ArrowDown',
             isEnter = e.key === 'Enter',
-            isTab = e.key === 'Tabulator';
+            isTab = e.key === 'Tab';
         if (isUp || isDown || isEnter || isTab) {
+            if (!isTab) {
+                e.preventDefault();
+            }
             this.triggerKeydown(e.target, isDown, isUp, isEnter, isTab);
         }
     },
@@ -145,10 +148,6 @@ ListRenderer.prototype = {
 
         if(!dataList) {
             return;
-        }
-
-        if (isTab) {
-            dataList.hide();
         }
 
         dataOptions = dataList.childElements();
@@ -193,8 +192,13 @@ ListRenderer.prototype = {
                 }
             }
 
-            if (isEnter) {
+            if (isEnter || isTab) {
                 this.itemSelect(activeItem, $field);
+            }
+
+            if (isTab) {
+                // Focus the current field so the tab command moves the focus to the next input
+                $field.focus();
             }
         }
     },
