@@ -5,33 +5,29 @@
 ?>
 <?php /** @var Postdirekt_Autocomplete_Block_AddressHandler $this */ ?>
 <script type="text/javascript">
-
     var searchUrl = '<?php echo $this->escapeUrl($this->getSearchEndpoint()) ?>',
         respondUrl = '<?php echo $this->escapeUrl($this->getSelectEndpoint()) ?>',
+        billingAutocomplete = new AddressAutocomplete(
+            'co-billing-form',
+            searchUrl,
+            respondUrl,
+            {
+                'street': 'billing\\:street1',
+                'city': 'billing\\:city',
+                'postcode': 'billing\\:postcode'
+            }
+        ),
+        shippingAutocomplete = new AddressAutocomplete(
+            'co-shipping-form',
+            searchUrl,
+            respondUrl,
+            {
+                'street': 'shipping\\:street1',
+                'city': 'shipping\\:city',
+                'postcode': 'shipping\\:postcode'
+            }
+        );
 
-    // Billing address form
-    addressAutocompleteBilling = new AddressAutocomplete(
-        'co-billing-form',
-        searchUrl,
-        respondUrl,
-        {
-            'street': 'billing\\:street1',
-            'city': 'billing\\:city',
-            'postcode': 'billing\\:postcode'
-        }
-    ),
-
-    // Shipping address form
-    addressAutocompleteShipping = new AddressAutocomplete(
-        'co-shipping-form',
-        searchUrl,
-        respondUrl,
-        {
-            'street': 'shipping\\:street1',
-            'city': 'shipping\\:city',
-            'postcode': 'shipping\\:postcode'
-        }
-    );
-
-
+    billingAutocomplete.start();
+    shippingAutocomplete.start();
 </script>

@@ -5,17 +5,18 @@
 ?>
 <?php /** @var Postdirekt_Autocomplete_Block_AddressHandler $this */ ?>
 <script type="text/javascript">
-var searchUrl = '<?php echo $this->escapeUrl($this->getSearchEndpoint()) ?>',
-    respondUrl = '<?php echo $this->escapeUrl($this->getSelectEndpoint()) ?>',
+    var searchUrl = '<?php echo $this->escapeUrl($this->getSearchEndpoint()) ?>',
+        respondUrl = '<?php echo $this->escapeUrl($this->getSelectEndpoint()) ?>',
+        autocomplete = new AddressAutocomplete(
+            'form-validate',
+            searchUrl,
+            respondUrl,
+            {
+                'street': 'street_1',
+                'city': 'city',
+                'postcode': 'zip'
+            }
+        );
 
-    addressAutocomplete = new AddressAutocomplete(
-        'form-validate',
-        searchUrl,
-        respondUrl,
-        {
-            'street': 'street_1',
-            'city': 'city',
-            'postcode': 'zip'
-        }
-    );
+    autocomplete.start();
 </script>

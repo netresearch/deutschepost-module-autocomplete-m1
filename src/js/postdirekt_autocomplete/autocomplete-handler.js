@@ -69,6 +69,8 @@ AddressAutocomplete.prototype = {
     countrySelect: {},
 
     /**
+     * Initialize Autocomplete dependencies
+     *
      * @param {string} formId
      * @param {string} searchUrl
      * @param {string} respondUrl
@@ -77,28 +79,35 @@ AddressAutocomplete.prototype = {
      * @constructor
      */
     initialize: function (formId, searchUrl, respondUrl, watchedFieldIds) {
-        var form                    = $(formId);
-        this.addressFields          = new AutocompleteFields(form, watchedFieldIds);
+        this.addressFields          = new AutocompleteFields($(formId), watchedFieldIds);
         this.searchRequest          = new SearchRequest(searchUrl);
         this.selectRequest          = new SelectRequest(respondUrl);
         this.addressSuggestions     = new AutocompleteAddressSuggestions({}, this.addressFields);
         this.addressData            = new AutocompleteAddressData({});
         this.fieldInputAction       = new FieldInput(this.addressFields, this.addressData);
-        this.countrySelect          = new CountrySelect(form);
+        this.countrySelect          = new CountrySelect($(formId));
         this.datalistSupport        = new DatalistSupport();
         this.datalistSelectAction   = new DatalistSelect(this.addressFields, this.addressSuggestions);
-        this.datalistRenderer       = this.getDatalistRenderer();
+        if (this.datalistSupport.hasSupport()) {
+            this.datalistRenderer = new DataListRenderer(this.addressSuggestions, this.addressItemDivider);
+        } else {
+            this.datalistRenderer = new ListRenderer(this.addressSuggestions, this.addressItemDivider);
+        }
+    },
 
-        /**
-         * Attach event handlers to input fields
-         */
+    /**
+     * Attach event handlers to input fields and initialize address data
+     *
+     * @public
+     */
+    start: function() {
         this.addressFields.getIds().each(function (fieldId) {
             var fieldItem = this.addressFields.getFieldById(fieldId);
             // Set field name as data attribute to prevent problems with colon selector
             fieldItem.setAttribute('data-address-item', fieldId);
-                fieldItem.observe('keyup', this.handleFieldKeystroke.bind(this));
-                fieldItem.observe('focus', this.handleFieldFocus.bind(this));
-                fieldItem.observe('autocomplete:datalist-select', this.handleDatalistSelect.bind(this));
+            fieldItem.observe('keyup', this.handleFieldKeystroke.bind(this));
+            fieldItem.observe('focus', this.handleFieldFocus.bind(this));
+            fieldItem.observe('autocomplete:datalist-select', this.handleDatalistSelect.bind(this));
         }.bind(this));
 
         this.removeListOnCountryChange();
@@ -108,6 +117,7 @@ AddressAutocomplete.prototype = {
     /**
      * Handles keystrokes, but does not react to navigation keys.
      *
+     * @private
      * @param {KeyboardEvent} e
      */
     handleFieldKeystroke: function (e) {
@@ -124,6 +134,7 @@ AddressAutocomplete.prototype = {
     },
 
     /**
+     * @private
      * @param {FocusEvent} e
      */
     handleFieldFocus: function (e) {
@@ -138,6 +149,7 @@ AddressAutocomplete.prototype = {
     },
 
     /**
+     * @private
      * @param {Event} e
      */
     handleDatalistSelect: function (e) {
@@ -221,16 +233,4 @@ AddressAutocomplete.prototype = {
             }
         }.bind(this));
     },
-
-    /**
-     * Get datalist renderer pending on ability of dealing with datalist element
-     *
-     * @returns {Object}
-     */
-    getDatalistRenderer: function() {
-        if (this.datalistSupport.hasSupport()) {
-            return new DataListRenderer(this.addressSuggestions, this.addressItemDivider);
-        }
-        return new ListRenderer(this.addressSuggestions, this.addressItemDivider);
-    }
 };
