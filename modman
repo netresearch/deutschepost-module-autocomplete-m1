@@ -4,3 +4,5 @@ src/app/design/frontend/base/default/layout/postdirekt_autocomplete.xml app/desi
 src/app/design/frontend/base/default/template/postdirekt_autocomplete/ app/design/frontend/base/default/template/postdirekt_autocomplete/
 src/js/postdirekt_autocomplete/ js/postdirekt_autocomplete/
 src/skin/frontend/base/default/css/postdirekt_autocomplete/ skin/frontend/base/default/css/postdirekt_autocomplete/
+src/app/locale/de_DE/Postdirekt_Autocomplete.csv app/locale/de_DE/Postdirekt_Autocomplete.csv
+src/app/locale/en_US/Postdirekt_Autocomplete.csv app/locale/en_US/Postdirekt_Autocomplete.csv
