@@ -80,7 +80,7 @@ class Postdirekt_Autocomplete_AutocompleteController extends Mage_Core_Controlle
      */
     public function searchAction()
     {
-        $requestData = $this->getRequest()->getParams();
+        $requestData = array_filter($this->getRequest()->getParams());
         try {
             $storeCode = Mage::app()->getStore()->getCode();
             $args = array('scope' => $storeCode);
@@ -105,7 +105,7 @@ class Postdirekt_Autocomplete_AutocompleteController extends Mage_Core_Controlle
      */
     public function selectAction()
     {
-        $requestData = $this->getRequest()->getParams();
+        $requestData = array_filter($this->getRequest()->getParams());
         try {
             $storeCode = Mage::app()->getStore()->getCode();
             /** @var Postdirekt_Autocomplete_Model_Webservice_ServiceClient $client */

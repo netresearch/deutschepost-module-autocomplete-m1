@@ -3,16 +3,18 @@
  * See LICENSE.md for license details.
  */
 
+use Postdirekt_Autocomplete_Model_Webservice_AbstractRequestFactory as AbstractRequestFactory;
+
 /**
  * Class Postdirekt_Autocomplete_Model_Webservice_SelectRequestFactory
  *
  * @package   Postdirekt\Autocomplete\Model
  * @author    Christoph Aßmann <christoph.assmann@netresearch.de>
  * @copyright 2018 Netresearch GmbH & Co. KG
- * @license   https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link      https://www.netresearch.de/
  */
-class Postdirekt_Autocomplete_Model_Webservice_SelectRequestFactory
+class Postdirekt_Autocomplete_Model_Webservice_SelectRequestFactory extends AbstractRequestFactory
 {
     /**
      * @param string[] $data
@@ -22,9 +24,6 @@ class Postdirekt_Autocomplete_Model_Webservice_SelectRequestFactory
     public function create(array $data)
     {
         $requestData = array();
-        if (isset($data['uuid'])) {
-            $requestData['uuid'] = $data['uuid'];
-        }
 
         if (isset($data['street'])) {
             $requestData['str'] = is_array($data['street']) ? $data['street'][0] : $data['street'];
@@ -37,6 +36,13 @@ class Postdirekt_Autocomplete_Model_Webservice_SelectRequestFactory
         if (isset($data['city'])) {
             $requestData['ort'] = $data['city'];
         }
+
+        if (isset($data['uuid'])) {
+            $requestData['uuid'] = $data['uuid'];
+        }
+
+        $requestData['daten'] = $this->computeDataType($data);
+        $requestData['type'] = $this->computeType($data);
 
         /** @var Postdirekt_Autocomplete_Model_Webservice_SelectRequestValidator $validator */
         $validator = Mage::getSingleton('postdirekt_autocomplete/webservice_selectRequestValidator');
