@@ -48,6 +48,18 @@
             <postdirekt_autocomplete>/address/autocomplete/</postdirekt_autocomplete>
         </secure_url>
     </frontend>
+    <adminhtml>
+        <translate>
+            <modules>
+                <postdirekt_autocomplete>
+                    <files>
+                        <default>Postdirekt_Autocomplete.csv</default>
+                    </files>
+                </postdirekt_autocomplete>
+            </modules>
+        </translate>
+
+    </adminhtml>
     <default>
         <customer>
             <postdirekt_autocomplete>
