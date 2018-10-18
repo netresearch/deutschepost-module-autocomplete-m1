@@ -24,10 +24,6 @@ DatalistSupport.prototype = {
         // Android does not have actual support
         var isAndroidBrowser = ua.match(/Android/) && !ua.match(/(Firefox|Chrome|Opera|OPR)/);
 
-        if (datalistSupported && !isAndroidBrowser && !isFireFox) {
-            return true;
-        }
-
-        return false;
+        return (datalistSupported && !isAndroidBrowser && !isFireFox);
     }
 };

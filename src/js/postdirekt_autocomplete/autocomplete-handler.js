@@ -232,5 +232,5 @@ AddressAutocomplete.prototype = {
                 }.bind(this));
             }
         }.bind(this));
-    },
+    }
 };

@@ -148,6 +148,7 @@ class Postdirekt_Autocomplete_Model_Webservice_ServiceClient
     public function select(SelectRequest $selectRequest)
     {
         $this->prepareRequest(self::SERVICE_OPERATION_SELECT, $selectRequest->getRequestParams());
+
         $httpResponse = $this->_httpClient->request();
         $this->_logger->logRequest($this->_httpClient, $selectRequest->getRequestParams());
         $this->_logger->logResponse($this->_httpClient);

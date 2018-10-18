@@ -68,10 +68,9 @@ AutocompleteAddressSuggestions.prototype = {
      * Build datalist options
      *
      * @param {String} divider
-     * @param {String} optionType
      * @return {{id: string, title: string}[]}
      */
-    getAddressSuggestionOptions: function(divider, optionType) {
+    getAddressSuggestionOptions: function(divider) {
         var suggestions = this.getAddressSuggestions(),
             options = [];
         if (suggestions.length > 0) {
@@ -94,5 +93,5 @@ AutocompleteAddressSuggestions.prototype = {
         }
 
         return options;
-    },
+    }
 };

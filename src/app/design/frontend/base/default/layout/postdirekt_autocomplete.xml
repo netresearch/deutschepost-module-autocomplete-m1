@@ -24,7 +24,7 @@
         </reference>
     </postdirekt_autocomplete_handle>
 
-    <checkout_onepage_index module="page">
+    <checkout_onepage_index>
         <update handle="postdirekt_autocomplete_handle" />
 
         <reference name="before_body_end">
@@ -34,7 +34,7 @@
         </reference>
     </checkout_onepage_index>
 
-    <customer_address_form module="page">
+    <customer_address_form>
         <update handle="postdirekt_autocomplete_handle" />
 
         <reference name="before_body_end">

@@ -70,26 +70,5 @@ DatalistSelect.prototype = {
                 }
             });
         }
-    },
-
-    /**
-     * Returns TRUE when a datalist element has been selected.
-     *
-     * @param {HTMLElement} $currentField
-     *
-     * @return {boolean}
-     */
-    detectSelectEvent: function ($currentField) {
-        var fieldValue  = $currentField.value,
-            listId      = $currentField.getAttribute('list'),
-            $dataList   = $(listId);
-
-        if (!$dataList) {
-            return false;
-        }
-
-        var option = $dataList.down("[value='" + fieldValue + "']");
-
-        return option && (option.value === fieldValue);
     }
 };

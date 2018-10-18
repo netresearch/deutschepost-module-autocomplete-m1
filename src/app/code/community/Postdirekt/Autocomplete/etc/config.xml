@@ -27,6 +27,17 @@
             </postdirekt_autocomplete>
         </models>
     </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Postdirekt_Autocomplete>
+                    <files>
+                        <default>Postdirekt_Autocomplete.csv</default>
+                    </files>
+                </Postdirekt_Autocomplete>
+            </modules>
+        </translate>
+    </adminhtml>
     <frontend>
         <layout>
             <updates>
@@ -48,18 +59,6 @@
             <postdirekt_autocomplete>/address/autocomplete/</postdirekt_autocomplete>
         </secure_url>
     </frontend>
-    <adminhtml>
-        <translate>
-            <modules>
-                <postdirekt_autocomplete>
-                    <files>
-                        <default>Postdirekt_Autocomplete.csv</default>
-                    </files>
-                </postdirekt_autocomplete>
-            </modules>
-        </translate>
-
-    </adminhtml>
     <default>
         <customer>
             <postdirekt_autocomplete>
