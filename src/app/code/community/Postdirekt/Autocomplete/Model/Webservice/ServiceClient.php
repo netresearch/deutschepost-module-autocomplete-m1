@@ -125,7 +125,7 @@ class Postdirekt_Autocomplete_Model_Webservice_ServiceClient
         $this->prepareRequest(self::SERVICE_OPERATION_SEARCH, $searchRequest->getRequestParams());
 
         $httpResponse = $this->_httpClient->request();
-        $this->_logger->logRequest($this->_httpClient);
+        $this->_logger->logRequest($this->_httpClient, $searchRequest->getRequestParams());
         $this->_logger->logResponse($this->_httpClient);
 
         if (!$httpResponse->isSuccessful()) {
@@ -148,9 +148,8 @@ class Postdirekt_Autocomplete_Model_Webservice_ServiceClient
     public function select(SelectRequest $selectRequest)
     {
         $this->prepareRequest(self::SERVICE_OPERATION_SELECT, $selectRequest->getRequestParams());
-
         $httpResponse = $this->_httpClient->request();
-        $this->_logger->logRequest($this->_httpClient);
+        $this->_logger->logRequest($this->_httpClient, $selectRequest->getRequestParams());
         $this->_logger->logResponse($this->_httpClient);
 
         if (!$httpResponse->isSuccessful()) {

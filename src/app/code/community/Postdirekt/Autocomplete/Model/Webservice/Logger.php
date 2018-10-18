@@ -45,16 +45,21 @@ class Postdirekt_Autocomplete_Model_Webservice_Logger
 
     /**
      * @param \Zend_Http_Client $client
+     * @param  string[] $requestParams
      * @return void
      */
-    public function logRequest(\Zend_Http_Client $client)
+    public function logRequest(\Zend_Http_Client $client, $requestParams)
     {
         if (!$this->_config->isLoggingEnabled($this->_scope)) {
             return;
         }
 
-        $request = $client->getLastRequest();
-        Mage::log($request, null, self::LOG_FILE);
+        $lines = array(
+            'OUTGOING REQUEST:',
+            $client->getUri() . '?' . http_build_query($requestParams),
+            $client->getLastRequest(),
+        );
+        Mage::log(implode(PHP_EOL, $lines), null, self::LOG_FILE);
     }
 
     /**
@@ -69,11 +74,18 @@ class Postdirekt_Autocomplete_Model_Webservice_Logger
 
         $response = $client->getLastResponse();
         if (!$response->isSuccessful()) {
-            Mage::log($response->getHeadersAsString(), \Zend_Log::ERR, self::LOG_FILE);
+            $lines = array(
+                'INCOMING RESPONSE:',
+                $response->getHeadersAsString(true),
+            );
+            Mage::log(implode(PHP_EOL, $lines), \Zend_Log::ERR, self::LOG_FILE);
         } else {
-            $headers = $response->getHeadersAsString(true);
-            $body = $response->getBody();
-            Mage::log("$headers\n$body\n", null, self::LOG_FILE);
+            $lines = array(
+                'INCOMING RESPONSE:',
+                $response->getHeadersAsString(true),
+                $response->getBody(),
+            );
+            Mage::log(implode(PHP_EOL, $lines), null, self::LOG_FILE);
         }
     }
 }
