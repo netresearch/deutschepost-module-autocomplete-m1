@@ -9,8 +9,10 @@ use Postdirekt_Autocomplete_Model_Webservice_Logger as Logger;
 /**
  * Class Postdirekt_Autocomplete_Model_Webservice_ServiceClientFactory
  *
- * @package   Postdirekt Address
+ * @package   Postdirekt\Autocomplete\Model
  * @author    Andreas Müller <andreas.mueller@netresearch.de>
+ * @copyright 2018 Netresearch GmbH & Co. KG
+ * @license   https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link      https://www.netresearch.de/
  */
 class Postdirekt_Autocomplete_Model_Webservice_ServiceClientFactory
@@ -24,7 +26,7 @@ class Postdirekt_Autocomplete_Model_Webservice_ServiceClientFactory
     {
         $httpClient = new Varien_Http_Client();
         /** @var Postdirekt_Autocomplete_Model_Config $config*/
-        $config = Mage::getModel('postdirekt_autocomplete/config');
+        $config = Mage::getSingleton('postdirekt_autocomplete/config');
         /** @var Postdirekt_Autocomplete_Model_Webservice_Logger $logger */
         $logger = Mage::getModel(
             'postdirekt_autocomplete/webservice_logger',

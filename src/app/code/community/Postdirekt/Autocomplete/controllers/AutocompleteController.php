@@ -6,11 +6,11 @@
 /**
  * Class Postdirekt_Address_AutocompleteController
  *
- * @package   Postdirekt Address
+ * @package   Postdirekt\Autocomplete\Controller
  * @author    Andreas Müller <andreas.mueller@netresearch.de>
  * @copyright 2018 Netresearch GmbH & Co. KG
- * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
- * @link      http://www.netresearch.de/
+ * @license   https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @link      https://www.netresearch.de/
  */
 class Postdirekt_Autocomplete_AutocompleteController extends Mage_Core_Controller_Front_Action
 {
@@ -30,9 +30,9 @@ class Postdirekt_Autocomplete_AutocompleteController extends Mage_Core_Controlle
     protected $_selectRequestFactory;
 
     /**
-     * @var Mage_Core_Helper_Data
+     * @var Postdirekt_Autocomplete_Helper_Data
      */
-    protected $_mageHelper;
+    protected $_helper;
 
     /**
      * Postdirekt_Autocomplete_AutocompleteController constructor.
@@ -45,10 +45,10 @@ class Postdirekt_Autocomplete_AutocompleteController extends Mage_Core_Controlle
         Zend_Controller_Response_Abstract $response,
         array $invokeArgs = array()
     ) {
-        $this->_clientFactory = Mage::getModel('postdirekt_autocomplete/webservice_serviceClientFactory');
-        $this->_searchRequestFactory = Mage::getModel('postdirekt_autocomplete/webservice_searchRequestFactory');
-        $this->_selectRequestFactory = Mage::getModel('postdirekt_autocomplete/webservice_selectRequestFactory');
-        $this->_mageHelper = Mage::helper('core/data');
+        $this->_clientFactory = Mage::getSingleton('postdirekt_autocomplete/webservice_serviceClientFactory');
+        $this->_searchRequestFactory = Mage::getSingleton('postdirekt_autocomplete/webservice_searchRequestFactory');
+        $this->_selectRequestFactory = Mage::getSingleton('postdirekt_autocomplete/webservice_selectRequestFactory');
+        $this->_helper = Mage::helper('postdirekt_autocomplete/data');
 
         parent::__construct($request, $response, $invokeArgs);
     }
@@ -90,7 +90,7 @@ class Postdirekt_Autocomplete_AutocompleteController extends Mage_Core_Controlle
             $searchRequest = $this->_searchRequestFactory->create($requestData);
             $response = $client->search($searchRequest);
             $addresses = $response->getAddresses();
-            $jsonResponse = $this->_mageHelper->jsonEncode($addresses);
+            $jsonResponse = $this->_helper->jsonEncode($addresses);
             $this->getResponse()->setHeader('Content-Type', 'application/json');
             $this->getResponse()->setBody($jsonResponse);
         } catch(Exception $exception) {

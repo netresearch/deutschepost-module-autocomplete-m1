@@ -38,7 +38,7 @@ class Postdirekt_Autocomplete_Block_AddressHandler extends Mage_Core_Block_Templ
     protected function _toHtml()
     {
         /** @var Postdirekt_Autocomplete_Model_Config $config */
-        $config = Mage::getModel('postdirekt_autocomplete/config');
+        $config = Mage::getSingleton('postdirekt_autocomplete/config');
         return $config->isActive() ? parent::_toHtml() : '';
     }
 }

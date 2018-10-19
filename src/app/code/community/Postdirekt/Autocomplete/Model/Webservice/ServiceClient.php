@@ -44,9 +44,9 @@ class Postdirekt_Autocomplete_Model_Webservice_ServiceClient
     protected $_responseFactory;
 
     /**
-     * @var Mage_Core_Helper_Data
+     * @var Postdirekt_Autocomplete_Helper_Data
      */
-    protected $_mageHelper;
+    protected $_helper;
 
     /**
      * Postdirekt_Autocomplete_Model_Webservice_ServiceClient constructor.
@@ -66,7 +66,7 @@ class Postdirekt_Autocomplete_Model_Webservice_ServiceClient
         }
 
         $this->_responseFactory = Mage::getSingleton('postdirekt_autocomplete/webservice_searchResponseFactory');
-        $this->_mageHelper = Mage::helper('core/data');
+        $this->_helper = Mage::helper('postdirekt_autocomplete/data');
     }
 
     /**
@@ -113,7 +113,7 @@ class Postdirekt_Autocomplete_Model_Webservice_ServiceClient
         }
 
         $jsonBody = $httpResponse->getBody();
-        $result = $this->_mageHelper->jsonDecode($jsonBody);
+        $result = $this->_helper->jsonDecode($jsonBody);
 
         return $this->_responseFactory->create($result);
     }
