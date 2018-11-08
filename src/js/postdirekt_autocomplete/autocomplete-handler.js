@@ -54,7 +54,7 @@ AddressAutocomplete.prototype = {
     fieldInputAction: {},
 
     /**
-     * @property {DataListRenderer|ListRenderer} datalistRenderer
+     * @property {ListRenderer} datalistRenderer
      */
     datalistRenderer: {},
 
@@ -86,13 +86,9 @@ AddressAutocomplete.prototype = {
         this.addressData            = new AutocompleteAddressData({});
         this.fieldInputAction       = new FieldInput(this.addressFields, this.addressData);
         this.countrySelect          = new CountrySelect($(formId));
-        this.datalistSupport        = new DatalistSupport();
         this.datalistSelectAction   = new DatalistSelect(this.addressFields, this.addressSuggestions);
-        if (this.datalistSupport.hasSupport()) {
-            this.datalistRenderer = new DataListRenderer(this.addressSuggestions, this.addressItemDivider);
-        } else {
-            this.datalistRenderer = new ListRenderer(this.addressSuggestions, this.addressItemDivider);
-        }
+        this.datalistRenderer = new ListRenderer(this.addressSuggestions, this.addressItemDivider);
+
     },
 
     /**

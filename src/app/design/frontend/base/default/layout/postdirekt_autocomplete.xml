@@ -10,7 +10,6 @@
             <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/autocomplete-handler.js</script></action>
             <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/model/autocomplete-fields.js</script></action>
             <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/model/request-adapter.js</script></action>
-            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/view/datalist-renderer.js</script></action>
             <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/model/autocomplete-address-suggestions.js</script></action>
             <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/model/autocomplete-address-data.js</script></action>
             <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/action/search-request.js</script></action>
@@ -19,7 +18,6 @@
             <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/action/field-input.js</script></action>
             <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/model/country-select.js</script></action>
             <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/view/list-renderer.js</script></action>
-            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/model/datalist-support.js</script></action>
             <action method="addCss" ifconfig="customer/postdirekt_autocomplete/active"><stylesheet>css/postdirekt_autocomplete/datalist.css</stylesheet></action>
         </reference>
     </postdirekt_autocomplete_handle>

@@ -24,6 +24,7 @@ class Postdirekt_Autocomplete_Model_Webservice_Data_SearchRequest extends Varien
         'plz',
         'ort',
         'str',
+        'kombination',
     );
 
     /**
