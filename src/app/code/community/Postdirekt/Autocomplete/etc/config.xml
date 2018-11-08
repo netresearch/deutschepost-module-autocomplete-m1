@@ -37,6 +37,13 @@
                 </Postdirekt_Autocomplete>
             </modules>
         </translate>
+        <layout>
+            <updates>
+                <postdirekt_autocomplete>
+                    <file>postdirekt_autocomplete.xml</file>
+                </postdirekt_autocomplete>
+            </updates>
+        </layout>
     </adminhtml>
     <frontend>
         <layout>

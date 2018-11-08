@@ -6,3 +6,8 @@ src/js/postdirekt_autocomplete/ js/postdirekt_autocomplete/
 src/skin/frontend/base/default/css/postdirekt_autocomplete/ skin/frontend/base/default/css/postdirekt_autocomplete/
 src/app/locale/de_DE/Postdirekt_Autocomplete.csv app/locale/de_DE/Postdirekt_Autocomplete.csv
 src/app/locale/en_US/Postdirekt_Autocomplete.csv app/locale/en_US/Postdirekt_Autocomplete.csv
+
+src/app/design/adminhtml/default/default/layout/postdirekt_autocomplete.xml app/design/adminhtml/default/default/layout/postdirekt_autocomplete.xml
+src/app/design/adminhtml/default/default/template/postdirekt_autocomplete/  app/design/adminhtml/default/default/template/postdirekt_autocomplete/
+src/skin/adminhtml/default/default/postdirekt_autocomplete.css              skin/adminhtml/default/default/postdirekt_autocomplete.css
+src/skin/adminhtml/default/default/images/postdirekt_autocomplete/          skin/adminhtml/default/default/images/postdirekt_autocomplete/

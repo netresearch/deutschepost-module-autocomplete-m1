@@ -1,0 +1,27 @@
+<?php /** @var Postdirekt_Autocomplete_Block_Adminhtml_System_Config_Custominformation $this */ ?>
+<div class="postdirekt-autocomplete-custom-info">
+    <header>
+        <img src="<?php echo $this->escapeUrl($this->getLogoUrl()) ?>">
+        <p class="info">
+            <?php echo $this->escapeHtml($this->__('Version:')) ?>
+            <?php echo $this->escapeHtml($this->getModuleVersion()) ?>
+        </p>
+    </header>
+    <div class="container">
+        <div class="row">
+            <div class="col content">
+                <p>
+                    <?php // @codingStandardsIgnoreLine ?>
+                    <?php echo $this->escapeHtml($this->__('DATAFACTORY AUTOCOMPLETE offers effective assistance with incomplete address data. As soon as your customers enter the first alphanumerical characters in the input field, they will receive up to 15 suggestions for valild German addresses. A total of around 1.2 million different address suggestions are available, including all delivery-relevant streets, more than 16,000 postal codes and destinations, 14,000 cities and 75,000 district names.')) ?>
+                </p>
+                <p><strong><?php echo $this->escapeHtml($this->__('To get started:')) ?></strong><br>
+                    <?php echo $this->escapeHtml($this->__('You need a valid Deutsche Post Direkt account. If you do not have an account yet or your account is not activated for DATAFACTORY AUTOCOMPLETE, please use the')) ?>
+                    <a href="https://www.postdirekt.de/autocomplete" target="_blank">
+                        <?php echo $this->escapeHtml($this->__('Deutsche Post Direkt website'))?>
+                    </a>
+                    <?php echo $this->escapeHtml($this->__(' to establish or expand your relationship.'))?>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * See LICENSE.md for license details.
+ */
+-->
+<layout>
+    <adminhtml_system_config_edit>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>postdirekt_autocomplete.css</stylesheet>
+            </action>
+        </reference>
+    </adminhtml_system_config_edit>
+</layout>
