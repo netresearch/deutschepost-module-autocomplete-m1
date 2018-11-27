@@ -16,7 +16,7 @@ As soon as sufficient data has been entered into one of the above fields, sugges
 displayed from which the customer can chosse. The other fields will then be filled in automatically (as far
 as possible).
 
-The country must be set to Germany before entering data into the above fields. Otherwise, no
+The country has be set to Germany before entering data into the above fields. Otherwise, no
 auto-completion will happen. See also the notes about `Supported countries`_.
 
 .. image:: images/autocomplete.png
