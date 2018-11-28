@@ -135,13 +135,7 @@ AddressAutocomplete.prototype = {
      */
     handleFieldFocus: function (e) {
         this.fieldInputAction.updateAddressDataFromField(e.target);
-
-        this.triggerDelayedCallback(
-            function () {
-                this.searchAction(e.target)
-            }.bind(this),
-            this.typingDelay
-        );
+        this.datalistRenderer.removeDatalist(e.target);
     },
 
     /**
@@ -149,14 +143,23 @@ AddressAutocomplete.prototype = {
      * @param {Event} e
      */
     handleDatalistSelect: function (e) {
-        var uuid = this.datalistRenderer.getSuggestionUuid(e.target);
+        var uuid = this.datalistRenderer.getSuggestionUuid(e.target),
+            streetfield = this.addressFields.getFieldByName('street');
+
 
         // Remove focus after selection, preventing browsers from re-showing the datalist.
-        e.target.blur();
+        //e.target.blur();
 
         // Update all observed fields after item was selected in datalist
         this.datalistSelectAction.updateFields(uuid);
         this.selectAction();
+        if (e.target !== streetfield) {
+            e.target.blur();
+        } else {
+            (function(target) {
+                target.focus();
+            }).defer(e.target);
+        }
     },
 
     /**
