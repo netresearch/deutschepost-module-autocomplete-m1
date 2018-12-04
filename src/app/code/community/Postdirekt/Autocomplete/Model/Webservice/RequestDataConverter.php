@@ -15,6 +15,8 @@
 class Postdirekt_Autocomplete_Model_Webservice_RequestDataConverter
 {
     const TYPE_REGULAR_ADDRESSES = 'A';
+    const TYPE_POSTAL_OFFICES = 'F';
+    const TYPE_PARCEL_STATIONS = 'P';
 
     const DATA_CITY = 'Ort';
     const DATA_POSTAL_CODE_CITY = 'PlzOrt';
@@ -28,10 +30,12 @@ class Postdirekt_Autocomplete_Model_Webservice_RequestDataConverter
      */
     public function convert(array $data)
     {
-        $requestData = array();
+        $requestData = array(
+            'type' => self::TYPE_REGULAR_ADDRESSES
+        );
+
         if (isset($data['street'])) {
             $requestData['kombination'] = is_array($data['street']) ? $data['street'][0] : $data['street'];
-            $requestData['type'] = self::TYPE_REGULAR_ADDRESSES;
         }
 
         if (isset($data['postcode'])) {
