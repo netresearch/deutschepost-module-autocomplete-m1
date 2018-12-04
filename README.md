@@ -8,14 +8,10 @@ the DATAFACTORY AUTOCOMPLETE web service with address forms.
 
 Facts
 -----
-- version: 0.1.0
+- version: 1.0.0
 - extension key: Postdirekt_Autocomplete
 - [extension on GitLab](https://git.netresearch.de/postdirekt/module-autocomplete-m1)
 - [direct download link](https://git.netresearch.de/postdirekt/module-autocomplete-m1/repository/0.1.0/archive.tar.gz)
-
-Description
------------
-t.b.d.
 
 Requirements
 ------------
@@ -45,7 +41,8 @@ Uninstallation
 
 Support
 -------
-t.b.d
+
+For questions or support requests, please contact the support team by sending an email to <pd.support@netresearch.de>.
 
 Developer
 ---------

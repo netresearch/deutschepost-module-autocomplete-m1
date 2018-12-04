@@ -1,4 +1,4 @@
-.. |date| date:: %d.%m.%Y
+.. |date| date:: %Y-%m-%d
 .. |year| date:: %Y
 .. |mage1| replace:: Magento® 1
 .. |mage2| replace:: Magento® 2
@@ -9,7 +9,7 @@
    .. class:: footertable
 
    +-------------------------+-------------------------+
-   | Stand: |date|           | .. class:: rightalign   |
+   | Last updated: |date|    | .. class:: rightalign   |
    |                         |                         |
    |                         | ###Page###/###Total###  |
    +-------------------------+-------------------------+

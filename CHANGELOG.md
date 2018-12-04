@@ -18,8 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
-## 1.0.0 - 2018-10
+## 1.0.0 - 2018-12-05
 - Initial release
-
 
 [Unreleased]: https://git.netresearch.de/postdirekt/module-autocomplete-m1/compare/1.0.0...develop
