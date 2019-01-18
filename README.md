@@ -42,7 +42,8 @@ Uninstallation
 Support
 -------
 
-For questions or support requests, please contact the support team by sending an email to <pd.support@netresearch.de>.
+For questions or support requests, please use the support portal http://postdirekt.support.netresearch.de
+or contact the support team by sending an email to <postdirekt.support@netresearch.de>.
 
 Developer
 ---------
