@@ -31,7 +31,8 @@ class Postdirekt_Autocomplete_Model_Webservice_RequestDataConverter
     public function convert(array $data)
     {
         $requestData = array(
-            'type' => self::TYPE_REGULAR_ADDRESSES
+            'type'  => self::TYPE_REGULAR_ADDRESSES,
+            'daten' => self::DATA_ALL,
         );
 
         if (isset($data['street'])) {
@@ -46,12 +47,18 @@ class Postdirekt_Autocomplete_Model_Webservice_RequestDataConverter
             $requestData['ort'] = $data['city'];
         }
 
-        if (!isset($data['postcode']) && !isset($data['street'])) {
-            $requestData['daten'] = self::DATA_CITY;
-        } elseif (!isset($data['street'])) {
-            $requestData['daten'] = self::DATA_POSTAL_CODE_CITY;
-        } else {
-            $requestData['daten'] = self::DATA_ALL;
+        // Consolidate parameters
+        if (!isset($data['street'])) {
+            if (!isset($data['postcode'])) {
+                // City only
+                $requestData['daten'] = self::DATA_CITY;
+            } else {
+                $requestData['daten'] = self::DATA_POSTAL_CODE_CITY;
+            }
+
+            // No street given, remove the "type" as this results in an empty
+            // response if the "daten" parameter will not be "PlzOrtStr"
+            unset($requestData['type']);
         }
 
         return $requestData;
