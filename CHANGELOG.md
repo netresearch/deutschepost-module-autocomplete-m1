@@ -4,7 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## Unreleased - 2019-XX-XX
+
 
 ### Added
 
@@ -21,4 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 1.0.0 - 2018-12-05
 - Initial release
 
-[Unreleased]: https://git.netresearch.de/postdirekt/module-autocomplete-m1/compare/1.0.0...develop
+## 1.0.1 - 2018-05-28
+
+### Added
+
+- Autocompletion for zip code input

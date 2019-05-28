@@ -6,13 +6,6 @@ Automatische Vervollständigung postalischer Daten.
 The Deutsche Post Direkt Autocomplete extension for Magento 1 allows to use
 the DATAFACTORY AUTOCOMPLETE web service with address forms.
 
-Facts
------
-- version: 1.0.0
-- extension key: Postdirekt_Autocomplete
-- [extension on GitLab](https://git.netresearch.de/postdirekt/module-autocomplete-m1)
-- [direct download link](https://git.netresearch.de/postdirekt/module-autocomplete-m1/repository/0.1.0/archive.tar.gz)
-
 Requirements
 ------------
 - PHP >= 5.4.0
@@ -47,7 +40,7 @@ or contact the support team by sending an email to <postdirekt.support@netresear
 
 Developer
 ---------
-[Netresearch GmbH & Co. KG](https://www.netresearch.de/)
+[Netresearch DTT GmbH](https://www.netresearch.de/)
 
 Licence
 -------
@@ -55,4 +48,4 @@ Licence
 
 Copyright
 ---------
-(c) 2018 Deutsche Post Direkt GmbH
+(c) 2019 Deutsche Post Direkt GmbH
