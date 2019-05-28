@@ -1,6 +1,6 @@
 {
     "name": "postdirekt/module-autocomplete-m1",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "license": "OSL-3.0",
     "type": "magento-module",
     "description": "Deutsche Post Direkt Address Autocomplete module for Magento® 1",
