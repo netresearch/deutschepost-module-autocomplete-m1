@@ -7,7 +7,7 @@
 <config>
     <modules>
         <Postdirekt_Autocomplete>
-            <version>1.0.1</version>
+            <version>1.1.0</version>
         </Postdirekt_Autocomplete>
     </modules>
     <global>
@@ -53,18 +53,6 @@
                 </postdirekt_autocomplete>
             </updates>
         </layout>
-        <routers>
-            <postdirekt_autocomplete>
-                <use>standard</use>
-                <args>
-                    <module>Postdirekt_Autocomplete</module>
-                    <frontName>address</frontName>
-                </args>
-            </postdirekt_autocomplete>
-        </routers>
-        <secure_url>
-            <postdirekt_autocomplete>/address/autocomplete/</postdirekt_autocomplete>
-        </secure_url>
     </frontend>
     <default>
         <customer>
@@ -73,11 +61,4 @@
             </postdirekt_autocomplete>
         </customer>
     </default>
-    <phpunit>
-        <suite>
-            <modules>
-                <Postdirekt_Autocomplete/>
-            </modules>
-        </suite>
-    </phpunit>
 </config>

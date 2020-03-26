@@ -48,4 +48,4 @@ Licence
 
 Copyright
 ---------
-(c) 2019 Deutsche Post Direkt GmbH
+(c) 2020 Deutsche Post Direkt GmbH

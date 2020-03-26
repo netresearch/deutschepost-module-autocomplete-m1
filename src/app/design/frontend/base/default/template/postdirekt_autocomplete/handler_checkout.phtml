@@ -2,32 +2,27 @@
 /**
  * See LICENSE.md for license details.
  */
-?>
-<?php /** @var Postdirekt_Autocomplete_Block_AddressHandler $this */ ?>
-<script type="text/javascript">
-    var searchUrl = '<?php echo $this->escapeUrl($this->getSearchEndpoint()) ?>',
-        respondUrl = '<?php echo $this->escapeUrl($this->getSelectEndpoint()) ?>',
-        billingAutocomplete = new AddressAutocomplete(
-            'co-billing-form',
-            searchUrl,
-            respondUrl,
-            {
-                'street': 'billing\\:street1',
-                'city': 'billing\\:city',
-                'postcode': 'billing\\:postcode'
-            }
-        ),
-        shippingAutocomplete = new AddressAutocomplete(
-            'co-shipping-form',
-            searchUrl,
-            respondUrl,
-            {
-                'street': 'shipping\\:street1',
-                'city': 'shipping\\:city',
-                'postcode': 'shipping\\:postcode'
-            }
-        );
 
-    billingAutocomplete.start();
-    shippingAutocomplete.start();
+/** @var Postdirekt_Autocomplete_Block_AddressHandler $this */
+$token = $this->getToken();
+
+if ($token) : ?>
+<script type="text/javascript">
+    postdirektAutocompleteLib.init(
+        document.querySelector('[id="shipping:street1"]'),
+        document.querySelector('[id="shipping:city"]'),
+        document.querySelector('[id="shipping:postcode"]'),
+        document.querySelector('[name="shipping[country_id]"]'),
+        'DE',
+        '<?php echo $token; ?>'
+    );
+    postdirektAutocompleteLib.init(
+        document.querySelector('[id="billing:street1"]'),
+        document.querySelector('[id="billing:city"]'),
+        document.querySelector('[id="billing:postcode"]'),
+        document.querySelector('[name="billing[country_id]"]'),
+        'DE',
+        '<?php echo $token; ?>'
+    );
 </script>
+<?php endif; ?>

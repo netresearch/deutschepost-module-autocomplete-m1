@@ -24,7 +24,7 @@ class Postdirekt_Autocomplete_Block_Adminhtml_System_Config_Custominformation
         parent::_prepareLayout();
 
         if (!$this->getTemplate()) {
-            $this->setTemplate('postdirekt_autocomplete/system/config/custominformation.phtml');
+            $this->setTemplate('postdirekt_autocomplete/system/config/custominfo.phtml');
         }
 
         return $this;

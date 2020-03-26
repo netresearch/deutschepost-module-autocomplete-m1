@@ -15,21 +15,28 @@
 class Postdirekt_Autocomplete_Block_AddressHandler extends Mage_Core_Block_Template
 {
     /**
-     * @return string
-     * @throws Mage_Core_Model_Store_Exception
+     * @var Postdirekt_Autocomplete_Model_Token
      */
-    public function getSearchEndpoint()
+    private $tokenClient;
+
+    /**
+     * Postdirekt_Autocomplete_Block_AddressHandler constructor.
+     *
+     * @param array $args
+     */
+    public function __construct(array $args = array())
     {
-        return Mage::app()->getStore()->getUrl('address/autocomplete/search');
+        $this->tokenClient = Mage::getSingleton('postdirekt_autocomplete/token');
+
+        parent::__construct($args);
     }
 
     /**
      * @return string
-     * @throws Mage_Core_Model_Store_Exception
      */
-    public function getSelectEndpoint()
+    public function getToken()
     {
-        return Mage::app()->getStore()->getUrl('address/autocomplete/select');
+        return $this->tokenClient->getToken();
     }
 
     /**

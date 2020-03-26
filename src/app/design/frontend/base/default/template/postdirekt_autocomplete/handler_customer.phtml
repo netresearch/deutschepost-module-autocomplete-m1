@@ -2,21 +2,19 @@
 /**
  * See LICENSE.md for license details.
  */
-?>
-<?php /** @var Postdirekt_Autocomplete_Block_AddressHandler $this */ ?>
-<script type="text/javascript">
-    var searchUrl = '<?php echo $this->escapeUrl($this->getSearchEndpoint()) ?>',
-        respondUrl = '<?php echo $this->escapeUrl($this->getSelectEndpoint()) ?>',
-        autocomplete = new AddressAutocomplete(
-            'form-validate',
-            searchUrl,
-            respondUrl,
-            {
-                'street': 'street_1',
-                'city': 'city',
-                'postcode': 'zip'
-            }
-        );
 
-    autocomplete.start();
+/** @var Postdirekt_Autocomplete_Block_AddressHandler $this */
+$token = $this->getToken();
+
+if ($token) : ?>
+<script type="text/javascript">
+    postdirektAutocompleteLib.init(
+        document.querySelector('#street_1'),
+        document.querySelector('#city'),
+        document.querySelector('#zip'),
+        document.querySelector('#country'),
+        'DE',
+        '<?php echo $token; ?>'
+    );
 </script>
+<?php endif; ?>

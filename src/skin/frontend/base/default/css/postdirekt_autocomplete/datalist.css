@@ -1,5 +1,9 @@
-.datalist {
+.autocomplete-container {
     position: relative;
+}
+
+.datalist {
+    position: absolute;
     z-index: 100;
     list-style: none;
     background: white;

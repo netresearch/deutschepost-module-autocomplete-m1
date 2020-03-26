@@ -7,17 +7,7 @@
 <layout version="0.1.0">
     <postdirekt_autocomplete_handle>
         <reference name="head">
-            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/autocomplete-handler.js</script></action>
-            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/model/autocomplete-fields.js</script></action>
-            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/model/request-adapter.js</script></action>
-            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/model/autocomplete-address-suggestions.js</script></action>
-            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/model/autocomplete-address-data.js</script></action>
-            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/action/search-request.js</script></action>
-            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/action/select-request.js</script></action>
-            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/action/datalist-select.js</script></action>
-            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/action/field-input.js</script></action>
-            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/model/country-select.js</script></action>
-            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/view/list-renderer.js</script></action>
+            <action method="addJs" ifconfig="customer/postdirekt_autocomplete/active"><script>postdirekt_autocomplete/lib/postdirekt-autocomplete-lib.min.js</script></action>
             <action method="addCss" ifconfig="customer/postdirekt_autocomplete/active"><stylesheet>css/postdirekt_autocomplete/datalist.css</stylesheet></action>
         </reference>
     </postdirekt_autocomplete_handle>
