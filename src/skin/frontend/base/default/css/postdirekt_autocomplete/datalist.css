@@ -30,3 +30,9 @@
     color: white;
 }
 
+.autocomplete-infoBox {
+    margin: 5px 0 0;
+    color: #df6d0a;
+    font-size: 13px;
+}
+

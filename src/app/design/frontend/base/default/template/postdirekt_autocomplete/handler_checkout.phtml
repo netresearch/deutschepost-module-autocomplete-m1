@@ -5,6 +5,7 @@
 
 /** @var Postdirekt_Autocomplete_Block_AddressHandler $this */
 $token = $this->getToken();
+$hint = $this->getHouseNumberHint();
 
 if ($token) : ?>
 <script type="text/javascript">
@@ -14,7 +15,8 @@ if ($token) : ?>
         document.querySelector('[id="shipping:postcode"]'),
         document.querySelector('[name="shipping[country_id]"]'),
         'DE',
-        '<?php echo $token; ?>'
+        '<?php echo $token; ?>',
+        '<?php echo $hint; ?>'
     );
     postdirektAutocompleteLib.init(
         document.querySelector('[id="billing:street1"]'),
@@ -22,7 +24,8 @@ if ($token) : ?>
         document.querySelector('[id="billing:postcode"]'),
         document.querySelector('[name="billing[country_id]"]'),
         'DE',
-        '<?php echo $token; ?>'
+        '<?php echo $token; ?>',
+        '<?php echo $hint; ?>'
     );
 </script>
 <?php endif; ?>
