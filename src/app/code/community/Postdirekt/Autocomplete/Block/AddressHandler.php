@@ -7,7 +7,6 @@
  * Class Postdirekt_Autocomplete_Block_AddressHandler
  *
  * @package   Postdirekt\Autocomplete\Block
- * @author    Mathias Uhlmann <mathias.uhlmann@netresearch.de>
  * @copyright 2018 Netresearch GmbH & Co. KG
  * @license   https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link      https://www.netresearch.de/
@@ -18,6 +17,16 @@ class Postdirekt_Autocomplete_Block_AddressHandler extends Mage_Core_Block_Templ
      * @var Postdirekt_Autocomplete_Model_Token
      */
     private $tokenClient;
+    
+    /**
+     * @var Postdirekt_Autocomplete_Model_Config
+     */
+    private $config;
+    
+    /**
+     * @var Mage_Core_Model_Store
+     */
+    private $store;
 
     /**
      * Postdirekt_Autocomplete_Block_AddressHandler constructor.
@@ -27,6 +36,8 @@ class Postdirekt_Autocomplete_Block_AddressHandler extends Mage_Core_Block_Templ
     public function __construct(array $args = array())
     {
         $this->tokenClient = Mage::getSingleton('postdirekt_autocomplete/token');
+        $this->config = Mage::getSingleton('postdirekt_autocomplete/config');
+        $this->store = Mage::app()->getStore();
 
         parent::__construct($args);
     }
@@ -38,14 +49,24 @@ class Postdirekt_Autocomplete_Block_AddressHandler extends Mage_Core_Block_Templ
     {
         return $this->tokenClient->getToken();
     }
+    
+    /**
+     * @return string|null
+     */
+    public function getHouseNumberHint()
+    {
+        if (!$this->config->isHouseNumberHintActive($this->store->getCode())) {
+            return null;
+        }
+        
+        return $this->config->getHouseNumberHint($this->store->getCode());
+    }
 
     /**
      * @return string
      */
     protected function _toHtml()
     {
-        /** @var Postdirekt_Autocomplete_Model_Config $config */
-        $config = Mage::getSingleton('postdirekt_autocomplete/config');
-        return $config->isActive() ? parent::_toHtml() : '';
+        return $this->config->isActive() ? parent::_toHtml() : '';
     }
 }

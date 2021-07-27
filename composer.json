@@ -1,34 +1,28 @@
 {
-    "name": "deutschepost/module-autocomplete-m1",
-    "license": "OSL-3.0",
-    "type": "magento-module",
-    "description": "Deutsche Post Direkt Address Autocomplete module for Magento® 1",
-    "suggest": {
-        "magento-hackathon/magento-composer-installer": "^3.0.6"
-    },
-    "require": {
-        "php": "^5.4 || ^7.0",
-        "ext-json": "*"
-    },
-    "support": {
-        "wiki": "https://postdirekt.support.netresearch.de",
-        "source": "https://github.com/netresearch/deutschepost-module-autocomplete-m1",
-        "issues": "https://postdirekt.support.netresearch.de/support/tickets/new",
-        "docs": "https://postdirekt.support.netresearch.de/support/solutions/articles/12000053438",
-        "email": "postdirekt.support@netresearch.de"
-    },
-    "authors": [
-        {
-            "name": "Rico Sonntag",
-            "email": "rico.sonntag@netresearch.de"
-        },
-        {
-            "name": "Andreas Müller",
-            "email": "andreas.mueller@netresearch.de"
-        },
-        {
-            "name": "Max Melzer",
-            "email": "max.melzer@netresearch.de"
-        }
-    ]
+  "name": "deutschepost/module-autocomplete-m1",
+  "license": "OSL-3.0",
+  "type": "magento-module",
+  "description": "Deutsche Post Direkt Address Autocomplete module for Magento® 1",
+  "suggest": {
+    "magento-hackathon/magento-composer-installer": "^3.0.6"
+  },
+  "require": {
+    "php": "^5.4 || ^7.0",
+    "ext-json": "*"
+  },
+  "support": {
+    "wiki": "https://postdirekt.support.netresearch.de",
+    "source": "https://github.com/netresearch/deutschepost-module-autocomplete-m1",
+    "issues": "https://postdirekt.support.netresearch.de/support/tickets/new",
+    "docs": "https://postdirekt.support.netresearch.de/support/solutions/articles/12000053438",
+    "email": "postdirekt.support@netresearch.de"
+  },
+  "authors": [
+    {
+      "email": "plugins@netresearch.de",
+      "name": "Netresearch DTT GmbH",
+      "role": "Manufacturer",
+      "homepage": "https://www.netresearch.de/"
+    }
+  ]
 }

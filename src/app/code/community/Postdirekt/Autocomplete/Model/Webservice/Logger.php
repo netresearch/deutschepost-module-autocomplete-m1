@@ -7,7 +7,6 @@
  * Class Postdirekt_Autocomplete_Model_Webservice_Logger
  *
  * @package   Postdirekt\Autocomplete\Model
- * @author    Christoph Aßmann <christoph.assmann@netresearch.de>
  * @copyright 2018 Netresearch GmbH & Co. KG
  * @license   https://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link      https://www.netresearch.de/
@@ -44,11 +43,12 @@ class Postdirekt_Autocomplete_Model_Webservice_Logger
 
 
     /**
-     * @param \Zend_Http_Client $client
-     * @param  string[] $requestParams
+     * @param Zend_Http_Client $client
+     * @param  string[]        $requestParams
+     *
      * @return void
      */
-    public function logRequest(\Zend_Http_Client $client, $requestParams)
+    public function logRequest(Zend_Http_Client $client, $requestParams)
     {
         if (!$this->_config->isLoggingEnabled($this->_scope)) {
             return;
@@ -63,10 +63,11 @@ class Postdirekt_Autocomplete_Model_Webservice_Logger
     }
 
     /**
-     * @param \Zend_Http_Client $client
+     * @param Zend_Http_Client $client
+     *
      * @return void
      */
-    public function logResponse(\Zend_Http_Client $client)
+    public function logResponse(Zend_Http_Client $client)
     {
         if (!$this->_config->isLoggingEnabled($this->_scope)) {
             return;
@@ -78,7 +79,7 @@ class Postdirekt_Autocomplete_Model_Webservice_Logger
                 'INCOMING RESPONSE:',
                 $response->getHeadersAsString(true),
             );
-            Mage::log(implode(PHP_EOL, $lines), \Zend_Log::ERR, self::LOG_FILE);
+            Mage::log(implode(PHP_EOL, $lines), Zend_Log::ERR, self::LOG_FILE);
         } else {
             $lines = array(
                 'INCOMING RESPONSE:',
