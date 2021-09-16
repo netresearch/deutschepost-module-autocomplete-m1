@@ -12,7 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- js lib supports house number hint, limit search results by address type
+- JS lib now supports house number hint
+- Limit search results by address type
 
 ## 1.1.0 - 2020-03-26
 
@@ -22,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- custom info template name and content 
+- Custom info template name and content 
 - Migrated to Datafactory Autocomplete API Version 2
 
 ## 1.0.1 - 2018-05-28
