@@ -30,6 +30,9 @@ Im diesem Konfigurationsbereich können folgende Einstellungen vorgenommen werde
   *Datafactory Autocomplete* in ``var/log/postdirekt_autocomplete.log`` protokolliert. Beachten
   Sie, dass das allgemeine Logging unter *Erweitert → Entwickler → Log-Einstellungen* ebenfalls
   aktiviert sein muss.
+- *Hausnummern Hinweis anzeigen (Enabled)*:  Wählen Sie, ob die Straßennummern-Infobox aktiviert werden soll.
+- *Hausnummern Hinweistext (House number hint text)*: Geben Sie den Text ein, der als Infobox am Adress-Straßenfeld
+  bei Adressvorschlagsauswahl angezeigt werden soll.
 
 Das Modul verfügt nicht über einen Sandbox-Modus. Es sind in jedem Fall `Zugangsdaten`_ erforderlich.
 

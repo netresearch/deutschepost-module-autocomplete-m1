@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Configurable house number hint to remind customer in storefront to not forget adding house number to street
 
+### Changed
+
+- js lib supports house number hint, limit search results by address type
+
 ## 1.1.0 - 2020-03-26
 
 ### Added
@@ -20,15 +24,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - custom info template name and content 
 - Migrated to Datafactory Autocomplete API Version 2
-
-### Deprecated
-
-### Removed
-
-### Fixed
-
-### Security
-
 
 ## 1.0.1 - 2018-05-28
 

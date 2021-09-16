@@ -28,6 +28,9 @@ In this configuration section, the following settings can be made:
 - *Logging enabled*: If enabled, the communication with *Datafactory Autocomplete* will be
   logged in ``var/log/postdirekt_autocomplete.log``. Note that the general logging in
   *Advanced → Developer → Log settings* also needs to be enabled.
+- *Show house number hint*: Select if the house number hint should be active.
+- *House number hint text*: Enter the text which will be shown as infobox on the street address field
+  on address suggestion selection.
 
 The module does not have a sandbox mode. You need `Login data`_ in any case.
 
