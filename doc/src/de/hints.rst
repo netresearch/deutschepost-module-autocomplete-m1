@@ -29,8 +29,7 @@ Datenschutz / DSGVO
 --------------------------------------
 
 Zur Vervollständigung der Kundenadresse werden persönliche Daten des Kunden (Straße, Postleitzahl, Ort) an
-|dpdirekt| übertragen. Dies ist für die Funktion des Moduls erforderlich. Gemäß DSGVO (Datenschutz-Grundverordnung
-der EU) müssen Sie sich hierfür das Einverständnis Ihrer Kunden einholen, z.B. über die AGB des Shops.
+|dpdirekt| übertragen. Dies ist für die Funktion des Moduls erforderlich.
 
 Es werden keine zusätzlichen Daten oder Meta-Angaben in |mage1| gespeichert, sondern lediglich die im Shop-Frontend
 eingegebene Kundenadresse.
