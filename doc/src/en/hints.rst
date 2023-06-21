@@ -29,9 +29,7 @@ Data protection / GDPR
 --------------------------------------
 
 For address completion, the customer's personal data (street, ZIP code, city) are transmitted
-to |dpdirekt|. This is necessary for the module to function. According to the GDPR, the merchant
-needs the agreement from the customer to process the data, e.g. via the shop's
-terms and conditions.
+to |dpdirekt|. This is necessary for the module to function.
 
 No additional information or metadata are stored in |mage1|, only the customer address entered in the
 shop frontend.
